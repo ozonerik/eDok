@@ -11,8 +11,8 @@
                 <div class="text-2xl">
                     Welcome to your Jetstream application!
                 </div>
-                <button wire:click="submit" class="bg-indigo-500 text-white rounded hover:bg-indigo-600">
-                Save changes
+                <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded">
+                Button
                 </button>
                 <div class="mt-3 text-gray-500 text-justify">
                     Laravel Jetstream provides a beautiful, robust starting point for your next Laravel application. Laravel is designed
