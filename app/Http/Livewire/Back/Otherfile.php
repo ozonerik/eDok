@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Back;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use App\Models\Myfile;
 use App\Models\User;
@@ -62,6 +63,16 @@ class Otherfile extends Component
         $this->selectAll=false;
     }
     //end lifecycle
+
+    public function export($id){
+        $date=Carbon::now()->format('Y-m-d');
+        $myfile = Myfile::with(['user','filecategory'])->findOrFail($id);
+        $url=$myfile->path;
+        $rename=$myfile->name." (".$myfile->user->name.") (".$date.").pdf";
+        $headers = ['Content-Type: application/pdf'];
+        return Storage::disk('public')->download($url, $rename, $headers);
+    }
+
     public function selectAll(){
         $this->selectAll=true;
         if($this->selectAll){
@@ -99,14 +110,20 @@ class Otherfile extends Component
         $this->dispatchBrowserEvent('show-form-del');
     }
     private function deletefile($pathfile){
-        if(Storage::disk('local')->exists($pathfile)){
-            Storage::disk('local')->delete($pathfile);
+        if(Storage::disk('public')->exists($pathfile)){
+            Storage::disk('public')->delete($pathfile);
         }
     }
     public function delete()
     {
-        $myfiles = Myfile::where('id',$this->myfile_id)->first();
-        $this->deletefile($myfiles->path);
+        $larik=[];
+        $j=0;
+        $myfiles = Myfile::whereIn('id',$this->myfile_id);
+        // dd($myfiles->pluck('path'));
+        foreach($myfiles->pluck('path') as $path){
+            $this->deletefile($path);
+        }
+        
         $myfiles->delete();
         $this->selectPage=false;
         $this->checked = array_diff($this->checked,$this->myfile_id );
@@ -115,7 +132,6 @@ class Otherfile extends Component
             'type'=>'error',
             'message'=>'Deleted items successfully.'
         ]);
-        //dd($myfile); 
 
     }
     public function render()

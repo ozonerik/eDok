@@ -51,17 +51,17 @@ class Myfileman extends Component
         $this->resetValidation();
     }
     private function deletefile($pathfile){
-        if(Storage::disk('local')->exists($pathfile)){
-            Storage::disk('local')->delete($pathfile);
+        if(Storage::disk('public')->exists($pathfile)){
+            Storage::disk('public')->delete($pathfile);
         }
     }
     public function export($id){
         $date=Carbon::now()->format('Y-m-d');
         $myfile = Myfile::with(['user'])->findOrFail($id);
-        $path=$myfile->path;
+        $url=$myfile->path;
         $rename=$myfile->name." (".$myfile->user->name.") (".$date.").pdf";
         $headers = ['Content-Type: application/pdf'];
-        return response()->download(storage_path('app/'.$url),$rename,$headers);
+        return Storage::disk('public')->download($url, $rename, $headers);
     }
     public function remove($id)
     {
@@ -133,12 +133,12 @@ class Myfileman extends Component
 
         $dir='myfiles/'.Auth::user()->id.'/'.$this->filecategory_id.'/';
         if(!empty($this->file)){
-            $path=$this->file->store($dir);
-            $file_size=Storage::disk('local')->size($path);
+            $path=$this->file->store($dir,'public');
+            $file_size=Storage::disk('public')->size($path);
             $this->deletefile($this->oldpath);
         }else{
             $path=$this->oldpath;
-            $file_size=Storage::disk('local')->size($path);
+            $file_size=Storage::disk('public')->size($path);
         }
         
         Myfile::updateOrCreate(['id' => $this->myfile_id], [

@@ -102,7 +102,7 @@ document.addEventListener('livewire:load', function () {
                                     <button wire:click.prevent="remove({{$row->id}})" class="btn btn-danger btn-sm text-light me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
                                         <i class="bi bi-trash"></i>
                                     </button>
-                                    @if(Storage::disk('local')->exists($row->path))
+                                    @if(Storage::disk('public')->exists($row->path))
                                     <button wire:click.prevent="export({{$row->id}})" class="btn btn-success btn-sm text-light me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Download">
                                         <i class="bi bi-cloud-arrow-down"></i> 
                                     </button>

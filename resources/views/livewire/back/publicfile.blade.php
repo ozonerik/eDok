@@ -64,7 +64,7 @@ document.addEventListener('livewire:load', function () {
                                     <td>{{ convert_bytes($row->file_size) }}</td>
                                     <td>{{ $row->updated_at }}</td>
                                     <td>
-                                    @if(Storage::disk('local')->exists($row->path))
+                                    @if(Storage::disk('public')->exists($row->path))
                                     <button wire:click.prevent="export({{$row->id}})" class="btn btn-success btn-sm text-light me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Download">
                                         <i class="bi bi-cloud-arrow-down"></i>
                                     </button>

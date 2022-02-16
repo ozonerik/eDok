@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Myfile;
 use App\Models\Filecategory;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class Publicfile extends Component
 {
@@ -17,7 +18,7 @@ class Publicfile extends Component
         $url=$myfile->path;
         $rename=$myfile->name." (".$myfile->user->name.") (".$date.").pdf";
         $headers = ['Content-Type: application/pdf'];
-        return response()->download(storage_path('app/'.$url),$rename,$headers);
+        return Storage::disk('public')->download($url, $rename, $headers);
     }
     public function render()
     {

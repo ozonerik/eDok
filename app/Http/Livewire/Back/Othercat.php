@@ -26,7 +26,7 @@ class Othercat extends Component
     public function delete($id)
     {
         Filecategory::find($id)->delete();
-        Storage::disk('local')->deleteDirectory($this->delfolder);
+        Storage::disk('public')->deleteDirectory($this->delfolder);
         $this->dispatchBrowserEvent('alert',[
             'type'=>'error',
             'message'=>'Data deleted successfully.'

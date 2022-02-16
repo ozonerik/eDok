@@ -34,7 +34,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-2 mb-2 mb-md-0 d-flex justify-content-center">
+                            <div class="col-12 col-md-2 mb-2 mb-md-0 d-flex justify-content-center @if(empty($checked)) d-none @endif ">
                                 <div class="btn-group w-100">
                                     <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                         <span class="fw-bold">Selection ( {{count($checked)}} )</span>
@@ -44,7 +44,7 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-8 d-flex justify-content-end">
+                            <div class="col-12 @if(empty($checked)) col-md-10 @else col-md-8 @endif d-flex justify-content-end">
                                 <input type="text" wire:model.debounce.500ms="inpsearch" class="form-control" placeholder="Search...">
                             </div>
                         </div>
@@ -83,8 +83,8 @@
                                         <td>{{ $row->user_name }}</td>
                                         <td>{{ $row->updated_at }}</td>
                                         <td>
-                                        @if(Storage::disk('local')->exists($row->path))
-                                        <button wire:click.prevent="" class="btn btn-success btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download"><i class="bi bi-cloud-arrow-down-fill"></i></button>
+                                        @if(Storage::disk('public')->exists($row->path))
+                                        <button wire:click.prevent="export({{$row->id}})" class="btn btn-success btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download"><i class="bi bi-cloud-arrow-down-fill"></i></button>
                                         @else
                                         <button class="btn btn-secondary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download" disabled><i class="bi bi-cloud-arrow-down-fill"></i></button>
                                         @endif
