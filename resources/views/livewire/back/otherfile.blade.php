@@ -16,6 +16,7 @@
 </script>
 @endpush
 <div>
+    <x-LoadingState />
     @include('livewire.back.form.formotherfile-modal')
     <div class="row justify-content-center my-5">
         <div class="col-md-12">

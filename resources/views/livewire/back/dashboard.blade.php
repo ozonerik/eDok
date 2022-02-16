@@ -4,6 +4,7 @@
     </h2>
 </x-slot>
 <div class="row justify-content-center my-5">
+<x-LoadingState />
     <div class="col-md-12">
         <div class="card shadow bg-light">
             <div class="card-body bg-white px-5 py-3 border-bottom rounded-top">

@@ -85,7 +85,8 @@ document.addEventListener('livewire:load', function () {
     })
 </script>
 @endpush
-<div> 
+<div>
+<x-LoadingState /> 
 @include('livewire.back.form.formuser-modal')
     <div class="row justify-content-center my-5">
         <div class="col-md-12">

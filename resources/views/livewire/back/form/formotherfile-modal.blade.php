@@ -16,9 +16,6 @@
         </ol>
       </div>
       <div class="modal-footer">
-        <div class="col" wire:loading>
-          Please Wait...
-        </div>
         <button type="button" class="btn btn-secondary btn-sm text-light" data-bs-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-danger btn-sm text-light">Delete</button>
       </div>

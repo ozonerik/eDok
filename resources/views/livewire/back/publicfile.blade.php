@@ -34,6 +34,7 @@ document.addEventListener('livewire:load', function () {
 </script>
 @endpush
 <div>
+    <x-LoadingState />
     <div class="row justify-content-center my-5">
         <div class="col-md-12">
             <div class="card shadow bg-light">
