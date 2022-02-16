@@ -14,7 +14,7 @@ class Otherfile extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $sortBy = 'myfile_updated';
+    public $sortBy = 'updated_at';
     public $sortDirection = 'asc';
     public $perhal = 2 ;
     public $checked = [];
@@ -42,7 +42,7 @@ class Otherfile extends Component
             $myfile->orderby('users.name',$this->sortDirection);
         }else if($this->sortBy=='category_name'){
             $myfile->orderby('filecategories.name',$this->sortDirection);
-        }else{
+        }else if($this->sortBy=='updated_at'){
             $myfile->orderby('myfiles.updated_at',$this->sortDirection);
         }
         

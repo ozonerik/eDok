@@ -67,10 +67,10 @@
                                     <tr>
                                         <th class="text-center"><input type="checkbox" wire:model="selectPage"></th>
                                         <th>No</th>
-                                        <th style="cursor:pointer;" wire:click="sortBy('category_name')">Category</th>
-                                        <th style="cursor:pointer;" wire:click="sortBy('name')">File Name</th>
-                                        <th style="cursor:pointer;" wire:click="sortBy('user_name')">Owner</th>
-                                        <th style="cursor:pointer;" wire:click="sortBy('updated_at')">updated at</th>
+                                        <th style="cursor:pointer;" wire:click="sortBy('category_name')"><x-SortState colName="category_name"  :sortBy="$sortBy" :sortDir="$sortDirection">Category</x-SortState></th>
+                                        <th style="cursor:pointer;" wire:click="sortBy('name')"><x-SortState colName="name"  :sortBy="$sortBy" :sortDir="$sortDirection">File Name</x-SortState></th>
+                                        <th style="cursor:pointer;" wire:click="sortBy('user_name')"><x-SortState colName="user_name"  :sortBy="$sortBy" :sortDir="$sortDirection">Owner</x-SortState></th>
+                                        <th style="cursor:pointer;" wire:click="sortBy('updated_at')"><x-SortState colName="updated_at"  :sortBy="$sortBy" :sortDir="$sortDirection">Updated At</x-SortState></th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
