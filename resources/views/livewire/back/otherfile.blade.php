@@ -42,6 +42,7 @@
                                     </button>
                                     <ul class="dropdown-menu w-100">
                                         <li><button wire:click="removeselection" class="dropdown-item">Delete</button></li>
+                                        <li><button wire:click="zipdownload" class="dropdown-item">Download (.zip)</button></li>
                                     </ul>
                                 </div>
                             </div>
@@ -70,6 +71,7 @@
                                         <th style="cursor:pointer;" wire:click="sortBy('category_name')"><x-SortState colName="category_name"  :sortBy="$sortBy" :sortDir="$sortDirection">Category</x-SortState></th>
                                         <th style="cursor:pointer;" wire:click="sortBy('name')"><x-SortState colName="name"  :sortBy="$sortBy" :sortDir="$sortDirection">File Name</x-SortState></th>
                                         <th style="cursor:pointer;" wire:click="sortBy('user_name')"><x-SortState colName="user_name"  :sortBy="$sortBy" :sortDir="$sortDirection">Owner</x-SortState></th>
+                                        <th style="cursor:pointer;" wire:click="sortBy('file_size')"><x-SortState colName="file_size"  :sortBy="$sortBy" :sortDir="$sortDirection">File Size</x-SortState></th>
                                         <th style="cursor:pointer;" wire:click="sortBy('updated_at')"><x-SortState colName="updated_at"  :sortBy="$sortBy" :sortDir="$sortDirection">Updated At</x-SortState></th>
                                         <th>Action</th>
                                     </tr>
@@ -82,6 +84,7 @@
                                         <td>{{ $row->category_name }}</td>
                                         <td>{{ $row->name }}</td>
                                         <td>{{ $row->user_name }}</td>
+                                        <td>{{ convert_bytes($row->file_size) }}</td>
                                         <td>{{ $row->updated_at }}</td>
                                         <td>
                                         @if(Storage::disk('public')->exists($row->path))

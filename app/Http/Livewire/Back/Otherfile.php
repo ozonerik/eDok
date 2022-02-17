@@ -9,13 +9,14 @@ use Carbon\Carbon;
 use Spatie\Permission\Models\Role;
 use App\Models\Myfile;
 use App\Models\User;
+use Zip;
 
 class Otherfile extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $sortBy = 'updated_at';
-    public $sortDirection = 'asc';
+    public $sortDirection = 'desc';
     public $perhal = 2 ;
     public $checked = [];
     public $inpsearch = "";
@@ -42,6 +43,8 @@ class Otherfile extends Component
             $myfile->orderby('users.name',$this->sortDirection);
         }else if($this->sortBy=='category_name'){
             $myfile->orderby('filecategories.name',$this->sortDirection);
+        }else if($this->sortBy=='file_size'){
+            $myfile->orderby('myfiles.file_size',$this->sortDirection);
         }else if($this->sortBy=='updated_at'){
             $myfile->orderby('myfiles.updated_at',$this->sortDirection);
         }
@@ -63,6 +66,19 @@ class Otherfile extends Component
         $this->selectAll=false;
     }
     //end lifecycle
+
+    public function zipdownload(){
+        $myfiles = Myfile::with(['user','filecategory'])->whereIn('id',$this->checked)->get();
+        $filename=Carbon::now()->timestamp.'.zip';
+        $zip=Zip::create($filename);
+        foreach($myfiles as $row){
+            $file=pathinfo($row->path);
+            $zip->add(Storage::disk('public')->path($row->path),$row->name.'-'.$row->user->name.'.'.$file['extension']);
+        }
+        $pathzip='ZipFiles/';
+        $zip->saveTo(Storage::disk('public')->path($pathzip));
+        return Storage::disk('public')->download($pathzip.$filename);
+    }
 
     public function export($id){
         $date=Carbon::now()->format('Y-m-d');
@@ -116,8 +132,7 @@ class Otherfile extends Component
     }
     public function delete()
     {
-        $larik=[];
-        $j=0;
+        
         $myfiles = Myfile::whereIn('id',$this->myfile_id);
         // dd($myfiles->pluck('path'));
         foreach($myfiles->pluck('path') as $path){
