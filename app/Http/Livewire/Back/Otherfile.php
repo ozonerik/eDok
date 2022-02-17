@@ -6,9 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
-use Spatie\Permission\Models\Role;
 use App\Models\Myfile;
-use App\Models\User;
 use Zip;
 
 class Otherfile extends Component

@@ -40,45 +40,66 @@ document.addEventListener('livewire:load', function () {
             <div class="card shadow bg-light">
                 <div class="card-body bg-white px-5 py-3 border-bottom rounded-top">
                     <div class="mx-3 my-3">
-                        @php
-                        $no=1;
-                        @endphp
-                        <table id="mytable" class="table table-borderless table-hover table-rounded nowrap" style="width:100%">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>No</th>
-                                    <th>Category</th>
-                                    <th>File Name</th>
-                                    <th>Owner</th>
-                                    <th>File Size</th>
-                                    <th>Updated</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($publicfile as $row)
-                                <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $row->filecategory->name }}</td>
-                                    <td>{{ $row->name }}</td>
-                                    <td>{{ $row->user->name }}</td>
-                                    <td>{{ convert_bytes($row->file_size) }}</td>
-                                    <td>{{ $row->updated_at }}</td>
-                                    <td>
-                                    @if(Storage::disk('public')->exists($row->path))
-                                    <button wire:click.prevent="export({{$row->id}})" class="btn btn-success btn-sm text-light me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Download">
-                                        <i class="bi bi-cloud-arrow-down"></i>
-                                    </button>
-                                    @else
-                                    <button class="btn btn-secondary btn-sm text-light me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Download" disabled>
-                                        <i class="bi bi-cloud-arrow-down"></i>
-                                    </button>
-                                    @endif
+                        <!-- table menu -->
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-2 mb-2 mb-md-0">
+                                <div class="input-group">
+                                    <span class="input-group-text">Per Page :</span>
+                                    <select wire:model="perhal" class="form-select">
+                                    <option value="2" selected>2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-10 d-flex justify-content-end">
+                                <input type="text" wire:model.debounce.500ms="inpsearch" class="form-control" placeholder="Search...">
+                            </div>
+                        </div>
+                        <!-- .table menu -->
+                        <!-- table -->
+                        <div class="table-responsive">
+                            <table id="mytable" class="table table-borderless table-hover table-rounded">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>No</th>
+                                        <th style="cursor:pointer;" wire:click="sortBy('category_name')"><x-SortState colName="category_name"  :sortBy="$sortBy" :sortDir="$sortDirection">Category</x-SortState></th>
+                                        <th style="cursor:pointer;" wire:click="sortBy('name')"><x-SortState colName="name"  :sortBy="$sortBy" :sortDir="$sortDirection">File Name</x-SortState></th>
+                                        <th style="cursor:pointer;" wire:click="sortBy('user_name')"><x-SortState colName="user_name"  :sortBy="$sortBy" :sortDir="$sortDirection">Owner</x-SortState></th>
+                                        <th style="cursor:pointer;" wire:click="sortBy('file_size')"><x-SortState colName="file_size"  :sortBy="$sortBy" :sortDir="$sortDirection">File Size</x-SortState></th>
+                                        <th style="cursor:pointer;" wire:click="sortBy('updated_at')"><x-SortState colName="updated_at"  :sortBy="$sortBy" :sortDir="$sortDirection">Updated At</x-SortState></th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($myfile as $key => $row)
+                                    <tr>
+                                        <td>{{ $myfile->firstItem() + $key}}</td>
+                                        <td>{{ $row->category_name }}</td>
+                                        <td>{{ $row->name }}</td>
+                                        <td>{{ $row->user_name }}</td>
+                                        <td>{{ convert_bytes($row->file_size) }}</td>
+                                        <td>{{ $row->updated_at }}</td>
+                                        <td>
+                                        @if(Storage::disk('public')->exists($row->path))
+                                        <button wire:click.prevent="export({{$row->id}})" class="btn btn-success btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download"><i class="bi bi-cloud-arrow-down-fill"></i></button>
+                                        @else
+                                        <button class="btn btn-secondary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download" disabled><i class="bi bi-cloud-arrow-down-fill"></i></button>
+                                        @endif
                                     </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                    </tr>
+                                    @endforeach
+                                    @if(count($myfilequery) == 0)
+                                    <tr>
+                                        <td colspan="7" class="text-center">No Result</td>
+                                    </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                        {{ $myfile->links() }}
+                        <!-- .table -->
                     </div>
                 </div>
             </div>

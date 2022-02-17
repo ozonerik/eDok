@@ -23,6 +23,7 @@
             <div class="card shadow bg-light">
                 <div class="card-body bg-white px-5 py-3 border-bottom rounded-top">
                     <div class="mx-3 my-3">
+                        <!-- table menu -->
                         <div class="row mb-3">
                             <div class="col-12 col-md-2 mb-2 mb-md-0">
                                 <div class="input-group">
@@ -50,6 +51,8 @@
                                 <input type="text" wire:model.debounce.500ms="inpsearch" class="form-control" placeholder="Search...">
                             </div>
                         </div>
+                        <!-- .table menu -->
+                        <!-- selection messages -->
                         @if($selectPage)
                         <div class="row mb-3">
                             <div class="col-12 text-center">
@@ -62,6 +65,8 @@
                             </div>
                         </div>
                         @endif
+                        <!-- .selection messages -->
+                        <!-- table -->
                         <div class="table-responsive">
                             <table id="mytable" class="table table-borderless table-hover table-rounded">
                                 <thead class="table-light">
@@ -98,13 +103,14 @@
                                     @endforeach
                                     @if(count($myfilequery) == 0)
                                     <tr>
-                                        <td colspan="7" class="text-center">No Result</td>
+                                        <td colspan="8" class="text-center">No Result</td>
                                     </tr>
                                     @endif
                                 </tbody>
                             </table>
                         </div>
                         {{ $myfile->links() }}
+                        <!-- .table -->
                     </div>
                 </div>
             </div>
