@@ -32,7 +32,7 @@
                                     <option value="2" selected>2</option>
                                     <option value="3">3</option>
                                     <option value="4">4</option>
-                                    <option value="5">5</option>
+                                    <option value="{{$myfile->total()}}">All</option>
                                     </select>
                                 </div>
                             </div>
@@ -101,7 +101,7 @@
                                     </td>
                                     </tr>
                                     @endforeach
-                                    @if(count($myfilequery) == 0)
+                                    @if($myfile->count() == 0)
                                     <tr>
                                         <td colspan="8" class="text-center">No Result</td>
                                     </tr>
@@ -109,8 +109,15 @@
                                 </tbody>
                             </table>
                         </div>
-                        {{ $myfile->links() }}
                         <!-- .table -->
+                        <div class="d-flex flex-column flex-md-row mt-3 mt-md-0 ">
+                            <div class="text-center">
+                            {{ $myfile->links() }}
+                            </div>
+                            <div class="ms-md-auto text-center">
+                                Showing {{$myfile->firstItem()}} to {{$myfile->lastItem()}} of {{$myfile->total()}} entries
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
