@@ -18,7 +18,7 @@
         <!-- Font Awesome -->
         <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
         <!-- Ionicons -->
-        <link rel="stylesheet" href="{{ asset('home/css/ionicons.min.css') }}">   
+        <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
         @stack('css')
     </head>
     <body class="font-sans antialiased">
