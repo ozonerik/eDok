@@ -77,7 +77,8 @@ class Otherfile extends Component
         }
         $pathzip='ZipFiles/';
         $zip->saveTo(Storage::disk('public')->path($pathzip));
-        return Storage::disk('public')->download($pathzip.$filename);
+        $downloadpath=Storage::disk('public')->path($pathzip.$filename);
+        return response()->download($downloadpath)->deleteFileAfterSend(true);
     }
 
     public function export($id){
