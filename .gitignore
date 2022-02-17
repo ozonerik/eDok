@@ -4,6 +4,7 @@
 /storage/*.key
 /app/Http/Livewire/**/*.old
 /resources/views/*.old
+/resources/views/layouts/*.old
 /resources/views/Livewire/**/*.old
 /resources/views/Livewire/**/**/*.old
 /vendor

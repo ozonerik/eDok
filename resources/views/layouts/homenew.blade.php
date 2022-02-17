@@ -68,7 +68,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h5>eDokumen (eDok) <i class="fa-solid fa-phone"></i> </h5>
+                        <h5>eDokumen (eDok)</h5>
                         <p class="text-wrap text-light">eDokumen (eDok) adalah suatu web app yang dibangun oleh Tim ICT SMKN 1 Krangkeng untuk kebutuhan penyimpanan dan sharing file digital dari para stakeholder yang ada di SMKN 1 Krangkeng</p>  
                     </div>
                 </div>
