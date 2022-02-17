@@ -14,6 +14,7 @@
           <li class="list-group-item list-group-item-action">{{$row->name}} by {{$row->user->name}}</li>
         @endforeach
         </ol>
+        <h6 class="text-danger text-center mt-3">*All selected files will be permanently deleted</h6>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-sm text-light" data-bs-dismiss="modal">Close</button>

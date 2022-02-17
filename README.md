@@ -35,7 +35,6 @@ eDokumen adalah suatu web app yang dibangun oleh Tim ICT SMKN 1 Krangkeng untuk 
 <li>
     <a href="https://www.gyrocode.com/projects/jquery-datatables-checkboxes/">jquery-datatables-checkboxes</a>
 </li>
-
 <li>
     <a href="https://github.com/stechstudio/laravel-zipstream">stechstudio/laravel-zipstream</a>
 </li>
