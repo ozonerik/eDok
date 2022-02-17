@@ -12,13 +12,8 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,400i,700,700i,600,600i">
         <!-- Styles -->
         <link rel="stylesheet" href="{{asset('home/css/bootstrap.min.css')}}">
-        <link rel="stylesheet" href="{{asset('home/css/simple-line-icons.min.css')}}">
         <link rel="stylesheet" href="{{asset('home/css/baguetteBox.min.css')}}">
         <link rel="stylesheet" href="{{asset('home/css/vanilla-zoom.min.css')}}">
-        <!-- Font Awesome -->
-        <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
-        <!-- Ionicons -->
-        <link rel="stylesheet" href="{{ asset('home/css/ionicons.min.css') }}">   
         @stack('css')
     </head>
     <body class="font-sans antialiased">
@@ -73,7 +68,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col-12">
-                        <h5>eDokumen (eDok)</h5>
+                        <h5>eDokumen (eDok) <i class="fa-solid fa-phone"></i> </h5>
                         <p class="text-wrap text-light">eDokumen (eDok) adalah suatu web app yang dibangun oleh Tim ICT SMKN 1 Krangkeng untuk kebutuhan penyimpanan dan sharing file digital dari para stakeholder yang ada di SMKN 1 Krangkeng</p>  
                     </div>
                 </div>
@@ -86,7 +81,8 @@
         <script src="{{ asset('home/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('home/js/baguetteBox.min.js') }}"></script>
         <script src="{{ asset('home/js/vanilla-zoom.js') }}"></script>
-        <script src="{{ asset('home/js/theme.js')}} "></script>
+        <script src="{{ asset('home/js/theme.js')}}"></script>
+        <script src="{{ asset('home/js/fontawesome6.js')}}"></script>
         @stack('scripts')
     </body>
 </html>
