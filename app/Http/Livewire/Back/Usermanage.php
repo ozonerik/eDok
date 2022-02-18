@@ -34,7 +34,22 @@ class Usermanage extends Component
     }
     //lifecylce hook get<namafungsi>Property
     public function getUserQueryProperty(){
-        $user = User::query();        
+        $user = User::query();
+        $user->where('name','like','%'.$this->inpsearch.'%');
+        $user->orwhere('email','like','%'.$this->inpsearch.'%');
+        $user->orwhere('email','like','%'.$this->inpsearch.'%');
+        $user->whereHas('roles', function($q) {
+            $q->where('name', 'like', '%'.$this->inpsearch.'%');
+        });
+        if($this->sortBy=="name"){
+            $user->orderby('name',$this->sortDirection);
+        }else if($this->sortBy=="email"){
+            $user->orderby('email',$this->sortDirection);
+        }else if($this->sortBy=='updated_at'){
+            $user->orderby('updated_at',$this->sortDirection);
+        }else if($this->sortBy=='roles'){
+            $user->orderby('users.name',$this->sortDirection);
+        }         
         return $user;
     }
     //lifecylce hook updated<namavariable>
@@ -93,13 +108,24 @@ class Usermanage extends Component
         $user->delete();
         
         $this->selectPage=false;
-        $this->checked = array_diff($this->checked,$this->myfile_id );
+        $this->checked = array_diff($this->checked,$this->user_id );
         $this->resetCreateForm();
         $this->dispatchBrowserEvent('hide-form-del');
         $this->dispatchBrowserEvent('alert',[
             'type'=>'error',
             'message'=>'Data deleted successfully.'
         ]); 
+    }
+
+    //sorting
+    public function sortBy($field)
+    {
+        if($this->sortDirection == 'asc'){
+            $this->sortDirection = 'desc';
+        }else{
+            $this->sortDirection = 'asc';
+        }
+        return $this->sortBy = $field;
     }
 
     public function render()

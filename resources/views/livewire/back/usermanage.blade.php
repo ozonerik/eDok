@@ -104,10 +104,10 @@
                                     <tr>
                                         <th class="text-center"><input type="checkbox" wire:model="selectPage"></th>
                                         <th>No</th>
-                                        <th>User Name</th>
-                                        <th>Email</th>
-                                        <th>Roles</th>
-                                        <th>Updated</th>
+                                        <th style="cursor:pointer;" wire:click="sortBy('name')"><x-SortState colName="name"  :sortBy="$sortBy" :sortDir="$sortDirection">User Name</x-SortState></th>
+                                        <th style="cursor:pointer;" wire:click="sortBy('email')"><x-SortState colName="email"  :sortBy="$sortBy" :sortDir="$sortDirection">Email</x-SortState></th>
+                                        <th style="cursor:pointer;" wire:click="sortBy('roles')"><x-SortState colName="roles"  :sortBy="$sortBy" :sortDir="$sortDirection">Roles</x-SortState></th>
+                                        <th style="cursor:pointer;" wire:click="sortBy('updated_at')"><x-SortState colName="updated_at"  :sortBy="$sortBy" :sortDir="$sortDirection">Updated</x-SortState></th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
