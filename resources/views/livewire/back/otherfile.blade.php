@@ -111,11 +111,15 @@
                         </div>
                         <!-- .table -->
                         <div class="d-flex flex-column flex-md-row mt-3 mt-md-0 ">
-                            <div class="text-center">
-                            {{ $myfile->links() }}
+                            <div class="me-md-auto text-muted d-flex justify-content-center">
+                                <div>
+                                    Showing {{$myfile->firstItem()}} to {{$myfile->lastItem()}} of {{$myfile->total()}} entries
+                                </div>
                             </div>
-                            <div class="ms-md-auto text-center">
-                                Showing {{$myfile->firstItem()}} to {{$myfile->lastItem()}} of {{$myfile->total()}} entries
+                            <div class="d-flex justify-content-center mt-md-0 mt-2">
+                                <div>
+                                    {{$myfile->links()}}
+                                </div>
                             </div>
                         </div>
                     </div>
