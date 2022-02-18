@@ -109,31 +109,34 @@ class Otherfile extends Component
         }else{
             $this->sortDirection = 'asc';
         }
-        //dd($this->MyfileQuery->orderby($field,$this->sortDirection));
         return $this->sortBy = $field;
     }
+
     public function is_checked($fileid){
         return in_array($fileid,$this->checked);
     }
+
     public function removeselection()
     {
         $this->myfile_id = $this->checked;
         $this->dispatchBrowserEvent('show-form-del');
     }
+
     public function removesingle($id){
         $this->myfile_id = [$id];
         $this->dispatchBrowserEvent('show-form-del');
     }
+
     private function deletefile($pathfile){
         if(Storage::disk('public')->exists($pathfile)){
             Storage::disk('public')->delete($pathfile);
         }
     }
+
     public function delete()
     {
-        
         $myfiles = Myfile::whereIn('id',$this->myfile_id);
-        // dd($myfiles->pluck('path'));
+        
         foreach($myfiles->pluck('path') as $path){
             $this->deletefile($path);
         }
@@ -146,8 +149,8 @@ class Otherfile extends Component
             'type'=>'error',
             'message'=>'Deleted items successfully.'
         ]);
-
     }
+
     public function render()
     {
         $data['myfile']=$this->Myfile;

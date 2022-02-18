@@ -3,57 +3,7 @@
         {{ __('User Management') }}
     </h2>
 </x-slot>
-@push('css')
-<link type="text/css" href="//cdn.datatables.net/select/1.3.4/css/select.dataTables.min.css" rel="stylesheet" />
-<link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" rel="stylesheet" />
-@endpush
 @push('scripts')
-<script type="text/javascript" src="//cdn.datatables.net/select/1.3.4/js/dataTables.select.min.js"></script>
-<script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
-<script>
-document.addEventListener('livewire:load', function () {
-    var events = $('#events');
-    var table = $('#mytable').DataTable({
-        "paging": true,
-        "pageLength": 3,
-        "lengthChange": true,
-        "lengthMenu": [ [3, 10, 50, 100, -1], [3, 10, 50, 100, "All"] ],
-        "searching": true,
-        "ordering": true,
-        "autoWidth": false,
-        "responsive": true,
-        "bInfo" : false,
-        "order": [[ 1, "asc" ]],
-        "columnDefs": [
-            { "orderable": false, "targets": [0,2,7] },
-            { "searchable": false, "targets": [0,2,7] },
-            { "visible": false, "targets": [2] },
-            { 'checkboxes': {
-                'selectRow': true,
-                'selectAllPages':false,
-                'selectAllRender':'<input type="checkbox" class="form-check-input">'
-            }, 'targets': 0}
-        ],
-        "select": {
-            "style": "multi"
-        },
-    });
-    
-    table
-        .on( 'select', function ( e, dt, type, indexes ) {
-            var ids = $.map(table.rows('.selected').data(), function (item) {
-            return item[2]
-            });
-            @this.checked=ids;
-        })
-        .on( 'deselect', function ( e, dt, type, indexes ) {
-            var ids = $.map(table.rows('.selected').data(), function (item) {
-            return item[2]
-            });
-            @this.checked=ids;
-        });
-} );
-</script>
 <script>
     window.addEventListener('show-form', event => {
         $('#form').modal('show');
@@ -93,28 +43,67 @@ document.addEventListener('livewire:load', function () {
             <div class="card shadow bg-light">
                 <div class="card-body bg-white px-5 py-3 border-bottom rounded-top">  
                     <div class="mx-3 my-3">
-                        @php
-                        $no=1;
-                        @endphp
-                        <div class="row text-center text-md-start ">
-                            <div class="col-12 col-md-2">
-                                <button wire:click.prevent="add" class="btn btn-primary btn-sm mb-3 text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
-                                    <i class="bi bi-plus-square"></i> <span>User</span>
-                                </button>
+                        <!-- table menu -->
+                        <div class="d-flex flex-column flex-md-row mb-3">
+                            <div class="mb-2 mb-md-0 me-md-2">
+                                <div class="btn-group w-100">
+                                    <button wire:click.prevent="add" class="btn btn-primary text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+                                        <i class="bi bi-plus-square"></i> <span>User</span>
+                                    </button>
+                                </div>  
                             </div>
-                            <div class="col-12 col-md-10">
-                                <button wire:click.prevent="removesel" class="btn btn-danger btn-sm mb-3 text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
-                                    Delete {{ count($checked) }} selected items
-                                </button>
+                            <div class="mb-2 mb-md-0 me-md-2">
+                                <div class="input-group">
+                                    <span class="input-group-text">Per Page :</span>
+                                    <select wire:model="perhal" class="form-select">
+                                    <option value="2" selected>2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="{{$users->total()}}">All</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="@if(empty($checked)) d-none @endif mb-2 mb-md-0 me-md-2 ">
+                                <div class="btn-group w-100">
+                                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span class="fw-bold">Selection ( {{count($checked)}} )</span>
+                                    </button>
+                                    <ul class="dropdown-menu w-100">
+                                        <li><button wire:click="removeselection" class="dropdown-item">Delete</button></li>
+                                        <li><button wire:click="" class="dropdown-item">Edit</button></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="flex-fill">
+                                <input type="text" wire:model.debounce.500ms="inpsearch" class="form-control" placeholder="Search...">
                             </div>
                         </div>
-                        <div wire:ignore>
-                            <table id="mytable" class="table table-borderless table-hover table-rounded">
+                        <!-- .table menu -->
+                        <!-- selection messages -->
+                        @if($selectPage)
+                        <div class="d-flex flex-column flex-md-row justify-content-center mb-3">
+                                @if($selectAll)
+                                <div class="text-center">
+                                You have selected All <strong>{{$users->total()}}</strong> items. <a href="#" wire:click="deselectAll">Deselect All</a>
+                                </div>
+                                @else
+                                <div class="me-md-2 text-center">
+                                You have selected <strong>{{ count($checked) }}</strong> items. 
+                                </div>
+                                <div class="text-center">
+                                Do you want to Select All <strong>{{$users->total()}}</strong> items ? <a href="#" wire:click="selectAll">Select All</a>
+                                </div>
+                                @endif
+                        </div>
+                        @endif
+                        <!-- .selection messages -->
+                        <!-- table -->
+                        <div class="table-responsive">
+                            <table class="table table-borderless table-hover table-rounded">
                                 <thead class="table-light">
                                     <tr>
-                                        <th></th>
+                                        <th class="text-center"><input type="checkbox" wire:model="selectPage"></th>
                                         <th>No</th>
-                                        <th class="d-none">id</th>
                                         <th>User Name</th>
                                         <th>Email</th>
                                         <th>Roles</th>
@@ -123,17 +112,16 @@ document.addEventListener('livewire:load', function () {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($users as $row)
-                                    <tr>
-                                        <td></td>
-                                        <td>{{ $no++}}</td>
-                                        <td class="d-none">{{ $row->id }}</td>
+                                    @foreach($users as $key => $row)
+                                    <tr class="@if($this->is_checked($row->id)) table-primary @endif">
+                                        <td class="text-center"><input type="checkbox" value="{{ $row->id }}" wire:model="checked"></td>
+                                        <td>{{ $users->firstItem() + $key}}</td>
                                         <td>{{ $row->name }}</td>
                                         <td>{{ $row->email }}</td>
                                         <td>{{ $row->roles->pluck('name')->implode(', ') }}</td>
                                         <td>{{ $row->updated_at }}</td>
                                         <td>
-                                        <button wire:click.prevent="edit({{ $row->id }})" class="btn btn-primary text-light btn-sm me-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                                        <button wire:click.prevent="edit({{ $row->id }})" class="btn btn-primary text-light btn-sm me-md-1" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
                                             <i class="bi bi-pencil-square"></i>
                                         </button>
                                         <button wire:click.prevent="remove({{ $row->id }})" class="btn btn-danger btn-sm text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
@@ -145,6 +133,21 @@ document.addEventListener('livewire:load', function () {
                                 </tbody>
                             </table>
                         </div>
+                        <!-- .table -->
+                        <!-- pagination -->
+                        <div class="d-flex flex-column flex-md-row mt-3 mt-md-0 ">
+                            <div class="me-md-auto text-muted d-flex justify-content-center">
+                                <div>
+                                    Showing {{$users->firstItem()}} to {{$users->lastItem()}} of {{$users->total()}} entries
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center mt-md-0 mt-2">
+                                <div>
+                                    {{$users->links()}}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .pagination -->
                     </div>
                 </div>
             </div>

@@ -67,14 +67,12 @@
                                 Do you want to Select All <strong>{{$myfile->total()}}</strong> items ? <a href="#" wire:click="selectAll">Select All</a>
                                 </div>
                                 @endif
-
-                            
                         </div>
                         @endif
                         <!-- .selection messages -->
                         <!-- table -->
                         <div class="table-responsive">
-                            <table id="mytable" class="table table-borderless table-hover table-rounded">
+                            <table class="table table-borderless table-hover table-rounded">
                                 <thead class="table-light">
                                     <tr>
                                         <th class="text-center"><input type="checkbox" wire:model="selectPage"></th>

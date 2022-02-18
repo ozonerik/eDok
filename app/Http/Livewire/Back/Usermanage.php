@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use Illuminate\Support\Collection;
+use Livewire\WithPagination;
 
 class Usermanage extends Component
 {
@@ -18,18 +19,68 @@ class Usermanage extends Component
     public $states=[];
     public $old_user_password;
     public $delfolder='';
-    public $checked=[];
     public $checkedValue;
+
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    public $sortBy = 'updated_at';
+    public $sortDirection = 'desc';
+    public $perhal = 2 ;
+    public $checked = [];
+    public $inpsearch = "";
+    public $selectPage = false;
+    public $selectAll = false;
+
+    //lifecylce hook get<namafungsi>Property
+    public function getUserProperty(){
+        return $this->UserQuery->paginate($this->perhal);
+    }
+    //lifecylce hook get<namafungsi>Property
+    public function getUserQueryProperty(){
+        $user = User::query();        
+        return $user;
+    }
+    //lifecylce hook updated<namavariable>
+    public function updatedSelectPage($value){
+        if($value){
+            $this->checked = $this->User->pluck('id')->map(fn($item) => (string) $item)->toArray();
+        }else{
+            $this->checked = [];
+            $this->selectAll=false;
+        }
+    }
+    //lifecylce hook updated<namavariable>
+    public function updatedChecked($value){
+        $this->selectPage=false;
+        $this->selectAll=false;
+    }
+    //end lifecycle
+
+    //store checked checkbox value to array
+    public function is_checked($id){
+        return in_array($id,$this->checked);
+    }
+    //select All
+    public function selectAll(){
+        $this->selectAll=true;
+        if($this->selectAll){
+            $this->checked = $this->UserQuery->pluck('id')->map(fn($item) => (string) $item)->toArray();
+        }else{
+            $this->checked = [];
+        }
+    }
+    //deselect All
+    public function deselectAll(){
+        $this->selectAll=false;
+        $this->selectPage=false;
+        $this->checked = [];
+    }
 
     public function render()
     {
         $data['roles'] = Role::all();
-        $user = User::orderBy('name', 'desc')->get();
-        $data['users']=$user;
-        return view('livewire.back.usermanage',$data)->layout('layouts.app');
-    }
-    public function updatedsub_check($value){
-        dd('hallo');
+        $data['users']=$this->User;
+        return view('livewire.back.usermanage',$data)->layout('layouts.appclear');
     }
     
     private function resetCreateForm(){
