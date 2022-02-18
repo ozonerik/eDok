@@ -24,8 +24,8 @@
                 <div class="card-body bg-white px-5 py-3 border-bottom rounded-top">
                     <div class="mx-3 my-3">
                         <!-- table menu -->
-                        <div class="row mb-3">
-                            <div class="col-12 col-md-2 mb-2 mb-md-0">
+                        <div class="d-flex flex-column flex-md-row mb-3">
+                            <div class="mb-2 mb-md-0 me-md-2">
                                 <div class="input-group">
                                     <span class="input-group-text">Per Page :</span>
                                     <select wire:model="perhal" class="form-select">
@@ -36,7 +36,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-2 mb-2 mb-md-0 d-flex justify-content-center @if(empty($checked)) d-none @endif ">
+                            <div class="@if(empty($checked)) d-none @endif mb-2 mb-md-0 me-md-2 ">
                                 <div class="btn-group w-100">
                                     <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                         <span class="fw-bold">Selection ( {{count($checked)}} )</span>
@@ -47,22 +47,28 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div class="col-12 @if(empty($checked)) col-md-10 @else col-md-8 @endif d-flex justify-content-end">
+                            <div class="flex-fill">
                                 <input type="text" wire:model.debounce.500ms="inpsearch" class="form-control" placeholder="Search...">
                             </div>
                         </div>
                         <!-- .table menu -->
                         <!-- selection messages -->
                         @if($selectPage)
-                        <div class="row mb-3">
-                            <div class="col-12 text-center">
+                        <div class="d-flex flex-column flex-md-row justify-content-center mb-3">
                                 @if($selectAll)
+                                <div class="text-center">
                                 You have selected All <strong>{{$myfile->total()}}</strong> items. <a href="#" wire:click="deselectAll">Deselect All</a>
+                                </div>
                                 @else
-                                You have selected <strong>{{ count($checked) }}</strong> items. Do you want to Select All <strong>{{$myfile->total()}}</strong> items ? <a href="#" wire:click="selectAll">Select All</a>
+                                <div class="me-md-2 text-center">
+                                You have selected <strong>{{ count($checked) }}</strong> items. 
+                                </div>
+                                <div class="text-center">
+                                Do you want to Select All <strong>{{$myfile->total()}}</strong> items ? <a href="#" wire:click="selectAll">Select All</a>
+                                </div>
                                 @endif
 
-                            </div>
+                            
                         </div>
                         @endif
                         <!-- .selection messages -->

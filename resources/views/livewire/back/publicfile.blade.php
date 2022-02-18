@@ -23,8 +23,8 @@
                 <div class="card-body bg-white px-5 py-3 border-bottom rounded-top">
                     <div class="mx-3 my-3">
                         <!-- table menu -->
-                        <div class="row mb-3">
-                            <div class="col-12 col-md-2 mb-2 mb-md-0">
+                        <div class="d-flex flex-column flex-md-row mb-3">
+                            <div class="mb-2 mb-md-0 me-md-2">
                                 <div class="input-group">
                                     <span class="input-group-text">Per Page :</span>
                                     <select wire:model="perhal" class="form-select">
@@ -35,7 +35,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-10 d-flex justify-content-end">
+                            <div class="flex-fill">
                                 <input type="text" wire:model.debounce.500ms="inpsearch" class="form-control" placeholder="Search...">
                             </div>
                         </div>
