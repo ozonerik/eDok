@@ -16,7 +16,7 @@
         <div class="form-group mb-3">
             <label>Is Public  </label>
             <select class="form-select @error('is_public') is-invalid @enderror" wire:model.defer="states.is_public">
-                <option Selected>Please Select</option>    
+                <option Selected class="text-muted">Please Select</option>    
                 <option value='0'>No</option>
                 <option value='1'>Yes</option>
             </select>

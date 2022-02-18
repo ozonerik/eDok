@@ -31,7 +31,7 @@
             <div class="form-group mb-3">
                 <label>Role</label>
                 <select class="form-select @error('role') is-invalid @enderror" wire:model.defer="states.role">
-                    <option selected>Select Roles</option>
+                    <option selected class="text-muted">Select Roles</option>
                     @foreach($roles as $row)
                     <option value='{{$row->name}}'>{{$row->name}}</option>
                     @endforeach

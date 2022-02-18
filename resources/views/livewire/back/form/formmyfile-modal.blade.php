@@ -17,7 +17,7 @@
             <label>Category</label>
             <div class="input-group">
             <select class="form-select @error('filecategory_id') is-invalid @enderror" wire:model.defer="filecategory_id">
-                  <option selected>Select Category</option>    
+                  <option selected class="text-muted">Select Category</option>    
                 @foreach($cat as $row)
                   <option value='{{$row->id}}'>{{$row->name}}</option>
                 @endforeach
