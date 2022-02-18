@@ -70,7 +70,7 @@
                                     </button>
                                     <ul class="dropdown-menu w-100">
                                         <li><button wire:click="removeselection" class="dropdown-item">Delete</button></li>
-                                        <li><button wire:click="" class="dropdown-item">Edit</button></li>
+                                        <li><button wire:click="coba" class="dropdown-item">Edit</button></li>
                                     </ul>
                                 </div>
                             </div>

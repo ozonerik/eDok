@@ -14,14 +14,6 @@ use Livewire\WithPagination;
 
 class Usermanage extends Component
 {
-    public $modeEdit=false;
-    public $user_id=[];
-    public $user_name;
-    public $states=[];
-    public $old_user_password;
-    public $delfolder='';
-    public $checkedValue;
-
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $sortBy = 'updated_at';
@@ -31,6 +23,10 @@ class Usermanage extends Component
     public $inpsearch = "";
     public $selectPage = false;
     public $selectAll = false;
+    public $modeEdit=false;
+    public $user_id=[];
+    public $states=[];
+    public $old_user_password;
 
     //lifecylce hook get<namafungsi>Property
     public function getUserProperty(){
@@ -117,7 +113,7 @@ class Usermanage extends Component
     //reset form
     private function resetCreateForm(){
         $this->modeEdit=false;
-        $this->user_id = null;
+        $this->user_id = [];
         $this->states['name'] = '';
         $this->states['email'] = '';
         $this->states['password'] = '';
@@ -127,7 +123,7 @@ class Usermanage extends Component
         $this->resetValidation();
     }
 
-    //add
+    //add single
     public function add()
     {
         $this->modeEdit=false;
@@ -135,25 +131,27 @@ class Usermanage extends Component
         $this->resetCreateForm();
     }
 
-    //store add/edit
+    //store add/edit single
     public function store()
     {
+        $ids=collect($this->user_id)->implode(',');
         if(!$this->modeEdit){ 
             Validator::make($this->states,[
                 'name' => 'required',
                 'email' => [
                     'required','email',
-                    Rule::unique('users')->ignore($this->user_id),
+                    Rule::unique('users')->ignore($ids),
                 ],
                 'password' => 'required|min:8|confirmed',
                 'role' => 'required',
             ])->validate();
+
         }else{
             Validator::make($this->states,[
                 'name' => 'required',
                 'email' => [
                     'required','email',
-                    Rule::unique('users')->ignore($this->user_id),
+                    Rule::unique('users')->ignore($ids),
                 ],
                 'password' => 'nullable|min:8|confirmed',
                 'role' => 'required',
@@ -165,27 +163,26 @@ class Usermanage extends Component
         } else {
             $password=$this->old_user_password;
         }
-        $user=User::updateOrCreate(['id' => $this->user_id], [
+        $user=User::updateOrCreate(['id' => $ids], [
             'name' => $this->states['name'],
             'email' => $this->states['email'],
             'password' => $password,
         ]);
-        $user->assignRole($this->states['role']);
+        $user->syncRoles($this->states['role']);
         $this->dispatchBrowserEvent('hide-form');
         $this->dispatchBrowserEvent('alert',[
             'type'=>'success',
             'message'=>$this->user_id ? 'Data updated successfully.' : 'Data added successfully.'
         ]);
         $this->resetCreateForm();
-        return redirect()->route('userman');
     }
     
-    //edit
+    //edit single
     public function edit($id)
     {
         $this->modeEdit=true;
         $user = User::findOrFail($id);
-        $this->user_id = $id;
+        $this->user_id = [$id];
         $this->states['name'] = $user->name;
         $this->states['email'] = $user->email;
         $this->states['password'] = '';
