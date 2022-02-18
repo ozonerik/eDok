@@ -15,7 +15,8 @@ use Livewire\WithPagination;
 class Usermanage extends Component
 {
     public $modeEdit=false;
-    public $user_id,$user_name;
+    public $user_id=[];
+    public $user_name;
     public $states=[];
     public $old_user_password;
     public $delfolder='';
@@ -75,14 +76,45 @@ class Usermanage extends Component
         $this->selectPage=false;
         $this->checked = [];
     }
+    //remove from selection
+    public function removeselection()
+    {
+        $this->user_id = $this->checked;
+        $this->dispatchBrowserEvent('show-form-del');
+    }
+    //remove from single
+    public function removesingle($id){
+        $this->user_id = [$id];
+        $this->dispatchBrowserEvent('show-form-del');
+    }
+    //proses remove
+    public function delete()
+    {
+        $user = User::whereIn('id',$this->user_id);
+        foreach($this->user_id as $path){
+            Storage::disk('public')->deleteDirectory('myfiles/'.$path);
+        }
+        $user->delete();
+        
+        $this->selectPage=false;
+        $this->checked = array_diff($this->checked,$this->myfile_id );
+        $this->resetCreateForm();
+        $this->dispatchBrowserEvent('hide-form-del');
+        $this->dispatchBrowserEvent('alert',[
+            'type'=>'error',
+            'message'=>'Data deleted successfully.'
+        ]); 
+    }
 
     public function render()
     {
         $data['roles'] = Role::all();
         $data['users']=$this->User;
+        $data['delsel']=User::find($this->user_id);
         return view('livewire.back.usermanage',$data)->layout('layouts.appclear');
     }
     
+    //reset form
     private function resetCreateForm(){
         $this->modeEdit=false;
         $this->user_id = null;
@@ -95,35 +127,15 @@ class Usermanage extends Component
         $this->resetValidation();
     }
 
+    //add
     public function add()
     {
         $this->modeEdit=false;
         $this->dispatchBrowserEvent('show-form');
         $this->resetCreateForm();
     }
-    
-    public function remove($id)
-    {
-        $user = User::findOrFail($id);
-        $this->user_id = $id;
-        $this->user_name = $user->name;
-        $this->delfolder='myfiles/'.$user->id;
-        $this->dispatchBrowserEvent('show-form-del');
-    }
 
-    public function removesel()
-    {
-        $this->checkedValue = User::whereIn('id',$this->checked)->get();
-        $this->dispatchBrowserEvent('show-form-delsel');
-    }
-
-    public function postremovesel()
-    {
-        User::whereIn('id',$this->checked)->delete();
-        $this->dispatchBrowserEvent('hide-form-delsel');
-        return redirect()->route('userman');
-    }
-
+    //store add/edit
     public function store()
     {
         if(!$this->modeEdit){ 
@@ -168,6 +180,7 @@ class Usermanage extends Component
         return redirect()->route('userman');
     }
     
+    //edit
     public function edit($id)
     {
         $this->modeEdit=true;
@@ -182,16 +195,5 @@ class Usermanage extends Component
         $this->dispatchBrowserEvent('show-form');
     }
     
-    public function delete($id)
-    {
-        User::find($id)->delete();
-        Storage::disk('public')->deleteDirectory($this->delfolder);
-        $this->dispatchBrowserEvent('alert',[
-            'type'=>'error',
-            'message'=>'Data deleted successfully.'
-        ]);
-        $this->dispatchBrowserEvent('hide-form-del');
-        $this->resetCreateForm();
-        return redirect()->route('userman');
-    }
+    
 }

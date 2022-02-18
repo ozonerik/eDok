@@ -8,13 +8,15 @@
       </div>
       <form autocomplete="off" wire:submit.prevent="delete">
       <div class="modal-body">
-        <h5 class="text-center">Do you want delete this @if($myfile_id) {{ count($myfile_id) }} @endif items ?</h5>
+        <div class="text-center mb-1">Do you want delete this @if($myfile_id) {{ count($myfile_id) }} @endif items ?</div>
         <ol class="list-group list-group-numbered">
         @foreach($delsel as $row)
           <li class="list-group-item list-group-item-action">{{$row->name}} by {{$row->user->name}}</li>
         @endforeach
         </ol>
-        <h6 class="text-danger text-center mt-3">*All selected files will be permanently deleted</h6>
+        <div class="text-center mt-1">
+          <small class="text-danger">*All selected files will be permanently deleted</small>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary btn-sm text-light" data-bs-dismiss="modal">Close</button>

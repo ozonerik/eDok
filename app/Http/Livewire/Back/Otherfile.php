@@ -65,29 +65,7 @@ class Otherfile extends Component
     }
     //end lifecycle
 
-    public function zipdownload(){
-        $myfiles = Myfile::with(['user','filecategory'])->whereIn('id',$this->checked)->get();
-        $filename=Carbon::now()->timestamp.'.zip';
-        $zip=Zip::create($filename);
-        foreach($myfiles as $row){
-            $file=pathinfo($row->path);
-            $zip->add(Storage::disk('public')->path($row->path),$row->name.'-'.$row->user->name.'.'.$file['extension']);
-        }
-        $pathzip='ZipFiles/';
-        $zip->saveTo(Storage::disk('public')->path($pathzip));
-        $downloadpath=Storage::disk('public')->path($pathzip.$filename);
-        return response()->download($downloadpath)->deleteFileAfterSend(true);
-    }
-
-    public function export($id){
-        $date=Carbon::now()->format('Y-m-d');
-        $myfile = Myfile::with(['user','filecategory'])->findOrFail($id);
-        $url=$myfile->path;
-        $rename=$myfile->name." (".$myfile->user->name.") (".$date.").pdf";
-        $headers = ['Content-Type: application/pdf'];
-        return Storage::disk('public')->download($url, $rename, $headers);
-    }
-
+    //selection
     public function selectAll(){
         $this->selectAll=true;
         if($this->selectAll){
@@ -101,7 +79,44 @@ class Otherfile extends Component
         $this->selectPage=false;
         $this->checked = [];
     }
+    public function is_checked($fileid){
+        return in_array($fileid,$this->checked);
+    }
+    //end selection
+    
+    //remove
+    public function removeselection()
+    {
+        $this->myfile_id = $this->checked;
+        $this->dispatchBrowserEvent('show-form-del');
+    }
+    public function removesingle($id){
+        $this->myfile_id = [$id];
+        $this->dispatchBrowserEvent('show-form-del');
+    }
+    private function deletefile($pathfile){
+        if(Storage::disk('public')->exists($pathfile)){
+            Storage::disk('public')->delete($pathfile);
+        }
+    }
+    public function delete()
+    {
+        $myfiles = Myfile::whereIn('id',$this->myfile_id);
+        foreach($myfiles->pluck('path') as $path){
+            $this->deletefile($path);
+        }
+        $myfiles->delete();
+        $this->selectPage=false;
+        $this->checked = array_diff($this->checked,$this->myfile_id );
+        $this->dispatchBrowserEvent('hide-form-del');
+        $this->dispatchBrowserEvent('alert',[
+            'type'=>'error',
+            'message'=>'Deleted items successfully.'
+        ]);
+    }
+    //end remove
 
+    //sorting
     public function sortBy($field)
     {
         if($this->sortDirection == 'asc'){
@@ -111,44 +126,32 @@ class Otherfile extends Component
         }
         return $this->sortBy = $field;
     }
-
-    public function is_checked($fileid){
-        return in_array($fileid,$this->checked);
-    }
-
-    public function removeselection()
-    {
-        $this->myfile_id = $this->checked;
-        $this->dispatchBrowserEvent('show-form-del');
-    }
-
-    public function removesingle($id){
-        $this->myfile_id = [$id];
-        $this->dispatchBrowserEvent('show-form-del');
-    }
-
-    private function deletefile($pathfile){
-        if(Storage::disk('public')->exists($pathfile)){
-            Storage::disk('public')->delete($pathfile);
+    
+    //download zip
+    public function zipdownload(){
+        $myfiles = Myfile::with(['user','filecategory'])->whereIn('id',$this->checked)->get();
+        $filename=Carbon::now()->timestamp.'.zip';
+        $zip=Zip::create($filename);
+        foreach($myfiles as $row){
+            $file=pathinfo($row->path);
+            if(Storage::disk('public')->exists($row->path)){
+                $zip->add(Storage::disk('public')->path($row->path),$row->name.'-'.$row->user->name.'.'.$file['extension']);
+            } 
         }
+        $pathzip='ZipFiles/';
+        $zip->saveTo(Storage::disk('public')->path($pathzip));
+        $downloadpath=Storage::disk('public')->path($pathzip.$filename);
+        return response()->download($downloadpath)->deleteFileAfterSend(true);
     }
-
-    public function delete()
-    {
-        $myfiles = Myfile::whereIn('id',$this->myfile_id);
-        
-        foreach($myfiles->pluck('path') as $path){
-            $this->deletefile($path);
-        }
-        
-        $myfiles->delete();
-        $this->selectPage=false;
-        $this->checked = array_diff($this->checked,$this->myfile_id );
-        $this->dispatchBrowserEvent('hide-form-del');
-        $this->dispatchBrowserEvent('alert',[
-            'type'=>'error',
-            'message'=>'Deleted items successfully.'
-        ]);
+    
+    //download file
+    public function export($id){
+        $date=Carbon::now()->format('Y-m-d');
+        $myfile = Myfile::with(['user','filecategory'])->findOrFail($id);
+        $url=$myfile->path;
+        $rename=$myfile->name." (".$myfile->user->name.") (".$date.").pdf";
+        $headers = ['Content-Type: application/pdf'];
+        return Storage::disk('public')->download($url, $rename, $headers);
     }
 
     public function render()
