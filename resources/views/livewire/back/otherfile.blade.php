@@ -110,6 +110,7 @@
                             </table>
                         </div>
                         <!-- .table -->
+                        <!-- pagination -->
                         <div class="d-flex flex-column flex-md-row mt-3 mt-md-0 ">
                             <div class="me-md-auto text-muted d-flex justify-content-center">
                                 <div>
@@ -122,6 +123,7 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- .pagination -->
                     </div>
                 </div>
             </div>

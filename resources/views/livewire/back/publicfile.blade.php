@@ -5,24 +5,6 @@
 </x-slot>
 @push('scripts')
 <script>
-document.addEventListener('livewire:load', function () {
-    $('#mytable').DataTable({
-        "paging": true,
-        "pageLength": 5,
-        "lengthChange": true,
-        "lengthMenu": [ [5, 10, 50, 100, -1], [5, 10, 50, 100, "All"] ],
-        "searching": true,
-        "ordering": true,
-        "autoWidth": false,
-        "responsive": true,
-        "columnDefs": [
-            { "orderable": false, "targets": [5] },
-            { "searchable": false, "targets": [0,5] }
-        ]
-    });
-});
-</script>
-<script>
     window.addEventListener('show-form-del', event => {
         $('#form-del').modal('show');
     })
@@ -98,8 +80,21 @@ document.addEventListener('livewire:load', function () {
                                 </tbody>
                             </table>
                         </div>
-                        {{ $myfile->links() }}
                         <!-- .table -->
+                        <!-- pagination -->
+                        <div class="d-flex flex-column flex-md-row mt-3 mt-md-0 ">
+                            <div class="me-md-auto text-muted d-flex justify-content-center">
+                                <div>
+                                    Showing {{$myfile->firstItem()}} to {{$myfile->lastItem()}} of {{$myfile->total()}} entries
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center mt-md-0 mt-2">
+                                <div>
+                                    {{$myfile->links()}}
+                                </div>
+                            </div>
+                        </div>
+                        <!-- .pagination -->
                     </div>
                 </div>
             </div>
