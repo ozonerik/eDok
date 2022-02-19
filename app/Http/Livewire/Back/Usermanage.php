@@ -35,20 +35,22 @@ class Usermanage extends Component
     //lifecylce hook get<namafungsi>Property
     public function getUserQueryProperty(){
         $user = User::query();
-        $user->where('name','like','%'.$this->inpsearch.'%');
-        $user->orwhere('email','like','%'.$this->inpsearch.'%');
-        $user->orwhere('email','like','%'.$this->inpsearch.'%');
-        $user->whereHas('roles', function($q) {
+        $user->select('users.*','roles.name as roles_name');
+        $user->leftJoin('model_has_roles','model_has_roles.model_id','=','users.id');
+        $user->join('roles','roles.id','=','model_has_roles.role_id');
+        $user->where('users.name','like','%'.$this->inpsearch.'%');
+        $user->orwhere('users.email','like','%'.$this->inpsearch.'%');
+        $user->orwhereHas('roles', function($q) {
             $q->where('name', 'like', '%'.$this->inpsearch.'%');
         });
         if($this->sortBy=="name"){
-            $user->orderby('name',$this->sortDirection);
-        }else if($this->sortBy=="email"){
-            $user->orderby('email',$this->sortDirection);
-        }else if($this->sortBy=='updated_at'){
-            $user->orderby('updated_at',$this->sortDirection);
-        }else if($this->sortBy=='roles'){
             $user->orderby('users.name',$this->sortDirection);
+        }else if($this->sortBy=="email"){
+            $user->orderby('users.email',$this->sortDirection);
+        }else if($this->sortBy=='updated_at'){
+            $user->orderby('users.updated_at',$this->sortDirection);
+        }else if($this->sortBy=='roles'){
+            $user->orderby('roles.name',$this->sortDirection);
         }         
         return $user;
     }
