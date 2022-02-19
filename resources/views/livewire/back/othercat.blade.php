@@ -49,10 +49,10 @@ document.addEventListener('livewire:load', function () {
                                 <tr>
                                     <th>No</th>
                                     <th>Category Name</th>
-                                    <th>Is Public</th>
                                     <th>Owner</th>
                                     <th>Size</th>
-                                    <th>Updated</th>
+                                    <th>Updated At</th>
+                                    <th>Is Public</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -61,10 +61,10 @@ document.addEventListener('livewire:load', function () {
                                 <tr>
                                     <td>{{ $no++ }}</td>
                                     <td>{{ $row->name }}</td>
-                                    <td>@if($row->is_public) Yes @else No @endif</td>
                                     <td>{{ $row->user->name }}</td>
                                     <td>{{ get_categories_size($row->id,$row->user->id) }}</td>
                                     <td>{{ $row->updated_at }}</td>
+                                    <td>@if($row->is_public) Yes @else No @endif</td>
                                     <td>
                                     @if(($row->user->roles->pluck('name') == ['admin']) or ($auth_id == $row->user_id))
                                     <button wire:click.prevent="remove({{$row->id}})" class="btn btn-danger btn-sm text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">

@@ -31,7 +31,7 @@
         <x-SelMsg :table="$myfile" :selectPage="$selectPage" :selectAll="$selectAll" :checked="$checked" linkDeselect="deselectAll" linkSelect="selectAll"/>
         <!-- .selection messages -->
         <!-- table -->
-        <x-TableSlot :table="$myfile" ncol="8">
+        <x-TableSlot :table="$myfile" ncol="9">
             <x-slot:thead>
                 <tr>
                     <th class="text-center"><input type="checkbox" wire:model="selectPage"></th>
@@ -41,6 +41,7 @@
                     <th style="cursor:pointer;" wire:click="sortBy('user_name')"><x-SortState colName="user_name"  :sortBy="$sortBy" :sortDir="$sortDirection">Owner</x-SortState></th>
                     <th style="cursor:pointer;" wire:click="sortBy('file_size')"><x-SortState colName="file_size"  :sortBy="$sortBy" :sortDir="$sortDirection">File Size</x-SortState></th>
                     <th style="cursor:pointer;" wire:click="sortBy('updated_at')"><x-SortState colName="updated_at"  :sortBy="$sortBy" :sortDir="$sortDirection">Updated At</x-SortState></th>
+                    <th style="cursor:pointer;" wire:click="sortBy('is_public')"><x-SortState colName="is_public"  :sortBy="$sortBy" :sortDir="$sortDirection">Is Public</x-SortState></th>
                     <th>Action</th>
                 </tr>
             </x-slot>
@@ -54,6 +55,7 @@
                     <td>{{ $row->user_name }}</td>
                     <td>{{ convert_bytes($row->file_size) }}</td>
                     <td>{{ $row->updated_at }}</td>
+                    <td>@if($row->is_public) Yes @else No @endif</td>
                     <td>
                     @if(Storage::disk('public')->exists($row->path))
                     <button wire:click.prevent="export({{$row->id}})" class="btn btn-success btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download"><i class="bi bi-cloud-arrow-down-fill"></i></button>

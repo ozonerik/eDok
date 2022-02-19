@@ -47,6 +47,8 @@ class Otherfile extends Component
             $myfile->orderby('myfiles.file_size',$this->sortDirection);
         }else if($this->sortBy=='updated_at'){
             $myfile->orderby('myfiles.updated_at',$this->sortDirection);
+        }else if($this->sortBy=='is_public'){
+            $myfile->orderby('myfiles.is_public',$this->sortDirection);
         }
         
         return $myfile;
