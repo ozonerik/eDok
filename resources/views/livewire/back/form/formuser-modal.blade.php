@@ -57,7 +57,7 @@
         <h5 class="modal-title">@if($modeEdit) Edit User Selection @endif</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form autocomplete="off" wire:submit.prevent="updatesel">
+      <form autocomplete="off" wire:submit.prevent="storeupdatesel">
       <div class="modal-body">
             <div class="text-center mb-1">Do you want edit this @if($user_id) {{ count($user_id) }} @endif items ?</div>
             <div class="overflow-auto" style="height:100px">

@@ -231,6 +231,44 @@ class Usermanage extends Component
         $this->states['role'] = '';
         $this->dispatchBrowserEvent('show-form-multiedit');
     }
+
+    public function storeupdatesel(){
+        
+        Validator::make($this->states,[
+            'password' => 'nullable|min:8|confirmed',
+            'role' => 'nullable',
+        ])->validate();
+
+        $users = User::WhereIn('id',$this->user_id);
+        
+        if(!empty($this->states['role'])) {
+            $users->each(function($q) {
+                $q->syncRoles($this->states['role']);
+            });
+        }
+
+        if(!empty($this->states['password'])) {
+            $password=Hash::make($this->states['password']);
+            $users->update(['password' => $password]);
+        }
+
+        if(empty($this->states['password']) && empty($this->states['role'])){
+            $this->dispatchBrowserEvent('hide-form-multiedit');
+            $this->dispatchBrowserEvent('alert',[
+                'type'=>'error',
+                'message'=>'Data updated failed.'
+            ]);
+        }else{
+            $this->dispatchBrowserEvent('hide-form-multiedit');
+            $this->dispatchBrowserEvent('alert',[
+                'type'=>'success',
+                'message'=>'Data updated successfully.'
+            ]);
+        }
+        
+        $this->resetCreateForm();
+        
+    }
     
     
 }
