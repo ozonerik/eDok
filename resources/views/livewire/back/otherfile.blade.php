@@ -71,7 +71,7 @@
                         @endif
                         <!-- .selection messages -->
                         <!-- table -->
-                        <x-TableSlot>
+                        <x-TableSlot :table="$myfile" ncol="8">
                             <x-slot:thead>
                                 <tr>
                                     <th class="text-center"><input type="checkbox" wire:model="selectPage"></th>
@@ -104,11 +104,6 @@
                                 </td>
                                 </tr>
                                 @endforeach
-                                @if($myfile->count() == 0)
-                                <tr>
-                                    <td colspan="8" class="text-center text-muted">No Result</td>
-                                </tr>
-                                @endif
                             </x-slot>
                         </x-TableSlot>
                         <!-- .table -->

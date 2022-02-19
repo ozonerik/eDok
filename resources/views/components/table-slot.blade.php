@@ -9,6 +9,11 @@
         </thead>
         <tbody>
             {{ $tbody }}
+            @if($table->count() == 0)
+            <tr>
+                <td colspan="{{ $ncol }}" class="text-center text-muted">No Result</td>
+            </tr>
+            @endif
         </tbody>
     </table>
 </div>

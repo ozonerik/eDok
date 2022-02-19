@@ -108,46 +108,39 @@
                         @endif
                         <!-- .selection messages -->
                         <!-- table -->
-                        <div class="table-responsive">
-                            <table class="table table-borderless table-hover table-rounded">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th class="text-center"><input type="checkbox" wire:model="selectPage"></th>
-                                        <th>No</th>
-                                        <th style="cursor:pointer;" wire:click="sortBy('name')"><x-SortState colName="name"  :sortBy="$sortBy" :sortDir="$sortDirection">User Name</x-SortState></th>
-                                        <th style="cursor:pointer;" wire:click="sortBy('email')"><x-SortState colName="email"  :sortBy="$sortBy" :sortDir="$sortDirection">Email</x-SortState></th>
-                                        <th style="cursor:pointer;" wire:click="sortBy('roles')"><x-SortState colName="roles"  :sortBy="$sortBy" :sortDir="$sortDirection">Roles</x-SortState></th>
-                                        <th style="cursor:pointer;" wire:click="sortBy('updated_at')"><x-SortState colName="updated_at"  :sortBy="$sortBy" :sortDir="$sortDirection">Updated</x-SortState></th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($users as $key => $row)
-                                    <tr class="@if($this->is_checked($row->id)) table-primary @endif">
-                                        <td class="text-center"><input type="checkbox" value="{{ $row->id }}" wire:model="checked"></td>
-                                        <td>{{ $users->firstItem() + $key}}</td>
-                                        <td>{{ $row->name }}</td>
-                                        <td>{{ $row->email }}</td>
-                                        <td>{{ $row->roles_name }}</td>
-                                        <td>{{ $row->updated_at }}</td>
-                                        <td>
+                        <x-TableSlot :table="$users" ncol="7">
+                            <x-slot:thead>
+                                <tr>
+                                    <th class="text-center"><input type="checkbox" wire:model="selectPage"></th>
+                                    <th>No</th>
+                                    <th style="cursor:pointer;" wire:click="sortBy('name')"><x-SortState colName="name"  :sortBy="$sortBy" :sortDir="$sortDirection">User Name</x-SortState></th>
+                                    <th style="cursor:pointer;" wire:click="sortBy('email')"><x-SortState colName="email"  :sortBy="$sortBy" :sortDir="$sortDirection">Email</x-SortState></th>
+                                    <th style="cursor:pointer;" wire:click="sortBy('roles')"><x-SortState colName="roles"  :sortBy="$sortBy" :sortDir="$sortDirection">Roles</x-SortState></th>
+                                    <th style="cursor:pointer;" wire:click="sortBy('updated_at')"><x-SortState colName="updated_at"  :sortBy="$sortBy" :sortDir="$sortDirection">Updated</x-SortState></th>
+                                    <th>Action</th>
+                                </tr>
+                            </x-slot>
+                            <x-slot:tbody>
+                                @foreach($users as $key => $row)
+                                <tr class="@if($this->is_checked($row->id)) table-primary @endif">
+                                    <td class="text-center"><input type="checkbox" value="{{ $row->id }}" wire:model="checked"></td>
+                                    <td>{{ $users->firstItem() + $key}}</td>
+                                    <td>{{ $row->name }}</td>
+                                    <td>{{ $row->email }}</td>
+                                    <td>{{ $row->roles_name }}</td>
+                                    <td>{{ $row->updated_at }}</td>
+                                    <td>
                                         <button wire:click.prevent="edit({{ $row->id }})" class="btn btn-primary text-light btn-sm me-md-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
                                             <i class="bi bi-pencil-square"></i>
                                         </button>
                                         <button wire:click.prevent="removesingle({{ $row->id }})" class="btn btn-danger btn-sm text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
                                             <i class="bi bi-trash"></i>
                                         </button>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    @if($users->count() == 0)
-                                    <tr>
-                                        <td colspan="7" class="text-center text-muted">No Result</td>
-                                    </tr>
-                                    @endif
-                                </tbody>
-                            </table>
-                        </div>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </x-slot>
+                        </x-TableSlot>
                         <!-- .table -->
                         <!-- pagination -->
                         <x-paginating :table="$users" />
