@@ -34,6 +34,16 @@
         $('#form-delsel').modal('hide');
     })
 </script>
+<script>
+    window.addEventListener('show-form-multiedit', event => {
+        $('#form-multiedit').modal('show');
+    })
+</script>
+<script>
+    window.addEventListener('hide-form-multiedit', event => {
+        $('#form-multiedit').modal('hide');
+    })
+</script>
 @endpush
 <div>
 <x-LoadingState /> 
@@ -70,7 +80,7 @@
                                     </button>
                                     <ul class="dropdown-menu w-100">
                                         <li><button wire:click="removeselection" class="dropdown-item">Delete</button></li>
-                                        <li><button wire:click="coba" class="dropdown-item">Edit</button></li>
+                                        <li><button wire:click="editselection" class="dropdown-item">Edit</button></li>
                                     </ul>
                                 </div>
                             </div>

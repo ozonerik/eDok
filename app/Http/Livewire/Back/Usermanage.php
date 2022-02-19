@@ -100,6 +100,7 @@ class Usermanage extends Component
         $this->user_id = [$id];
         $this->dispatchBrowserEvent('show-form-del');
     }
+
     //proses remove
     public function delete()
     {
@@ -218,6 +219,17 @@ class Usermanage extends Component
         $this->old_user_password = $user->password;
         $this->states['role'] = $user->roles->pluck('name')->implode(', ');
         $this->dispatchBrowserEvent('show-form');
+    }
+
+    //edit multisel
+    public function editselection()
+    {
+        $this->modeEdit=true;
+        $this->user_id = $this->checked;
+        $this->states['password'] = '';
+        $this->states['password_confirmation'] = '';
+        $this->states['role'] = '';
+        $this->dispatchBrowserEvent('show-form-multiedit');
     }
     
     
