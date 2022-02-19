@@ -72,7 +72,6 @@ class Publicfile extends Component
     public function render()
     {
         $data['myfile']=$this->Myfile;
-        $data['myfilequery']=$this->MyfileQuery->get();
         return view('livewire.back.publicfile',$data)->layout('layouts.appclear');
     }
 }

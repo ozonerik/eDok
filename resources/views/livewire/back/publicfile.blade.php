@@ -42,7 +42,7 @@
                         <!-- .table menu -->
                         <!-- table -->
                         <div class="table-responsive">
-                            <table id="mytable" class="table table-borderless table-hover table-rounded">
+                            <table class="table table-borderless table-hover table-rounded">
                                 <thead class="table-light">
                                     <tr>
                                         <th>No</th>
@@ -72,9 +72,9 @@
                                     </td>
                                     </tr>
                                     @endforeach
-                                    @if(count($myfilequery) == 0)
+                                    @if($myfile->count() == 0)
                                     <tr>
-                                        <td colspan="7" class="text-center">No Result</td>
+                                        <td colspan="7" class="text-center text-muted">No Result</td>
                                     </tr>
                                     @endif
                                 </tbody>
@@ -82,18 +82,7 @@
                         </div>
                         <!-- .table -->
                         <!-- pagination -->
-                        <div class="d-flex flex-column flex-md-row mt-3 mt-md-0 ">
-                            <div class="me-md-auto text-muted d-flex justify-content-center">
-                                <div>
-                                    Showing {{$myfile->firstItem()}} to {{$myfile->lastItem()}} of {{$myfile->total()}} entries
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-center mt-md-0 mt-2">
-                                <div>
-                                    {{$myfile->links()}}
-                                </div>
-                            </div>
-                        </div>
+                        <x-paginating :table="$myfile" />
                         <!-- .pagination -->
                     </div>
                 </div>

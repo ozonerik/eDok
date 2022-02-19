@@ -140,23 +140,17 @@
                                         </td>
                                     </tr>
                                     @endforeach
+                                    @if($users->count() == 0)
+                                    <tr>
+                                        <td colspan="7" class="text-center text-muted">No Result</td>
+                                    </tr>
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
                         <!-- .table -->
                         <!-- pagination -->
-                        <div class="d-flex flex-column flex-md-row mt-3 mt-md-0 ">
-                            <div class="me-md-auto text-muted d-flex justify-content-center">
-                                <div>
-                                    Showing {{$users->firstItem()}} to {{$users->lastItem()}} of {{$users->total()}} entries
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-center mt-md-0 mt-2">
-                                <div>
-                                    {{$users->links()}}
-                                </div>
-                            </div>
-                        </div>
+                        <x-paginating :table="$users" />
                         <!-- .pagination -->
                     </div>
                 </div>

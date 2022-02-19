@@ -71,62 +71,49 @@
                         @endif
                         <!-- .selection messages -->
                         <!-- table -->
-                        <div class="table-responsive">
-                            <table class="table table-borderless table-hover table-rounded">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th class="text-center"><input type="checkbox" wire:model="selectPage"></th>
-                                        <th>No</th>
-                                        <th style="cursor:pointer;" wire:click="sortBy('category_name')"><x-SortState colName="category_name"  :sortBy="$sortBy" :sortDir="$sortDirection">Category</x-SortState></th>
-                                        <th style="cursor:pointer;" wire:click="sortBy('name')"><x-SortState colName="name"  :sortBy="$sortBy" :sortDir="$sortDirection">File Name</x-SortState></th>
-                                        <th style="cursor:pointer;" wire:click="sortBy('user_name')"><x-SortState colName="user_name"  :sortBy="$sortBy" :sortDir="$sortDirection">Owner</x-SortState></th>
-                                        <th style="cursor:pointer;" wire:click="sortBy('file_size')"><x-SortState colName="file_size"  :sortBy="$sortBy" :sortDir="$sortDirection">File Size</x-SortState></th>
-                                        <th style="cursor:pointer;" wire:click="sortBy('updated_at')"><x-SortState colName="updated_at"  :sortBy="$sortBy" :sortDir="$sortDirection">Updated At</x-SortState></th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($myfile as $key => $row)
-                                    <tr class="@if($this->is_checked($row->id)) table-primary @endif">
-                                        <td class="text-center"><input type="checkbox" value="{{ $row->id }}" wire:model="checked"></td>
-                                        <td>{{ $myfile->firstItem() + $key}}</td>
-                                        <td>{{ $row->category_name }}</td>
-                                        <td>{{ $row->name }}</td>
-                                        <td>{{ $row->user_name }}</td>
-                                        <td>{{ convert_bytes($row->file_size) }}</td>
-                                        <td>{{ $row->updated_at }}</td>
-                                        <td>
-                                        @if(Storage::disk('public')->exists($row->path))
-                                        <button wire:click.prevent="export({{$row->id}})" class="btn btn-success btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download"><i class="bi bi-cloud-arrow-down-fill"></i></button>
-                                        @else
-                                        <button class="btn btn-secondary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download" disabled><i class="bi bi-cloud-arrow-down-fill"></i></button>
-                                        @endif
-                                        <button wire:click.prevent="removesingle({{$row->id}})" class="btn btn-danger btn-sm text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="bi bi-trash-fill"></i></button> 
-                                    </td>
-                                    </tr>
-                                    @endforeach
-                                    @if($myfile->count() == 0)
-                                    <tr>
-                                        <td colspan="8" class="text-center">No Result</td>
-                                    </tr>
+                        <x-TableSlot>
+                            <x-slot:thead>
+                                <tr>
+                                    <th class="text-center"><input type="checkbox" wire:model="selectPage"></th>
+                                    <th>No</th>
+                                    <th style="cursor:pointer;" wire:click="sortBy('category_name')"><x-SortState colName="category_name"  :sortBy="$sortBy" :sortDir="$sortDirection">Category</x-SortState></th>
+                                    <th style="cursor:pointer;" wire:click="sortBy('name')"><x-SortState colName="name"  :sortBy="$sortBy" :sortDir="$sortDirection">File Name</x-SortState></th>
+                                    <th style="cursor:pointer;" wire:click="sortBy('user_name')"><x-SortState colName="user_name"  :sortBy="$sortBy" :sortDir="$sortDirection">Owner</x-SortState></th>
+                                    <th style="cursor:pointer;" wire:click="sortBy('file_size')"><x-SortState colName="file_size"  :sortBy="$sortBy" :sortDir="$sortDirection">File Size</x-SortState></th>
+                                    <th style="cursor:pointer;" wire:click="sortBy('updated_at')"><x-SortState colName="updated_at"  :sortBy="$sortBy" :sortDir="$sortDirection">Updated At</x-SortState></th>
+                                    <th>Action</th>
+                                </tr>
+                            </x-slot>
+                            <x-slot:tbody>
+                                @foreach($myfile as $key => $row)
+                                <tr class="@if($this->is_checked($row->id)) table-primary @endif">
+                                    <td class="text-center"><input type="checkbox" value="{{ $row->id }}" wire:model="checked"></td>
+                                    <td>{{ $myfile->firstItem() + $key}}</td>
+                                    <td>{{ $row->category_name }}</td>
+                                    <td>{{ $row->name }}</td>
+                                    <td>{{ $row->user_name }}</td>
+                                    <td>{{ convert_bytes($row->file_size) }}</td>
+                                    <td>{{ $row->updated_at }}</td>
+                                    <td>
+                                    @if(Storage::disk('public')->exists($row->path))
+                                    <button wire:click.prevent="export({{$row->id}})" class="btn btn-success btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download"><i class="bi bi-cloud-arrow-down-fill"></i></button>
+                                    @else
+                                    <button class="btn btn-secondary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download" disabled><i class="bi bi-cloud-arrow-down-fill"></i></button>
                                     @endif
-                                </tbody>
-                            </table>
-                        </div>
+                                    <button wire:click.prevent="removesingle({{$row->id}})" class="btn btn-danger btn-sm text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="bi bi-trash-fill"></i></button> 
+                                </td>
+                                </tr>
+                                @endforeach
+                                @if($myfile->count() == 0)
+                                <tr>
+                                    <td colspan="8" class="text-center text-muted">No Result</td>
+                                </tr>
+                                @endif
+                            </x-slot>
+                        </x-TableSlot>
                         <!-- .table -->
                         <!-- pagination -->
-                        <div class="d-flex flex-column flex-md-row mt-3 mt-md-0 ">
-                            <div class="me-md-auto text-muted d-flex justify-content-center">
-                                <div>
-                                    Showing {{$myfile->firstItem()}} to {{$myfile->lastItem()}} of {{$myfile->total()}} entries
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-center mt-md-0 mt-2">
-                                <div>
-                                    {{$myfile->links()}}
-                                </div>
-                            </div>
-                        </div>
+                        <x-paginating :table="$myfile" />
                         <!-- .pagination -->
                     </div>
                 </div>
