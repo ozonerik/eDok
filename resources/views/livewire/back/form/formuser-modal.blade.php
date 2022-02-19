@@ -114,7 +114,7 @@
         @endforeach
         </ol>
         <div class="text-center mt-1">
-          <small class="text-danger">*All selected files will be permanently deleted</small>
+          <small class="text-danger">*All files from the selected users will be permanently deleted</small>
         </div>
       </div>
       <div class="modal-footer">
