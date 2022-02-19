@@ -66,7 +66,7 @@ document.addEventListener('livewire:load', function () {
                                     <td>{{ get_categories_size($row->id,$row->user->id) }}</td>
                                     <td>{{ $row->updated_at }}</td>
                                     <td>
-                                    @if(($row->user->roles->pluck('name')->implode(',')!=='admin') or ($auth_id == $row->user_id))
+                                    @if(($row->user->roles->pluck('name') == ['admin']) or ($auth_id == $row->user_id))
                                     <button wire:click.prevent="remove({{$row->id}})" class="btn btn-danger btn-sm text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
                                         <i class="bi bi-trash"></i>
                                     </button>

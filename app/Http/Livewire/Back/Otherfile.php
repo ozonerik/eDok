@@ -5,7 +5,9 @@ namespace App\Http\Livewire\Back;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use App\Models\Myfile;
 use Zip;
 
@@ -130,7 +132,7 @@ class Otherfile extends Component
     //download zip
     public function zipdownload(){
         $myfiles = Myfile::with(['user','filecategory'])->whereIn('id',$this->checked)->get();
-        $filename=Carbon::now()->timestamp.'.zip';
+        $filename='eDokZip_'.Str::random(10).'.zip';
         $zip=Zip::create($filename);
         foreach($myfiles as $row){
             $file=pathinfo($row->path);
@@ -158,6 +160,7 @@ class Otherfile extends Component
     {
         $data['myfile']=$this->Myfile;
         $data['delsel']=Myfile::with(['user','filecategory'])->find($this->myfile_id);
+        $data['auth_id']=Auth::user()->id;
         return view('livewire.back.otherfile',$data)->layout('layouts.appclear');
     }
 }
