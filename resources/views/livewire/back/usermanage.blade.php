@@ -90,22 +90,7 @@
                         </div>
                         <!-- .table menu -->
                         <!-- selection messages -->
-                        @if($selectPage)
-                        <div class="d-flex flex-column flex-md-row justify-content-center mb-3">
-                                @if($selectAll)
-                                <div class="text-center">
-                                You have selected All <strong>{{$users->total()}}</strong> items. <a href="#" wire:click="deselectAll">Deselect All</a>
-                                </div>
-                                @else
-                                <div class="me-md-2 text-center">
-                                You have selected <strong>{{ count($checked) }}</strong> items. 
-                                </div>
-                                <div class="text-center">
-                                Do you want to Select All <strong>{{$users->total()}}</strong> items ? <a href="#" wire:click="selectAll">Select All</a>
-                                </div>
-                                @endif
-                        </div>
-                        @endif
+                        <x-SelMsg :table="$users" :selectPage="$selectPage" :selectAll="$selectAll" :checked="$checked" linkDeselect="deselectAll" linkSelect="selectAll"/>
                         <!-- .selection messages -->
                         <!-- table -->
                         <x-TableSlot :table="$users" ncol="7">
