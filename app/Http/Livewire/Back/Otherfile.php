@@ -114,7 +114,7 @@ class Otherfile extends Component
         $this->checked = array_diff($this->checked,$this->myfile_id );
         $this->dispatchBrowserEvent('hide-form-del');
         $this->dispatchBrowserEvent('alert',[
-            'type'=>'error',
+            'type'=>'success',
             'message'=>'Deleted items successfully.'
         ]);
     }

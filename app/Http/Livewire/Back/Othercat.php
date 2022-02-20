@@ -118,7 +118,7 @@ class Othercat extends Component
     public function delete()
     {
         $cat = Filecategory::whereIn('id',$this->category_id);
-        foreach($this->cat as $path){
+        foreach($cat->get() as $path){
             Storage::disk('public')->deleteDirectory('myfiles/'.$path->user_id.'/'.$path->id);
         }
         $cat->delete();
@@ -126,7 +126,7 @@ class Othercat extends Component
         $this->checked = array_diff($this->checked,$this->category_id );
         $this->dispatchBrowserEvent('hide-form-del');
         $this->dispatchBrowserEvent('alert',[
-            'type'=>'error',
+            'type'=>'success',
             'message'=>'Deleted items successfully.'
         ]);
     }

@@ -115,7 +115,7 @@ class Usermanage extends Component
         $this->resetCreateForm();
         $this->dispatchBrowserEvent('hide-form-del');
         $this->dispatchBrowserEvent('alert',[
-            'type'=>'error',
+            'type'=>'success',
             'message'=>'Data deleted successfully.'
         ]); 
     }
