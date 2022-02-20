@@ -9,7 +9,6 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
-use Illuminate\Support\Collection;
 use Livewire\WithPagination;
 
 class Usermanage extends Component
@@ -26,7 +25,7 @@ class Usermanage extends Component
     public $modeEdit=false;
     public $user_id=[];
     public $states=[];
-    public $old_user_password;
+    public $old_user_password,$ids;
 
     //lifecylce hook get<namafungsi>Property
     public function getUserProperty(){
@@ -97,6 +96,7 @@ class Usermanage extends Component
     }
     //remove from single
     public function removesingle($id){
+        $this->ids= $id;
         $this->user_id = [$id];
         $this->dispatchBrowserEvent('show-form-del');
     }
@@ -143,6 +143,7 @@ class Usermanage extends Component
     private function resetCreateForm(){
         $this->modeEdit=false;
         $this->user_id = [];
+        $this->ids = '';
         $this->states['name'] = '';
         $this->states['email'] = '';
         $this->states['password'] = '';
@@ -163,13 +164,12 @@ class Usermanage extends Component
     //store add/edit single
     public function store()
     {
-        $ids=collect($this->user_id)->implode(',');
         if(!$this->modeEdit){ 
             Validator::make($this->states,[
                 'name' => 'required',
                 'email' => [
                     'required','email',
-                    Rule::unique('users')->ignore($ids),
+                    Rule::unique('users')->ignore($this->ids),
                 ],
                 'password' => 'required|min:8|confirmed',
                 'role' => 'required',
@@ -180,7 +180,7 @@ class Usermanage extends Component
                 'name' => 'required',
                 'email' => [
                     'required','email',
-                    Rule::unique('users')->ignore($ids),
+                    Rule::unique('users')->ignore($this->ids),
                 ],
                 'password' => 'nullable|min:8|confirmed',
                 'role' => 'required',
@@ -192,7 +192,7 @@ class Usermanage extends Component
         } else {
             $password=$this->old_user_password;
         }
-        $user=User::updateOrCreate(['id' => $ids], [
+        $user=User::updateOrCreate(['id' => $this->ids], [
             'name' => $this->states['name'],
             'email' => $this->states['email'],
             'password' => $password,
@@ -211,6 +211,7 @@ class Usermanage extends Component
     {
         $this->modeEdit=true;
         $user = User::findOrFail($id);
+        $this->ids = $id;
         $this->user_id = [$id];
         $this->states['name'] = $user->name;
         $this->states['email'] = $user->email;

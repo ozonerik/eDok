@@ -3,43 +3,115 @@
 namespace App\Http\Livewire\Back;
 
 use Livewire\Component;
-use Illuminate\Support\Facades\Validator;
+use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use App\Models\Filecategory;
+use Zip;
 
 class Othercat extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    public $sortBy = 'updated_at';
+    public $sortDirection = 'desc';
+    public $perhal = 2 ;
+    public $checked = [];
+    public $inpsearch = "";
+    public $selectPage = false;
+    public $selectAll = false;
     public $modeEdit=false;
-    public $category_id,$category_name,$by;
-    public $delfolder='';
+    public $category_id=[];
+    
 
-    public function remove($id)
+    //lifecylce hook get<namafungsi>Property
+    public function getMycatProperty(){
+        return $this->MycatQuery->paginate($this->perhal);
+    }
+    //lifecylce hook get<namafungsi>Property
+    public function getMycatQueryProperty(){
+        $cat = Filecategory::query();
+        return $cat;
+    }
+    //lifecylce hook updated<namavariable>
+    public function updatedSelectPage($value){
+        if($value){
+            $this->checked = $this->Mycat->pluck('id')->map(fn($item) => (string) $item)->toArray();
+        }else{
+            $this->checked = [];
+            $this->selectAll=false;
+        }
+    }
+    //lifecylce hook updated<namavariable>
+    public function updatedChecked($value){
+        $this->selectPage=false;
+        $this->selectAll=false;
+    }
+    //end lifecycle
+
+    //selection
+    public function selectAll(){
+        $this->selectAll=true;
+        if($this->selectAll){
+            $this->checked = $this->MycatQuery->pluck('id')->map(fn($item) => (string) $item)->toArray();
+        }else{
+            $this->checked = [];
+        }
+    }
+    public function deselectAll(){
+        $this->selectAll=false;
+        $this->selectPage=false;
+        $this->checked = [];
+    }
+    public function is_checked($id){
+        return in_array($id,$this->checked);
+    }
+    //end selection
+    //sorting
+    public function sortBy($field)
     {
-        $this->modeEdit=false;
-        $filecategory = Filecategory::with(['user'])->findOrFail($id);
-        $this->category_id = $id;
-        $this->category_name = $filecategory->name;
-        $this->by = $filecategory->user->name;
-        $this->delfolder='myfiles/'.$filecategory->user_id.'/'.$filecategory->id;
+        if($this->sortDirection == 'asc'){
+            $this->sortDirection = 'desc';
+        }else{
+            $this->sortDirection = 'asc';
+        }
+        return $this->sortBy = $field;
+    }
+    
+    //remove
+    public function removeselection()
+    {
+        $this->category_id = $this->checked;
         $this->dispatchBrowserEvent('show-form-del');
     }
-    public function delete($id)
+    public function removesingle($id){
+        $this->category_id = [$id];
+        $this->dispatchBrowserEvent('show-form-del');
+    }
+
+    public function delete()
     {
-        Filecategory::find($id)->delete();
-        Storage::disk('public')->deleteDirectory($this->delfolder);
+        $cat = Filecategory::whereIn('id',$this->category_id);
+        foreach($this->cat as $path){
+            Storage::disk('public')->deleteDirectory('myfiles/'.$path->user_id.'/'.$path->id);
+        }
+        $cat->delete();
+        $this->selectPage=false;
+        $this->checked = array_diff($this->checked,$this->category_id );
+        $this->dispatchBrowserEvent('hide-form-del');
         $this->dispatchBrowserEvent('alert',[
             'type'=>'error',
-            'message'=>'Data deleted successfully.'
+            'message'=>'Deleted items successfully.'
         ]);
-        $this->dispatchBrowserEvent('hide-form-del');
-        return redirect()->route('othercat');
     }
+    //end remove
 
     public function render()
     {
-        $catUser = Filecategory::orderBy('updated_at', 'desc')->get();
-        $data['myfilecat']=$catUser;
+        $data['myfilecat']=$this->MyCat;
+        $data['delsel']=Filecategory::with(['user'])->find($this->category_id);
         $data['auth_id']=Auth::user()->id;
-        return view('livewire.back.othercat',$data)->layout('layouts.app');
+        return view('livewire.back.othercat',$data)->layout('layouts.appclear');
     }
 }

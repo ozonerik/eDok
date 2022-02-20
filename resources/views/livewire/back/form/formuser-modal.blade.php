@@ -43,7 +43,7 @@
     @if($modeEdit) Edit User Selection @endif
   </x-slot>
   <x-slot:modalbody>
-    <div class="text-center mb-1">Do you want edit this @if($user_id) {{ count($user_id) }} @endif items ?</div>
+    <div class="text-center mb-1">Do you want edit this @if($user_id) {{ count($user_id) }} @endif users ?</div>
     <div class="overflow-auto" style="height:100px">
       <ol class="list-group list-group-numbered mb-3">
       @foreach($delsel as $row)
@@ -80,7 +80,7 @@
     Delete User Confirmation
   </x-slot>
   <x-slot:modalbody>
-    <div class="text-center mb-1">Do you want delete this @if($user_id) {{ count($user_id) }} @endif items ?</div>
+    <div class="text-center mb-1">Do you want delete this @if($user_id) {{ count($user_id) }} @endif users ?</div>
       <ol class="list-group list-group-numbered">
       @foreach($delsel as $row)
         <li class="list-group-item list-group-item-action">{{$row->name}}</li>
