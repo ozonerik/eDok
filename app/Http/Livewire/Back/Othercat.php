@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Filecategory;
+use Illuminate\Support\Facades\DB;
 use Zip;
 
 class Othercat extends Component
@@ -24,14 +25,38 @@ class Othercat extends Component
     public $modeEdit=false;
     public $category_id=[];
     
-
     //lifecylce hook get<namafungsi>Property
     public function getMycatProperty(){
         return $this->MycatQuery->paginate($this->perhal);
     }
     //lifecylce hook get<namafungsi>Property
     public function getMycatQueryProperty(){
+        
+        $sizeCat = DB::table('myfiles')
+                   ->select('user_id','filecategory_id', DB::raw('SUM(file_size) as file_size_category'))
+                   ->groupBy('user_id')
+                   ->groupBy('filecategory_id');
+
         $cat = Filecategory::query();
+        $cat->select('filecategories.*','size_cat.file_size_category','users.name as user_name');
+        $cat->join('users','filecategories.user_id','=','users.id');
+        $cat->joinSub($sizeCat, 'size_cat', function ($join) {
+            $join->on('filecategories.id', '=', 'size_cat.filecategory_id');
+            $join->on('filecategories.user_id', '=', 'size_cat.user_id');
+        });
+        $cat->where('filecategories.name','like','%'.$this->inpsearch.'%');
+        $cat->orwhere('users.name','like','%'.$this->inpsearch.'%');
+        if($this->sortBy=="category_name"){
+            $cat->orderby('filecategories.name',$this->sortDirection);
+        }else if($this->sortBy=="owner"){
+            $cat->orderby('users.name',$this->sortDirection);
+        }else if($this->sortBy=='cat_size'){
+            $cat->orderby('size_cat.file_size_category',$this->sortDirection);
+        }else if($this->sortBy=='updated_at'){
+            $cat->orderby('filecategories.updated_at',$this->sortDirection);
+        }else if($this->sortBy=='is_public'){
+            $cat->orderby('filecategories.is_public',$this->sortDirection);
+        }
         return $cat;
     }
     //lifecylce hook updated<namavariable>

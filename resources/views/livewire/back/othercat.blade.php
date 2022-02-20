@@ -50,13 +50,13 @@
                     <td class="text-center"><input type="checkbox" value="{{ $row->id }}" wire:model="checked"></td>
                     <td>{{ $myfilecat->firstItem() + $key}}</td>
                     <td>{{ $row->name }}</td>
-                    <td>{{ $row->user->name }}</td>
-                    <td>{{ get_categories_size($row->id,$row->user->id) }}</td>
+                    <td>{{ $row->user_name }}</td>
+                    <td>{{ convert_bytes($row->file_size_category) }}</td>
                     <td>{{ $row->updated_at }}</td>
                     <td>@if($row->is_public) Yes @else No @endif</td>
                     <td>
                     @if(($row->user->roles->pluck('name')->implode(',') != 'admin') or ($auth_id == $row->user_id))
-                    <button wire:click.prevent="removesingle({{$row->id}})" class="btn btn-danger btn-sm text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                    <button wire:click.prevent="removesingle({{ $row->id }})" class="btn btn-danger btn-sm text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
                         <i class="bi bi-trash"></i>
                     </button>
                     @else
