@@ -134,12 +134,14 @@ class Otherfile extends Component
     //download zip
     public function zipdownload(){
         $myfiles = Myfile::with(['user','filecategory'])->whereIn('id',$this->checked)->get();
-        $filename='eDokZip_'.Str::random(10).'.zip';
+        $filename='eDokFile_'.Str::random(10).'.zip';
         $zip=Zip::create($filename);
         foreach($myfiles as $row){
             $file=pathinfo($row->path);
+            $date=Carbon::now()->format('Y-m-d');
+            $rename=$row->name." (".$row->user->name.") (".$date.")".".".$file['extension'];
             if(Storage::disk('public')->exists($row->path)){
-                $zip->add(Storage::disk('public')->path($row->path),$row->name.'-'.$row->user->name.'.'.$file['extension']);
+                $zip->add(Storage::disk('public')->path($row->path),$rename);
             } 
         }
         $pathzip='ZipFiles/';
@@ -153,7 +155,8 @@ class Otherfile extends Component
         $date=Carbon::now()->format('Y-m-d');
         $myfile = Myfile::with(['user','filecategory'])->findOrFail($id);
         $url=$myfile->path;
-        $rename=$myfile->name." (".$myfile->user->name.") (".$date.").pdf";
+        $file=pathinfo($myfile->path);
+        $rename=$myfile->name." (".$myfile->user->name.") (".$date.")".".".$file['extension'];
         $headers = ['Content-Type: application/pdf'];
         return Storage::disk('public')->download($url, $rename, $headers);
     }

@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Models\Filecategory;
+use App\Models\Myfile;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use Zip;
 
 class Othercat extends Component
@@ -33,7 +35,7 @@ class Othercat extends Component
     public function getMycatQueryProperty(){
         
         $sizeCat = DB::table('myfiles')
-                   ->select('user_id','filecategory_id', DB::raw('SUM(file_size) as file_size_category'))
+                   ->select('user_id','filecategory_id',DB::raw('SUM(file_size) as file_size_category'))
                    ->groupBy('user_id')
                    ->groupBy('filecategory_id');
 
@@ -131,7 +133,48 @@ class Othercat extends Component
         ]);
     }
     //end remove
+    //download zip
+    public function zipdownload(){
+        $myfiles = Myfile::with(['user','filecategory'])->whereIn('filecategory_id',$this->checked)->get();
+        $filename='eDokCat_'.Str::random(10).'.zip';
+        $zip=Zip::create($filename);
+        $pathzip='ZipFiles/';
+        foreach($myfiles as $key => $row){
+            $file=pathinfo($row->path);
+            $user_name=$row->user->name;
+            $cat_name=$row->filecategory->name;
+            $date=Carbon::now()->format('Y-m-d');
+            $rename=$row->name." (".$row->user->name.") (".$date.")".".".$file['extension'];
 
+            if(Storage::disk('public')->exists($row->path)){
+                $zip->add(Storage::disk('public')->path($row->path),$user_name.'/'.$cat_name.'/'.$rename);
+            }
+        }
+        $zip->saveTo(Storage::disk('public')->path($pathzip));
+        $downloadpath=Storage::disk('public')->path($pathzip.$filename);
+        return response()->download($downloadpath)->deleteFileAfterSend(true);
+    }
+    //download file
+    public function export($id){
+        $myfiles = Myfile::with(['user','filecategory'])->whereIn('filecategory_id',[$id])->get();
+        $filename='eDokCat_'.Str::random(10).'.zip';
+        $zip=Zip::create($filename);
+        $pathzip='ZipFiles/';
+        foreach($myfiles as $key => $row){
+            $file=pathinfo($row->path);
+            $user_name=$row->user->name;
+            $cat_name=$row->filecategory->name;
+            $date=Carbon::now()->format('Y-m-d');
+            $rename=$row->name." (".$row->user->name.") (".$date.")".".".$file['extension'];
+
+            if(Storage::disk('public')->exists($row->path)){
+                $zip->add(Storage::disk('public')->path($row->path),$user_name.'/'.$cat_name.'/'.$rename);
+            }
+        }
+        $zip->saveTo(Storage::disk('public')->path($pathzip));
+        $downloadpath=Storage::disk('public')->path($pathzip.$filename);
+        return response()->download($downloadpath)->deleteFileAfterSend(true);
+    }
     public function render()
     {
         $data['myfilecat']=$this->MyCat;
