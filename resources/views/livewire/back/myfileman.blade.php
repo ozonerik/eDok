@@ -78,7 +78,7 @@ document.addEventListener('livewire:load', function () {
                                     @endhasrole
                                     <th>Is Public</th>
                                     <th>Owner</th>
-                                    <th>File Size</th>
+                                    <th>Size</th>
                                     <th>Updated</th>
                                     <th>Action</th>
                                 </tr>
