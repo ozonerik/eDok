@@ -41,8 +41,8 @@ class Othercat extends Component
 
         $cat = Filecategory::query();
         $cat->select('filecategories.*','size_cat.file_size_category','users.name as user_name');
-        $cat->join('users','filecategories.user_id','=','users.id');
-        $cat->joinSub($sizeCat, 'size_cat', function ($join) {
+        $cat->leftjoin('users','filecategories.user_id','=','users.id');
+        $cat->leftjoinSub($sizeCat, 'size_cat', function ($join) {
             $join->on('filecategories.id', '=', 'size_cat.filecategory_id');
             $join->on('filecategories.user_id', '=', 'size_cat.user_id');
         });

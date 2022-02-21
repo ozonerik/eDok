@@ -13,6 +13,22 @@ function get_categories_size($category_id,$user_id){
     return convert_bytes(Arr::get($myfile, 'category_size'));
 }
 
+function getfilescat($category_id){
+    $myfile = Myfile::Where('filecategory_id',$category_id)
+    ->get()
+    ->pluck('path')
+    ->toArray();
+    return $myfile;
+}
+
+function getfilesuser($user_id){
+    $myfile = Myfile::where('user_id',$user_id)
+    ->get()
+    ->pluck('path')
+    ->toArray();
+    return $myfile;
+}
+
 function convert_bytes($set_bytes){
     $set_kb = 1024;
     $set_mb = $set_kb * 1024;
