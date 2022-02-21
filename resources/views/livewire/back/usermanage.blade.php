@@ -54,6 +54,7 @@
             <x-slot:dropdownmenu>
                 <li><button wire:click="removeselection" class="dropdown-item">Delete</button></li>
                 <li><button wire:click="editselection" class="dropdown-item">Edit</button></li>
+                <li><button wire:click="zipdownload" class="dropdown-item">Download (.zip)</button></li>
             </x-slot>
             <div class="mb-2 mb-md-0 me-md-2">
                 <div class="btn-group w-100">
@@ -93,9 +94,14 @@
                         <button wire:click.prevent="edit({{ $row->id }})" class="btn btn-primary text-light btn-sm me-md-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
                             <i class="bi bi-pencil-square"></i>
                         </button>
-                        <button wire:click.prevent="removesingle({{ $row->id }})" class="btn btn-danger btn-sm text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
+                        <button wire:click.prevent="removesingle({{ $row->id }})" class="btn btn-danger btn-sm text-light me-md-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
                             <i class="bi bi-trash"></i>
                         </button>
+                        @if(Storage::disk('public')->exists('myfiles/'.$row->user_id.'/'))
+                        <button wire:click.prevent="export({{$row->id}})" class="btn btn-success btn-sm text-light me-md-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download"><i class="bi bi-cloud-arrow-down-fill"></i></button>
+                        @else
+                        <button class="btn btn-secondary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download" disabled><i class="bi bi-cloud-arrow-down-fill"></i></button>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

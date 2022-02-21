@@ -57,17 +57,17 @@
                     <td>{{ $row->updated_at }}</td>
                     <td>@if($row->is_public) Yes @else No @endif</td>
                     <td>
-                    @if(Storage::disk('public')->exists($row->path))
-                    <button wire:click.prevent="export({{$row->id}})" class="btn btn-success btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download"><i class="bi bi-cloud-arrow-down-fill"></i></button>
-                    @else
-                    <button class="btn btn-secondary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download" disabled><i class="bi bi-cloud-arrow-down-fill"></i></button>
-                    @endif
-                    @if(($row->user->roles->pluck('name')->implode(',') != 'admin') or ($auth_id == $row->user_id))
-                    <button wire:click.prevent="removesingle({{$row->id}})" class="btn btn-danger btn-sm text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="bi bi-trash-fill"></i></button>
-                    @else
-                    <button class="btn btn-secondary btn-sm text-light" disabled><i class="bi bi-trash-fill"></i></button>
-                    @endif
-                </td>
+                        @if(($row->user->roles->pluck('name')->implode(',') != 'admin') or ($auth_id == $row->user_id))
+                        <button wire:click.prevent="removesingle({{$row->id}})" class="btn btn-danger btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="bi bi-trash-fill"></i></button>
+                        @else
+                        <button class="btn btn-secondary btn-sm text-light me-1 mb-2 mb-md-0" disabled><i class="bi bi-trash-fill"></i></button>
+                        @endif
+                        @if(Storage::disk('public')->exists($row->path))
+                        <button wire:click.prevent="export({{$row->id}})" class="btn btn-success btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download"><i class="bi bi-cloud-arrow-down-fill"></i></button>
+                        @else
+                        <button class="btn btn-secondary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download" disabled><i class="bi bi-cloud-arrow-down-fill"></i></button>
+                        @endif
+                    </td>
                 </tr>
                 @endforeach
             </x-slot>

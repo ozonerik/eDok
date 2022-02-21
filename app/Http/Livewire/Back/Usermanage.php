@@ -130,7 +130,48 @@ class Usermanage extends Component
         }
         return $this->sortBy = $field;
     }
+    //download zip
+    public function zipdownload(){
+        $myfiles = Myfile::with(['user','filecategory'])->whereIn('user_id',$this->checked)->get();
+        $filename='eDokUsr_'.Str::random(10).'.zip';
+        $zip=Zip::create($filename);
+        $pathzip='ZipFiles/';
+        foreach($myfiles as $key => $row){
+            $file=pathinfo($row->path);
+            $user_name=$row->user->name;
+            $cat_name=$row->filecategory->name;
+            $date=Carbon::now()->format('Y-m-d');
+            $rename=$row->name." (".$row->user->name.") (".$date.")".".".$file['extension'];
 
+            if(Storage::disk('public')->exists($row->path)){
+                $zip->add(Storage::disk('public')->path($row->path),$user_name.'/'.$cat_name.'/'.$rename);
+            }
+        }
+        $zip->saveTo(Storage::disk('public')->path($pathzip));
+        $downloadpath=Storage::disk('public')->path($pathzip.$filename);
+        return response()->download($downloadpath)->deleteFileAfterSend(true);
+    }
+    //download file
+    public function export($id){
+        $myfiles = Myfile::with(['user','filecategory'])->whereIn('user_id',[$id])->get();
+        $filename='eDokUsr_'.Str::random(10).'.zip';
+        $zip=Zip::create($filename);
+        $pathzip='ZipFiles/';
+        foreach($myfiles as $key => $row){
+            $file=pathinfo($row->path);
+            $user_name=$row->user->name;
+            $cat_name=$row->filecategory->name;
+            $date=Carbon::now()->format('Y-m-d');
+            $rename=$row->name." (".$row->user->name.") (".$date.")".".".$file['extension'];
+
+            if(Storage::disk('public')->exists($row->path)){
+                $zip->add(Storage::disk('public')->path($row->path),$user_name.'/'.$cat_name.'/'.$rename);
+            }
+        }
+        $zip->saveTo(Storage::disk('public')->path($pathzip));
+        $downloadpath=Storage::disk('public')->path($pathzip.$filename);
+        return response()->download($downloadpath)->deleteFileAfterSend(true);
+    }
     public function render()
     {
         $data['roles'] = Role::all();
