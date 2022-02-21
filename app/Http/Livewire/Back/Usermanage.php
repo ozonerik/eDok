@@ -10,6 +10,7 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Myfile;
 use Livewire\WithPagination;
@@ -37,10 +38,17 @@ class Usermanage extends Component
     }
     //lifecylce hook get<namafungsi>Property
     public function getUserQueryProperty(){
+        $sizeUser = DB::table('myfiles')
+        ->select('user_id',DB::raw('SUM(file_size) as file_size_user'))
+        ->groupBy('user_id');
+
         $user = User::query();
-        $user->select('users.*','roles.name as roles_name');
+        $user->select('users.*','roles.name as roles_name','size_user.file_size_user as user_size');
         $user->leftJoin('model_has_roles','model_has_roles.model_id','=','users.id');
-        $user->join('roles','roles.id','=','model_has_roles.role_id');
+        $user->leftjoin('roles','roles.id','=','model_has_roles.role_id');
+        $user->leftjoinSub($sizeUser, 'size_user', function ($join) {
+            $join->on('users.id', '=', 'size_user.user_id');
+        });
         $user->where('users.name','like','%'.$this->inpsearch.'%');
         $user->orwhere('users.email','like','%'.$this->inpsearch.'%');
         $user->orwhereHas('roles', function($q) {
@@ -54,7 +62,10 @@ class Usermanage extends Component
             $user->orderby('users.updated_at',$this->sortDirection);
         }else if($this->sortBy=='roles'){
             $user->orderby('roles.name',$this->sortDirection);
-        }         
+        }else if($this->sortBy=='user_size'){
+            $user->orderby('size_user.file_size_user',$this->sortDirection);
+        }
+                 
         return $user;
     }
     //lifecylce hook updated<namavariable>

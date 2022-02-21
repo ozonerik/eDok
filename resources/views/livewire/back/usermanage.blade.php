@@ -77,6 +77,7 @@
                     <th style="cursor:pointer;" wire:click="sortBy('name')"><x-SortState colName="name"  :sortBy="$sortBy" :sortDir="$sortDirection">User Name</x-SortState></th>
                     <th style="cursor:pointer;" wire:click="sortBy('email')"><x-SortState colName="email"  :sortBy="$sortBy" :sortDir="$sortDirection">Email</x-SortState></th>
                     <th style="cursor:pointer;" wire:click="sortBy('roles')"><x-SortState colName="roles"  :sortBy="$sortBy" :sortDir="$sortDirection">Roles</x-SortState></th>
+                    <th style="cursor:pointer;" wire:click="sortBy('user_size')"><x-SortState colName="user_size"  :sortBy="$sortBy" :sortDir="$sortDirection">Size</x-SortState></th>
                     <th style="cursor:pointer;" wire:click="sortBy('updated_at')"><x-SortState colName="updated_at"  :sortBy="$sortBy" :sortDir="$sortDirection">Updated</x-SortState></th>
                     <th>Action</th>
                 </tr>
@@ -89,6 +90,7 @@
                     <td>{{ $row->name }}</td>
                     <td>{{ $row->email }}</td>
                     <td>{{ $row->roles_name }}</td>
+                    <td>{{ convert_bytes($row->user_size) }}</td>
                     <td>{{ $row->updated_at }}</td>
                     <td>
                         <button wire:click.prevent="edit({{ $row->id }})" class="btn btn-primary text-light btn-sm me-md-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
