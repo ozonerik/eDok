@@ -8,8 +8,12 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use App\Models\User;
+use App\Models\Myfile;
 use Livewire\WithPagination;
+use Zip;
 
 class Usermanage extends Component
 {
