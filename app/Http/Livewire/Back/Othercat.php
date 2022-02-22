@@ -106,10 +106,23 @@ class Othercat extends Component
         return $this->sortBy = $field;
     }
     
+    //get not admin except auth
+    public function get_notadmin(){
+        $newchecked=[];
+        $cat=Filecategory::WhereIn('id',$this->checked)->get();
+        foreach($cat as $key => $row){
+            if(!cek_adminId($row->user_id) or (Auth::user()->id == $row->user_id)){
+                $newchecked[$key]=(string)$row->id;
+            }   
+        }
+        return $newchecked;
+    }
+
     //remove
     public function removeselection()
     {
-        $this->category_id = $this->checked;
+        $this->category_id = $this->get_notadmin();
+        //$this->category_id = $this->checked;
         $this->dispatchBrowserEvent('show-form-del');
     }
     public function removesingle($id){
@@ -178,7 +191,8 @@ class Othercat extends Component
     public function render()
     {
         $data['myfilecat']=$this->MyCat;
-        $data['delsel']=$this->MycatQuery->find($this->category_id);
+        $data['delsel']= Filecategory::find($this->category_id);
+        //$data['delsel']=$this->MycatQuery->find($this->category_id);
         $data['auth_id']=Auth::user()->id;
         return view('livewire.back.othercat',$data)->layout('layouts.appclear');
     }

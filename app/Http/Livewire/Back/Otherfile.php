@@ -88,10 +88,23 @@ class Otherfile extends Component
     }
     //end selection
     
+    //get not admin except auth
+    public function get_notadmin(){
+        $newchecked=[];
+        $myfile=Myfile::WhereIn('id',$this->checked)->get();
+        foreach($myfile as $key => $row){
+            if(!cek_adminId($row->user_id) or (Auth::user()->id == $row->user_id)){
+                $newchecked[$key]=(string)$row->id;
+            }   
+        }
+        return $newchecked;
+    }
+    
     //remove
     public function removeselection()
     {
-        $this->myfile_id = $this->checked;
+        $this->myfile_id = $this->get_notadmin();
+        //$this->myfile_id = $this->checked;
         $this->dispatchBrowserEvent('show-form-del');
     }
     public function removesingle($id){
@@ -164,7 +177,8 @@ class Otherfile extends Component
     public function render()
     {
         $data['myfile']=$this->Myfile;
-        $data['delsel']=$this->MyfileQuery->find($this->myfile_id);
+        //$data['delsel']=$this->MyfileQuery->find($this->myfile_id);
+        $data['delsel']=Myfile::find($this->myfile_id);
         $data['auth_id']=Auth::user()->id;
         return view('livewire.back.otherfile',$data)->layout('layouts.appclear');
     }

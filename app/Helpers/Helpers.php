@@ -3,7 +3,9 @@
 use App\Models\Myfile;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
+use Spatie\Permission\Traits\HasRoles;
 
 function get_categories_size($category_id,$user_id){
     $myfile = Myfile::Where('filecategory_id',$category_id)
