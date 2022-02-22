@@ -57,7 +57,7 @@
                     <td>{{ $row->updated_at }}</td>
                     <td>@if($row->is_public) Yes @else No @endif</td>
                     <td>
-                        @if(($row->user->roles->pluck('name')->implode(',') != 'admin') or ($auth_id == $row->user_id))
+                        @if( !cek_adminId($row->user_id) or ($auth_id == $row->user_id))
                         <button wire:click.prevent="removesingle({{$row->id}})" class="btn btn-danger btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="bi bi-trash-fill"></i></button>
                         @else
                         <button class="btn btn-secondary btn-sm text-light me-1 mb-2 mb-md-0" disabled><i class="bi bi-trash-fill"></i></button>

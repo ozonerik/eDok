@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Myfile;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Arr;
 
 function get_categories_size($category_id,$user_id){
@@ -27,6 +29,12 @@ function getfilesuser($user_id){
     ->pluck('path')
     ->toArray();
     return $myfile;
+}
+
+function cek_adminId($id){
+    $user=User::role('admin')->get();
+    $id_admin = $user->pluck('id')->toArray();
+    return in_array($id,$id_admin);
 }
 
 function convert_bytes($set_bytes){
