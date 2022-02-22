@@ -70,6 +70,7 @@ DB_PASSWORD=
 -> php artisan route:cache
 -> php artisan config:cache
 -> php artisan view:cache
+-> php artisan storage:link
 
 //akses aplikasi via http://localhost:8000
 -> php artisan serve
