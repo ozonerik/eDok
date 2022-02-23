@@ -12,9 +12,10 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+        <x-favicon/>
         @livewireStyles
         @stack('css')
-        <x-favicon/>
+        
     </head>
     <body class="font-sans antialiased bg-light"> 
         @livewire('navigation-menu')
