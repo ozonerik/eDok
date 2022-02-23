@@ -18,6 +18,7 @@
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+        <x-favicon/>
     </head>
     <body class="bg-light font-sans antialiased">
         {{ $slot }}

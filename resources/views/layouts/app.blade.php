@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="{{ asset('plugins/datatables-bs5/css/dataTables.bootstrap5.min.css') }}">
         <link rel="stylesheet" href="{{ asset('plugins/datatables-bs5/responsive/css/responsive.bootstrap5.min.css') }}">
         @stack('css')
+        <x-favicon/>
     </head>
     <body class="font-sans antialiased bg-light"> 
         @livewire('navigation-menu')

@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="{{asset('home/css/baguetteBox.min.css')}}">
         <link rel="stylesheet" href="{{asset('home/css/vanilla-zoom.min.css')}}">
         @stack('css')
+        <x-favicon/>
     </head>
     <body class="font-sans antialiased">
         <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
