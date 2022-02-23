@@ -289,6 +289,7 @@ class Usermanage extends Component
         $this->dispatchBrowserEvent('show-form-multiedit');
     }
 
+    //store update multisel
     public function storeupdatesel(){
         
         Validator::make($this->states,[
