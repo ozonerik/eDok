@@ -39,6 +39,14 @@ function cek_adminId($id){
     return in_array($id,$id_admin);
 }
 
+function compareArray($array1,$array2){
+    if (array_diff($array1,$array2) == array_diff($array2,$array1)) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
 function convert_bytes($set_bytes){
     $set_kb = 1024;
     $set_mb = $set_kb * 1024;

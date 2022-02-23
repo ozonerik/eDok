@@ -121,8 +121,13 @@ class Othercat extends Component
     //remove
     public function removeselection()
     {
-        $this->category_id = $this->get_notadmin();
-        //$this->category_id = $this->checked;
+        if(!compareArray($this->checked,$this->get_notadmin())){
+            $this->selectAll=false;
+            $this->selectPage=false;
+            $this->checked = $this->get_notadmin();
+        }
+        
+        $this->category_id = $this->checked;
         $this->dispatchBrowserEvent('show-form-del');
     }
     public function removesingle($id){
