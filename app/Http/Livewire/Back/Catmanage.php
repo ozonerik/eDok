@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Back;
 
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -26,6 +27,8 @@ class Catmanage extends Component
     public $selectAll = false;
     public $modeEdit=false;
     public $category_id=[];
+    public $states=[];
+    public $ids;
     
     //lifecylce hook get<namafungsi>Property
     public function getMycatProperty(){
@@ -202,4 +205,86 @@ class Catmanage extends Component
         $data['auth_id']=Auth::user()->id;
         return view('livewire.back.catmanage',$data)->layout('layouts.appclear');
     }
+
+    //reset form
+    private function resetCreateForm(){
+        $this->modeEdit=false;
+        $this->category_id = [];
+        $this->ids = '';
+        $this->states['name'] = '';
+        $this->states['is_public'] = '';
+        $this->resetErrorBag();
+        $this->resetValidation();
+    }
+
+    //add single
+    public function add()
+    {
+        $this->modeEdit=false;
+        $this->dispatchBrowserEvent('show-form');
+        $this->resetCreateForm();
+    }
+
+    //store add/edit single
+    public function store()
+    {
+        Validator::make($this->states,[
+            'name' => 'required',
+            'is_public' => 'required',
+        ])->validate();
+        
+        Filecategory::updateOrCreate(['id' => $this->category_id], [
+            'name' => $this->states['name'],
+            'is_public' => $this->states['is_public'],
+            'user_id' => Auth::user()->id
+        ]);
+        $this->dispatchBrowserEvent('hide-form');
+        $this->dispatchBrowserEvent('alert',[
+            'type'=>'success',
+            'message'=>$this->category_id ? 'Data updated successfully.' : 'Data added successfully.'
+        ]);
+        $this->resetCreateForm();
+    }
+    
+    //edit single
+    public function edit($id)
+    {
+        $this->modeEdit=true;
+        $filecategory = Filecategory::findOrFail($id);
+        $this->ids = $id;
+        $this->category_id = [$id];
+        $this->states['name'] = $filecategory->name;
+        $this->states['is_public'] = $filecategory->is_public;
+        $this->dispatchBrowserEvent('show-form');
+    }
+
+    //edit multisel
+    public function editselection()
+    {
+        $this->modeEdit=true;
+        $this->category_id = $this->checked;
+        $this->states['is_public'] = '';
+        $this->dispatchBrowserEvent('show-form-multiedit');
+    }
+
+    //store update multisel
+    public function storeupdatesel(){
+        
+        Validator::make($this->states,[
+            'is_public' => 'required',
+        ])->validate();
+
+        $cat = Filecategory::WhereIn('id',$this->category_id);
+        $cat->update([
+            'is_public' => $this->states['is_public']
+        ]);
+        $this->dispatchBrowserEvent('hide-form-multiedit');
+        $this->dispatchBrowserEvent('alert',[
+            'type'=>'success',
+            'message'=>'Data updated successfully.'
+        ]);
+        
+        $this->resetCreateForm();  
+    }
+
 }

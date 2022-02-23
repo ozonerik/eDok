@@ -5,6 +5,16 @@
 </x-slot>
 @push('scripts')
 <script>
+    window.addEventListener('show-form', event => {
+        $('#form').modal('show');
+    })
+</script>
+<script>
+    window.addEventListener('hide-form', event => {
+        $('#form').modal('hide');
+    })
+</script>
+<script>
     window.addEventListener('show-form-del', event => {
         $('#form-del').modal('show');
     })
@@ -12,6 +22,16 @@
 <script>
     window.addEventListener('hide-form-del', event => {
         $('#form-del').modal('hide');
+    })
+</script>
+<script>
+    window.addEventListener('show-form-multiedit', event => {
+        $('#form-multiedit').modal('show');
+    })
+</script>
+<script>
+    window.addEventListener('hide-form-multiedit', event => {
+        $('#form-multiedit').modal('hide');
     })
 </script>
 @endpush
@@ -23,6 +43,7 @@
         <x-TableMenu mdperhal="perhal" :table="$myfilecat" :checked="$checked" mdsearch="inpsearch">
             <x-slot:dropdownmenu>
                 <li><button wire:click="removeselection" class="dropdown-item">Delete</button></li>
+                <li><button wire:click="editselection" class="dropdown-item">Edit</button></li>
                 <li><button wire:click="zipdownload" class="dropdown-item">Download (.zip)</button></li>
             </x-slot>
             <div class="mb-2 mb-md-0 me-md-2">
