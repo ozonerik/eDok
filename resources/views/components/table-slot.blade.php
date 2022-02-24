@@ -11,7 +11,7 @@
             {{ $tbody }}
             @if($table->count() == 0)
             <tr>
-                <td colspan="{{ $ncol }}" class="text-center text-muted">No Result</td>
+                <td colspan="@hasrole('admin') {{$ncolAdmin}} @else {{$ncol}} @endif" class="text-center text-muted">No Result</td>
             </tr>
             @endif
         </tbody>

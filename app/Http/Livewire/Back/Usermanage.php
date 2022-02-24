@@ -257,7 +257,7 @@ class Usermanage extends Component
         $this->dispatchBrowserEvent('hide-form');
         $this->dispatchBrowserEvent('alert',[
             'type'=>'success',
-            'message'=>$this->user_id ? 'Data updated successfully.' : 'Data added successfully.'
+            'message'=>$this->ids ? 'Data updated successfully.' : 'Data added successfully.'
         ]);
         $this->resetCreateForm();
     }

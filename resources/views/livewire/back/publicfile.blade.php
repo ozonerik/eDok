@@ -24,7 +24,7 @@
         </x-TableMenu>
         <!-- .table menu -->
         <!-- table -->
-        <x-TableSlot :table="$myfile" ncol="7">
+        <x-TableSlot :table="$myfile" ncol="7" ncolAdmin="7">
             <x-slot:thead>
                 <tr>
                     <th>No</th>

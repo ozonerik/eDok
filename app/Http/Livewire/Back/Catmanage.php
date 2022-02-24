@@ -215,7 +215,7 @@ class Catmanage extends Component
             'is_public' => 'required',
         ])->validate();
         
-        Filecategory::updateOrCreate(['id' => $this->category_id], [
+        Filecategory::updateOrCreate(['id' => $this->ids], [
             'name' => $this->states['name'],
             'is_public' => $this->states['is_public'],
             'user_id' => Auth::user()->id
@@ -223,7 +223,7 @@ class Catmanage extends Component
         $this->dispatchBrowserEvent('hide-form');
         $this->dispatchBrowserEvent('alert',[
             'type'=>'success',
-            'message'=>$this->category_id ? 'Data updated successfully.' : 'Data added successfully.'
+            'message'=>$this->ids ? 'Data updated successfully.' : 'Data added successfully.'
         ]);
         $this->resetCreateForm();
     }

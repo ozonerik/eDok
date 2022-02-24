@@ -6,16 +6,17 @@ use Illuminate\View\Component;
 
 class TableSlot extends Component
 {
-    public $table,$ncol;
+    public $table,$ncol,$ncolAdmin;
     /**
      * Create a new component instance.
      *
      * @return void
      */
-    public function __construct($table,$ncol)
+    public function __construct($table,$ncol,$ncolAdmin)
     {
         $this->table = $table;
         $this->ncol = $ncol;
+        $this->ncolAdmin = $ncolAdmin;
     }
 
     /**

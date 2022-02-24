@@ -31,7 +31,7 @@
         <x-SelMsg :table="$myfile" :selectPage="$selectPage" :selectAll="$selectAll" :checked="$checked" linkDeselect="deselectAll" linkSelect="selectAll"/>
         <!-- .selection messages -->
         <!-- table -->
-        <x-TableSlot :table="$myfile" ncol="9">
+        <x-TableSlot :table="$myfile" ncol="9" ncolAdmin="9">
             <x-slot:thead>
                 <tr>
                     <th class="text-center"><input type="checkbox" wire:model="selectPage"></th>

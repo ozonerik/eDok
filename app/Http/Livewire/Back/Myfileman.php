@@ -293,7 +293,7 @@ class Myfileman extends Component
             $file_size=Storage::disk('public')->size($path);
         }
         
-        Myfile::updateOrCreate(['id' => $this->myfile_id], [
+        Myfile::updateOrCreate(['id' => $this->ids], [
             'name' => $this->name,
             'is_pinned' => $this->is_pinned,
             'filecategory_id' => $this->filecategory_id,
@@ -305,7 +305,7 @@ class Myfileman extends Component
         $this->dispatchBrowserEvent('hide-form');       
         $this->dispatchBrowserEvent('alert',[
             'type'=>'success',
-            'message'=>$this->myfile_id ? 'Data updated successfully.' : 'Data added successfully.'
+            'message'=>$this->ids ? 'Data updated successfully.' : 'Data added successfully.'
         ]);
         $this->resetCreateForm();
     }
