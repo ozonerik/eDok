@@ -26,6 +26,6 @@
         </div>
     </div>
     <div class="flex-fill">
-        <input type="text" wire:model.debounce.500ms="{{ $mdsearch }}" class="form-control" placeholder="Search...">
+        <input type="text" wire:keydown.escape="resetSearch" wire:model.debounce.500ms="{{ $mdsearch }}" class="form-control" placeholder="Search...">
     </div>
 </div>

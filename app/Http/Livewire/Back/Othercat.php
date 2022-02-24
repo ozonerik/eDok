@@ -27,6 +27,11 @@ class Othercat extends Component
     public $modeEdit=false;
     public $category_id=[];
     
+    //reset search
+    public function resetSearch(){
+        $this->inpsearch='';
+    }
+    
     //lifecylce hook get<namafungsi>Property
     public function getMycatProperty(){
         return $this->MycatQuery->paginate($this->perhal);

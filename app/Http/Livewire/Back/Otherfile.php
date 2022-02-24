@@ -24,6 +24,11 @@ class Otherfile extends Component
     public $selectAll = false;
     public $myfile_id = [];
 
+    //reset search
+    public function resetSearch(){
+        $this->inpsearch='';
+    }
+    
     //lifecylce hook get<namafungsi>Property
     public function getMyfileProperty(){
         return $this->MyfileQuery->paginate($this->perhal);

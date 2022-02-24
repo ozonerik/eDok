@@ -32,6 +32,11 @@ class Myfileman extends Component
     public $ids,$name,$is_pinned,$filecategory_id,$is_public;
     public $category,$searchcat,$resultcat;
 
+    //reset search
+    public function resetSearch(){
+        $this->inpsearch='';
+    }
+
     //lifecylce hook get<namafungsi>Property
     public function getMyfileProperty(){
         return $this->MyfileQuery->paginate($this->perhal);

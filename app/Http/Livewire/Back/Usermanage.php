@@ -32,6 +32,11 @@ class Usermanage extends Component
     public $states=[];
     public $old_user_password,$ids;
 
+    //reset search
+    public function resetSearch(){
+        $this->inpsearch='';
+    }
+
     //lifecylce hook get<namafungsi>Property
     public function getUserProperty(){
         return $this->UserQuery->paginate($this->perhal);

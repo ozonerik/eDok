@@ -30,6 +30,11 @@ class Catmanage extends Component
     public $states=[];
     public $ids;
     
+    //reset search
+    public function resetSearch(){
+        $this->inpsearch='';
+    }
+    
     //lifecylce hook get<namafungsi>Property
     public function getMycatProperty(){
         return $this->MycatQuery->paginate($this->perhal);

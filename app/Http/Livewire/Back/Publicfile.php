@@ -17,6 +17,11 @@ class Publicfile extends Component
     public $perhal = 2 ;
     public $inpsearch = "";
 
+    //reset search
+    public function resetSearch(){
+        $this->inpsearch='';
+    }
+
     //lifecylce hook get<namafungsi>Property
     public function getMyfileProperty(){
         return $this->MyfileQuery->paginate($this->perhal);
