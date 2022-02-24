@@ -3,11 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="eDokumen(eDok) - SMK Negeri 1 Krangkeng">
-        <meta name="author" content="Unit ICT SMKN 1 Krangkeng">
-        <meta name="generator" content="eDokumen(eDok)">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-
         <title>{{ config('app.name', 'Laravel') }}</title>
 
         <!-- Fonts -->
@@ -16,12 +12,10 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
-        @livewireStyles
-        <!-- datatables bootstrap5 -->
-        <link rel="stylesheet" href="{{ asset('plugins/datatables-bs5/css/dataTables.bootstrap5.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('plugins/datatables-bs5/responsive/css/responsive.bootstrap5.min.css') }}">
-        @stack('css')
         <x-favicon/>
+        @livewireStyles
+        @stack('css')
+        
     </head>
     <body class="font-sans antialiased bg-light"> 
         @livewire('navigation-menu')
@@ -41,21 +35,16 @@
         <script src="{{ mix('js/app.js') }}" defer></script>
         @livewireScripts
         <script src="{{ asset('js/jquery-3.5.1.js') }}"></script>
-        <!-- datatables bootstrap5 -->
-        <script src="{{ asset('plugins/datatables-bs5/js/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('plugins/datatables-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
-        <script src="{{ asset('plugins/datatables-bs5/responsive/js/dataTables.responsive.min.js') }}"></script>
-        <script src="{{ asset('plugins/datatables-bs5/responsive/js/responsive.bootstrap5.min.js') }}"></script>
-        <!-- sweetalert2 -->
-        <script src="{{ asset('js/sweetalert2@11.js') }}"></script>
         @stack('scripts')
+        <!-- sweetalert2 -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             const Toast = Swal.mixin({
                 toast: true,
                 position: 'top',
                 showConfirmButton: false,
                 showCloseButton: true,
-                timer: 5000,
+                timer: 2000,
                 timerProgressBar:true,
                 didOpen: (toast) => {
                     toast.addEventListener('mouseenter', Swal.stopTimer)

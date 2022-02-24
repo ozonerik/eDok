@@ -212,7 +212,7 @@ class Myfileman extends Component
                     ->orderBy('name')
                     ->get();
         $data['auth_id']=Auth::user()->id;
-        return view('livewire.back.myfileman',$data)->layout('layouts.appclear');
+        return view('livewire.back.myfileman',$data)->layout('layouts.app');
     }
 
     public function searchcat()

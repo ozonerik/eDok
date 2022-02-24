@@ -185,6 +185,6 @@ class Otherfile extends Component
         //$data['delsel']=$this->MyfileQuery->find($this->myfile_id);
         $data['delsel']=Myfile::find($this->myfile_id);
         $data['auth_id']=Auth::user()->id;
-        return view('livewire.back.otherfile',$data)->layout('layouts.appclear');
+        return view('livewire.back.otherfile',$data)->layout('layouts.app');
     }
 }

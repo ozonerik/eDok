@@ -192,7 +192,7 @@ class Usermanage extends Component
         $data['roles'] = Role::all();
         $data['users']=$this->User;
         $data['delsel']=$this->UserQuery->find($this->user_id);
-        return view('livewire.back.usermanage',$data)->layout('layouts.appclear');
+        return view('livewire.back.usermanage',$data)->layout('layouts.app');
     }
     
     //reset form

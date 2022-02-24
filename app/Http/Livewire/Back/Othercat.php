@@ -199,6 +199,6 @@ class Othercat extends Component
         $data['delsel']= Filecategory::find($this->category_id);
         //$data['delsel']=$this->MycatQuery->find($this->category_id);
         $data['auth_id']=Auth::user()->id;
-        return view('livewire.back.othercat',$data)->layout('layouts.appclear');
+        return view('livewire.back.othercat',$data)->layout('layouts.app');
     }
 }

@@ -185,7 +185,7 @@ class Catmanage extends Component
         $data['myfilecat']=$this->MyCat;
         $data['delsel']= Filecategory::find($this->category_id);
         $data['auth_id']=Auth::user()->id;
-        return view('livewire.back.catmanage',$data)->layout('layouts.appclear');
+        return view('livewire.back.catmanage',$data)->layout('layouts.app');
     }
 
     //reset form
