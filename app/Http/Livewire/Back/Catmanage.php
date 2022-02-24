@@ -110,27 +110,10 @@ class Catmanage extends Component
         return $this->sortBy = $field;
     }
     
-    //get not admin except auth
-    public function get_notadmin(){
-        $newchecked=[];
-        $cat=Filecategory::WhereIn('id',$this->checked)->get();
-        foreach($cat as $key => $row){
-            if(!cek_adminId($row->user_id) or (Auth::user()->id == $row->user_id)){
-                $newchecked[$key]=(string)$row->id;
-            }   
-        }
-        return $newchecked;
-    }
 
     //remove
     public function removeselection()
     {
-        if(!compareArray($this->checked,$this->get_notadmin())){
-            $this->selectAll=false;
-            $this->selectPage=false;
-            $this->checked = $this->get_notadmin();
-        }
-        
         $this->category_id = $this->checked;
         $this->dispatchBrowserEvent('show-form-del');
     }
@@ -201,7 +184,6 @@ class Catmanage extends Component
     {
         $data['myfilecat']=$this->MyCat;
         $data['delsel']= Filecategory::find($this->category_id);
-        //$data['delsel']=$this->MycatQuery->find($this->category_id);
         $data['auth_id']=Auth::user()->id;
         return view('livewire.back.catmanage',$data)->layout('layouts.appclear');
     }
@@ -250,6 +232,8 @@ class Catmanage extends Component
     public function edit($id)
     {
         $this->modeEdit=true;
+        $this->resetErrorBag();
+        $this->resetValidation();
         $filecategory = Filecategory::findOrFail($id);
         $this->ids = $id;
         $this->category_id = [$id];
@@ -262,6 +246,8 @@ class Catmanage extends Component
     public function editselection()
     {
         $this->modeEdit=true;
+        $this->resetErrorBag();
+        $this->resetValidation();
         $this->category_id = $this->checked;
         $this->states['is_public'] = '';
         $this->dispatchBrowserEvent('show-form-multiedit');

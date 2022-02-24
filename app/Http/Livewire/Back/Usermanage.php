@@ -266,6 +266,8 @@ class Usermanage extends Component
     public function edit($id)
     {
         $this->modeEdit=true;
+        $this->resetErrorBag();
+        $this->resetValidation();
         $user = User::findOrFail($id);
         $this->ids = $id;
         $this->user_id = [$id];
@@ -282,6 +284,8 @@ class Usermanage extends Component
     public function editselection()
     {
         $this->modeEdit=true;
+        $this->resetErrorBag();
+        $this->resetValidation();
         $this->user_id = $this->checked;
         $this->states['password'] = '';
         $this->states['password_confirmation'] = '';

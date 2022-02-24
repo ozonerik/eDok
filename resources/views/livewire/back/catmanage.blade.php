@@ -83,15 +83,12 @@
                     <td>{{ $row->updated_at }}</td>
                     <td>@if($row->is_public) Yes @else No @endif</td>
                     <td>
-                        @if(!cek_adminId($row->user_id) or ($auth_id == $row->user_id))
+                        <button wire:click.prevent="edit({{ $row->id }})" class="btn btn-primary text-light btn-sm me-md-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
                         <button wire:click.prevent="removesingle({{ $row->id }})" class="btn btn-danger btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
                             <i class="bi bi-trash"></i>
                         </button>
-                        @else
-                        <button class="btn btn-secondary btn-sm text-light me-1 mb-2 mb-md-0" disabled>
-                            <i class="bi bi-trash"></i>
-                        </button>
-                        @endif
                         @if(!empty(getfilescat($row->id)))
                         <button wire:click.prevent="export({{$row->id}})" class="btn btn-success btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download"><i class="bi bi-cloud-arrow-down-fill"></i></button>
                         @else

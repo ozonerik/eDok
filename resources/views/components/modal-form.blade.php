@@ -9,7 +9,7 @@
         <h5 class="modal-title">{{ $modaltitle }}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form autocomplete="off" wire:submit.prevent="{{ $linksubmit }}">
+      <form method="post" enctype="multipart/form-data" autocomplete="off" wire:submit.prevent="{{ $linksubmit }}">
       <div class="modal-body">
         {{ $modalbody }}
       </div>

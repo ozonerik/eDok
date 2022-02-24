@@ -4,24 +4,216 @@ namespace App\Http\Livewire\Back;
 
 use Livewire\Component;
 use Livewire\WithFileUploads;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Auth;
+use Livewire\WithPagination;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Myfile;
-use App\Models\User;
-use Spatie\Permission\Models\Role;
-use App\Models\Filecategory;
+use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
+use App\Models\Myfile;
+use App\Models\Filecategory;
+use Zip;
 
 class Myfileman extends Component
 {
+    use WithPagination;
     use WithFileUploads;
-    protected $queryString = ['category'=> ['except' => '']];
+    protected $paginationTheme = 'bootstrap';
+    public $sortBy = 'updated_at';
+    public $sortDirection = 'desc';
+    public $perhal = 2 ;
+    public $checked = [];
+    public $inpsearch = "";
+    public $selectPage = false;
+    public $selectAll = false;
+    public $myfile_id = [];
     public $modeEdit=false;
-    public $myfile_id,$name,$is_pinned,$filecategory_id,$is_public;
+    public $states=[];
     public $file,$path,$oldpath,$upload_id;
-    public $category;
-    public $searchcat,$resultcat;
+    public $ids,$name,$is_pinned,$filecategory_id,$is_public;
+    public $category,$searchcat,$resultcat;
+
+    //lifecylce hook get<namafungsi>Property
+    public function getMyfileProperty(){
+        return $this->MyfileQuery->paginate($this->perhal);
+    }
+    //lifecylce hook get<namafungsi>Property
+    public function getMyfileQueryProperty(){
+        $myfile = Myfile::query();
+        $myfile->select('myfiles.*','users.name as user_name','filecategories.name as category_name');
+        $myfile->join('users','myfiles.user_id','=','users.id');
+        $myfile->join('filecategories','myfiles.filecategory_id','=','filecategories.id');
+        $myfile->where('myfiles.user_id',Auth::user()->id);
+        $myfile->where(function($q){
+            $q->where('myfiles.name','like','%'.$this->inpsearch.'%');
+            $q->orwhere('filecategories.name','like','%'.$this->inpsearch.'%');
+            $q->orwhere('users.name','like','%'.$this->inpsearch.'%');
+        });        
+        if($this->sortBy=="name"){
+            $myfile->orderby('myfiles.name',$this->sortDirection);
+        }else if($this->sortBy=="user_name"){
+            $myfile->orderby('users.name',$this->sortDirection);
+        }else if($this->sortBy=='category_name'){
+            $myfile->orderby('filecategories.name',$this->sortDirection);
+        }else if($this->sortBy=='file_size'){
+            $myfile->orderby('myfiles.file_size',$this->sortDirection);
+        }else if($this->sortBy=='updated_at'){
+            $myfile->orderby('myfiles.updated_at',$this->sortDirection);
+        }else if($this->sortBy=='is_public'){
+            $myfile->orderby('myfiles.is_public',$this->sortDirection);
+        }else if($this->sortBy=='is_pinned'){
+            $myfile->orderby('myfiles.is_pinned',$this->sortDirection);
+        }
+        
+        return $myfile;
+    }
+    //lifecylce hook updated<namavariable>
+    public function updatedSelectPage($value){
+        if($value){
+            $this->checked = $this->Myfile->pluck('id')->map(fn($item) => (string) $item)->toArray();
+        }else{
+            $this->checked = [];
+            $this->selectAll=false;
+        }
+    }
+    //lifecylce hook updated<namavariable>
+    public function updatedChecked($value){
+        $this->selectPage=false;
+        $this->selectAll=false;
+    }
+    //end lifecycle
+
+    //selection
+    public function selectAll(){
+        $this->selectAll=true;
+        if($this->selectAll){
+            $this->checked = $this->MyfileQuery->pluck('id')->map(fn($item) => (string) $item)->toArray();
+        }else{
+            $this->checked = [];
+        }
+    }
+    public function deselectAll(){
+        $this->selectAll=false;
+        $this->selectPage=false;
+        $this->checked = [];
+    }
+    public function is_checked($fileid){
+        return in_array($fileid,$this->checked);
+    }
+    //end selection
+    
+    //get not admin except auth
+    public function get_notadmin(){
+        $newchecked=[];
+        $myfile=Myfile::WhereIn('id',$this->checked)->get();
+        foreach($myfile as $key => $row){
+            if(!cek_adminId($row->user_id) or (Auth::user()->id == $row->user_id)){
+                $newchecked[$key]=(string)$row->id;
+            }   
+        }
+        return $newchecked;
+    }
+    
+    //remove
+    public function removeselection()
+    {
+        if(!compareArray($this->checked,$this->get_notadmin())){
+            $this->selectAll=false;
+            $this->selectPage=false;
+            $this->checked = $this->get_notadmin();
+        }
+         
+        $this->myfile_id = $this->checked;
+        $this->dispatchBrowserEvent('show-form-del');
+    }
+    public function removesingle($id){
+        $this->myfile_id = [$id];
+        $this->dispatchBrowserEvent('show-form-del');
+    }
+    private function deletefile($pathfile){
+        if(Storage::disk('public')->exists($pathfile)){
+            Storage::disk('public')->delete($pathfile);
+        }
+    }
+    public function delete()
+    {
+        $myfiles = Myfile::whereIn('id',$this->myfile_id);
+        foreach($myfiles->pluck('path') as $path){
+            $this->deletefile($path);
+        }
+        $myfiles->delete();
+        $this->selectPage=false;
+        $this->checked = array_diff($this->checked,$this->myfile_id );
+        $this->dispatchBrowserEvent('hide-form-del');
+        $this->dispatchBrowserEvent('alert',[
+            'type'=>'success',
+            'message'=>'Deleted items successfully.'
+        ]);
+    }
+    //end remove
+
+    //sorting
+    public function sortBy($field)
+    {
+        if($this->sortDirection == 'asc'){
+            $this->sortDirection = 'desc';
+        }else{
+            $this->sortDirection = 'asc';
+        }
+        return $this->sortBy = $field;
+    }
+    
+    //download zip
+    public function zipdownload(){
+        $myfiles = Myfile::with(['user','filecategory'])->whereIn('id',$this->checked)->get();
+        $filename='eDokFile_'.Str::random(10).'.zip';
+        $zip=Zip::create($filename);
+        foreach($myfiles as $row){
+            $file=pathinfo($row->path);
+            $date=Carbon::now()->format('Y-m-d');
+            $rename=$row->name." (".$row->user->name.") (".$date.")".".".$file['extension'];
+            if(Storage::disk('public')->exists($row->path)){
+                $zip->add(Storage::disk('public')->path($row->path),$rename);
+            } 
+        }
+        $pathzip='ZipFiles/';
+        $zip->saveTo(Storage::disk('public')->path($pathzip));
+        $downloadpath=Storage::disk('public')->path($pathzip.$filename);
+        return response()->download($downloadpath)->deleteFileAfterSend(true);
+    }
+    
+    //download file
+    public function export($id){
+        $date=Carbon::now()->format('Y-m-d');
+        $myfile = Myfile::with(['user','filecategory'])->findOrFail($id);
+        $url=$myfile->path;
+        $file=pathinfo($myfile->path);
+        $rename=$myfile->name." (".$myfile->user->name.") (".$date.")".".".$file['extension'];
+        $headers = ['Content-Type: application/pdf'];
+        return Storage::disk('public')->download($url, $rename, $headers);
+    }
+
+    public function render()
+    {
+        if ($this->category !== null) {
+            $this->resultcat = Filecategory::where('user_id',Auth::user()->id)
+            ->where('name','like', '%' . $this->category . '%')
+            ->orderBy('name')
+            ->get(); 
+        }else{
+            $this->resultcat = Filecategory::where('user_id',Auth::user()->id)
+            ->orderBy('name')
+            ->get(); 
+        }
+        
+        $data['myfile']=$this->Myfile;
+        //$data['delsel']=$this->MyfileQuery->find($this->myfile_id);
+        $data['delsel']=Myfile::find($this->myfile_id);
+        $data['cat']=Filecategory::where('user_id',Auth::user()->id)
+                    ->orderBy('name')
+                    ->get();
+        $data['auth_id']=Auth::user()->id;
+        return view('livewire.back.myfileman',$data)->layout('layouts.appclear');
+    }
 
     public function searchcat()
     {
@@ -29,17 +221,22 @@ class Myfileman extends Component
         $this->dispatchBrowserEvent('hide-form');
         $this->category=null;
     }
+
     public function close_formsearchcat(){
         $this->dispatchBrowserEvent('hide-form-searchcat');
         $this->dispatchBrowserEvent('show-form');
     }
+
     public function selectcat($id)
     {
         $this->filecategory_id=$id;
         $this->dispatchBrowserEvent('hide-form-searchcat');
         $this->dispatchBrowserEvent('show-form');
     }
+
+    //reset form
     private function resetCreateForm(){
+        $this->ids = '';
         $this->name='';
         $this->is_pinned='';
         $this->filecategory_id='';
@@ -50,40 +247,8 @@ class Myfileman extends Component
         $this->resetErrorBag();
         $this->resetValidation();
     }
-    private function deletefile($pathfile){
-        if(Storage::disk('public')->exists($pathfile)){
-            Storage::disk('public')->delete($pathfile);
-        }
-    }
-    public function export($id){
-        $date=Carbon::now()->format('Y-m-d');
-        $myfile = Myfile::with(['user'])->findOrFail($id);
-        $url=$myfile->path;
-        $rename=$myfile->name." (".$myfile->user->name.") (".$date.").pdf";
-        $headers = ['Content-Type: application/pdf'];
-        return Storage::disk('public')->download($url, $rename, $headers);
-    }
-    public function remove($id)
-    {
-        $myfile=Myfile::find($id);
-        $this->name=$myfile->name;
-        $this->oldpath=$myfile->path;
-        $this->myfile_id = $id;
-        $this->dispatchBrowserEvent('show-form-del');
-    }
-    public function delete($id)
-    {
-        $this->deletefile($this->oldpath);
-        Myfile::find($id)->delete();
-        $this->dispatchBrowserEvent('alert',[
-            'type'=>'error',
-            'message'=>'Data deleted successfully.'
-        ]);
-        $this->dispatchBrowserEvent('hide-form-del');
-        $this->resetCreateForm();
-        return redirect()->route('myfileman');
-        
-    }
+
+    //add single
     public function add()
     {
         $this->modeEdit=false;
@@ -91,21 +256,8 @@ class Myfileman extends Component
         $this->dispatchBrowserEvent('show-form');
         $this->resetCreateForm();
     }
-    public function edit($id)
-    {
-        $this->modeEdit=true;
-        $this->resetErrorBag();
-        $this->resetValidation();
-        $this->upload_id++;
-        $myfile = Myfile::findOrFail($id);
-        $this->myfile_id=$id;
-        $this->name = $myfile->name;
-        $this->is_pinned = $myfile->is_pinned;
-        $this->filecategory_id = $myfile->filecategory_id;
-        $this->is_public = $myfile->is_public;
-        $this->oldpath = $myfile->path;
-        $this->dispatchBrowserEvent('show-form');
-    }
+
+    //store add/edit single
     public function store()
     {
         if(Auth::user()->hasRole('user')){
@@ -156,28 +308,69 @@ class Myfileman extends Component
             'message'=>$this->myfile_id ? 'Data updated successfully.' : 'Data added successfully.'
         ]);
         $this->resetCreateForm();
-        return redirect()->route('myfileman');
+    }
+    
+    //edit single
+    public function edit($id)
+    {
+        $this->modeEdit=true;
+        $this->resetErrorBag();
+        $this->resetValidation();
+        $this->upload_id++;
+        $myfile = Myfile::findOrFail($id);
+        $this->ids=$id;
+        $this->myfile_id=[$id];
+        $this->name = $myfile->name;
+        $this->is_pinned = $myfile->is_pinned;
+        $this->filecategory_id = $myfile->filecategory_id;
+        $this->is_public = $myfile->is_public;
+        $this->oldpath = $myfile->path;
+        $this->dispatchBrowserEvent('show-form');
     }
 
-    public function render()
+    //edit multisel
+    public function editselection()
     {
-        if ($this->category !== null) {
-            $this->resultcat = Filecategory::where('user_id',Auth::user()->id)
-            ->where('name','like', '%' . $this->category . '%')
-            ->orderBy('name')
-            ->get(); 
-        }else{
-            $this->resultcat = Filecategory::where('user_id',Auth::user()->id)
-            ->orderBy('name')
-            ->get(); 
-        }
-        $myfile = Myfile::where('user_id',Auth::user()->id)
-        ->orderBy('updated_at', 'desc')
-        ->get();
-        $data['myfile']=$myfile;
-        $data['cat']=Filecategory::where('user_id',Auth::user()->id)
-        ->orderBy('name')
-        ->get();
-        return view('livewire.back.myfileman',$data)->layout('layouts.app');
+        $this->modeEdit=true;
+        $this->resetErrorBag();
+        $this->resetValidation();
+        $this->upload_id++;
+        $this->myfile_id = $this->checked;
+        $this->is_pinned = '';
+        $this->filecategory_id = '';
+        $this->is_public = '';
+        $this->path='';
+        $this->oldpath='';
+        $this->dispatchBrowserEvent('show-form-multiedit');
     }
+
+    //store update multisel
+    public function storeupdatesel(){
+        
+        if(Auth::user()->hasRole('user')){
+            $this->is_pinned=false;
+        }
+
+        $this->validate([
+            'is_pinned' => 'required',
+            'filecategory_id' => 'required',
+            'is_public' => 'required',
+        ]);
+
+        $cat = Myfile::WhereIn('id',$this->myfile_id);
+        $cat->update([
+            'is_pinned' => $this->is_pinned,
+            'filecategory_id' =>  $this->filecategory_id,
+            'is_public' =>  $this->is_public,
+        ]);
+        $this->dispatchBrowserEvent('hide-form-multiedit');
+        $this->dispatchBrowserEvent('alert',[
+            'type'=>'success',
+            'message'=>'Data updated successfully.'
+        ]);
+        
+        $this->resetCreateForm();  
+    }
+
+
 }
