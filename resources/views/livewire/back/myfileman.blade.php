@@ -44,6 +44,16 @@
         $('#form-searchcat').modal('hide');
     })
 </script>
+<script>
+    window.addEventListener('show-preview', event => {
+        $('#form-preview').modal('show');
+    })
+</script>
+<script>
+    window.addEventListener('hide-preview', event => {
+        $('#form-preview').modal('hide');
+    })
+</script>
 @endpush
 <div>
     <x-LoadingState />
@@ -110,6 +120,9 @@
                         @else
                         <button class="btn btn-secondary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download" disabled><i class="bi bi-cloud-arrow-down-fill"></i></button>
                         @endif
+                        <button wire:click.prevent="preview({{ $row->id }})" class="btn btn-info text-light btn-sm me-md-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                            <i class="bi bi-search"></i>
+                        </button>
                     </td>
                 </tr>
                 @endforeach

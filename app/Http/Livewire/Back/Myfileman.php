@@ -31,10 +31,17 @@ class Myfileman extends Component
     public $file,$path,$oldpath,$upload_id;
     public $ids,$name,$is_pinned,$filecategory_id,$is_public;
     public $category,$searchcat,$resultcat;
+    public $pathpreview;
 
     //reset search
     public function resetSearch(){
         $this->inpsearch='';
+    }
+
+    public function preview($id){
+        $myfile=Myfile::find($id)->first();
+        $this->pathpreview = asset('storage/'.$myfile->path);
+        $this->dispatchBrowserEvent('show-preview');
     }
 
     //lifecylce hook get<namafungsi>Property
@@ -288,7 +295,7 @@ class Myfileman extends Component
             ]);
         }
 
-        $dir='myfiles/'.Auth::user()->id.'/'.$this->filecategory_id.'/';
+        $dir='myfiles/'.Auth::user()->id.'/'.$this->filecategory_id;
         if(!empty($this->file)){
             $path=$this->file->store($dir,'public');
             $file_size=Storage::disk('public')->size($path);
