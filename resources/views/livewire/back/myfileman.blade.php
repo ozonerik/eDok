@@ -58,6 +58,7 @@
 <div>
     <x-LoadingState />
     @include('livewire.back.form.formmyfile-modal')
+    @include('livewire.back.form.form-preview')
     <x-CardLayout>
         <!-- table menu -->
         <x-TableMenu mdperhal="perhal" :table="$myfile" :checked="$checked" mdsearch="inpsearch">
