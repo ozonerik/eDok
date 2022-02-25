@@ -12,9 +12,6 @@ eDokumen adalah suatu web app yang dibangun oleh Tim ICT SMKN 1 Krangkeng untuk 
     <a href="https://laravel-livewire.com/docs/2.x/installation">livewire/livewire</a>
 </li>
 <li>
-    <a href="https://laravel-livewire.com/docs/2.x/installation">livewire/livewire</a>
-</li>
-<li>
     <a href="https://github.com/nascent-africa/jetstrap">nascent-africa/jetstrap</a>
 </li>
 <li>
@@ -24,16 +21,7 @@ eDokumen adalah suatu web app yang dibangun oleh Tim ICT SMKN 1 Krangkeng untuk 
     <a href="https://sweetalert2.github.io/">sweetalert2</a>
 </li>
 <li>
-    <a href="https://github.com/apalfrey/select2-bootstrap-5-theme">Select2 Bootstrap 5 Theme</a>
-</li>
-<li>
-    <a href="https://datatables.net/extensions/fixedheader/examples/integration/responsive-bootstrap.html">Datatables Bootstrap 5</a>
-</li>
-<li>
     <a href="https://icons.getbootstrap.com/">Icons Bootstrap 5</a>
-</li>
-<li>
-    <a href="https://www.gyrocode.com/projects/jquery-datatables-checkboxes/">jquery-datatables-checkboxes</a>
 </li>
 <li>
     <a href="https://github.com/stechstudio/laravel-zipstream">stechstudio/laravel-zipstream</a>
