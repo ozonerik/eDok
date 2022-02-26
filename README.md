@@ -42,15 +42,15 @@ Instalasi:
 4. buka git bash
 <pre>
 <code>
--> cd c:/xampp/htdocs/eDokumen
--> git clone https://github.com/smkn1krangkeng/eDokumen.git
--> cd eDokumen
+-> cd c:/xampp/htdocs
+-> git clone https://github.com/ozonerik/eDok
+-> cd eDok
 -> composer install
 -> cp .env.example .env
 -> php artisan key:generate
 
 // buka file .env setting database:
-DB_DATABASE=eDokumen
+DB_DATABASE=eDok
 DB_USERNAME=root
 DB_PASSWORD=
 
