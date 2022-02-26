@@ -38,12 +38,6 @@ class Myfileman extends Component
         $this->inpsearch='';
     }
 
-    public function preview($id){
-        $myfile=Myfile::find($id)->first();
-        $this->pathpreview = asset('storage/'.$myfile->path);
-        $this->dispatchBrowserEvent('show-preview');
-    }
-
     //lifecylce hook get<namafungsi>Property
     public function getMyfileProperty(){
         return $this->MyfileQuery->paginate($this->perhal);
