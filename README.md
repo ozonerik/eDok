@@ -26,6 +26,12 @@ eDokumen adalah suatu web app yang dibangun oleh Tim ICT SMKN 1 Krangkeng untuk 
 <li>
     <a href="https://github.com/stechstudio/laravel-zipstream">stechstudio/laravel-zipstream</a>
 </li>
+<li>
+    <a href="https://docs.laravel-excel.com/3.1/getting-started/">maatwebsite/excel</a>
+</li>
+<li>
+    <a href="https://github.com/barryvdh/laravel-debugbar">barryvdh/laravel-debugbar</a>
+</li>
 </ul>
 
 ## How Install
