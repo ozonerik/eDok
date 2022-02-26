@@ -99,9 +99,13 @@
     <div class="form-group mb-3">
         <label>Upload File</label>
         <input id="{{ $upload_id }}" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="form-control @error('import_file') is-invalid @enderror " wire:model.defer="import_file" >
-        <span class="text-info"><small>Maximum file size: 10Mb</small></span>
+        <div class="d-flex">
+          <span class="text-info me-auto"><small>Maximum file size: 10Mb</small></span>
+          <a href="{{ asset('files/sample_upload.xlsx')}}" class="text-decoration-none"><small class="text-success">Download Sample</small></a>
+        </div>
+        
+        
         @error('import_file')<div class="invalid-feedback">{{ $message }}</div>@enderror
-        @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
     </div>
   </x-slot>
 </x-ModalForm>
