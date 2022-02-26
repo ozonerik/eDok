@@ -2,6 +2,7 @@
 
 ## About eDokumen
 eDokumen adalah suatu web app yang dibangun oleh Tim ICT SMKN 1 Krangkeng untuk kebutuhan penyimpanan dan sharing file digital dari para stakeholder yang ada di SMKN 1 Krangkeng
+eDokumen dibuat dengan menggunakan PHP Fremework Laravel 9 dengan requires a minimum PHP versi 8
 
 ## Package Used
 <ul>
@@ -38,7 +39,7 @@ eDokumen adalah suatu web app yang dibangun oleh Tim ICT SMKN 1 Krangkeng untuk 
 Instalasi:
 1. Install Composer: https://getcomposer.org/Composer-Setup.exe
 2. Install Git: https://git-scm.com/download/win
-3. Install xampp : https://www.apachefriends.org/xampp-files/7.4.23/xampp-windows-x64-7.4.23-0-VC15-installer.exe
+3. Install xampp : https://www.apachefriends.org/xampp-files/8.1.2/xampp-windows-x64-8.1.2-0-VS16-installer.exe
 4. buka git bash
 <pre>
 <code>
