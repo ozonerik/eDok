@@ -40,7 +40,7 @@
                                 <ul class="text-muted">
                                     <li>Framework: Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})</li>
                                 </ul>
-                                <a href="https://github.com/smkn1krangkeng/eDokumen" class="text-decoration-none">
+                                <a href="https://github.com/ozonerik/eDok" class="text-decoration-none">
                                     <div class="mt-3 d-flex align-content-center font-weight-bold text-primary">
                                         <div>Baca lebih lanjut</div>
                                         <div class="ms-1 text-primary">
