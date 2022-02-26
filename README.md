@@ -43,7 +43,7 @@ Instalasi:
 <pre>
 <code>
 -> cd c:/xampp/htdocs
--> git clone https://github.com/ozonerik/eDok
+-> git clone https://github.com/ozonerik/eDok.git
 -> cd eDok
 -> composer install
 -> cp .env.example .env
