@@ -55,7 +55,7 @@ class Usermanage extends Component
         $this->validate([
             'import_file' => 'required|mimes:xls,xlsx|max:10240',
         ]);
-        $dir='imports/'.Auth::user()->id;
+        $dir='imports';
         $path=$this->import_file->store($dir,'public');
         Excel::import(new UsersImport,Storage::disk('public')->path($path));
         $this->deletefile($path);
@@ -230,7 +230,7 @@ class Usermanage extends Component
     {
         $data['roles'] = Role::all();
         $data['users']=$this->User;
-        $data['delsel']=$this->UserQuery->find($this->user_id);
+        $data['delsel']=User::find($this->user_id);
         return view('livewire.back.usermanage',$data)->layout('layouts.app');
     }
     

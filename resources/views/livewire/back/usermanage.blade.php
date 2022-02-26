@@ -25,16 +25,6 @@
     })
 </script>
 <script>
-    window.addEventListener('show-form-delsel', event => {
-        $('#form-delsel').modal('show');
-    })
-</script>
-<script>
-    window.addEventListener('hide-form-delsel', event => {
-        $('#form-delsel').modal('hide');
-    })
-</script>
-<script>
     window.addEventListener('show-form-multiedit', event => {
         $('#form-multiedit').modal('show');
     })
