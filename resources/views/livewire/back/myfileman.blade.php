@@ -121,7 +121,7 @@
                         @else
                         <button class="btn btn-secondary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download" disabled><i class="bi bi-cloud-arrow-down-fill"></i></button>
                         @endif
-                        <button wire:click.prevent="preview({{ $row->id }})" class="btn btn-info text-light btn-sm me-md-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
+                        <button wire:click.prevent="preview({{ $row->id }})" class="btn btn-info text-light btn-sm me-md-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Preview">
                             <i class="bi bi-search"></i>
                         </button>
                     </td>

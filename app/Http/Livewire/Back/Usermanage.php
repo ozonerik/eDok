@@ -15,10 +15,15 @@ use App\Models\User;
 use App\Models\Myfile;
 use Livewire\WithPagination;
 use Zip;
+use App\Imports\UsersImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Livewire\WithFileUploads;
+use Illuminate\Support\Facades\Auth;
 
 class Usermanage extends Component
 {
     use WithPagination;
+    use WithFileUploads;
     protected $paginationTheme = 'bootstrap';
     public $sortBy = 'updated_at';
     public $sortDirection = 'desc';
@@ -31,6 +36,35 @@ class Usermanage extends Component
     public $user_id=[];
     public $states=[];
     public $old_user_password,$ids;
+    public $upload_id,$import_file;
+
+    private function deletefile($pathfile){
+        if(Storage::disk('public')->exists($pathfile)){
+            Storage::disk('public')->delete($pathfile);
+        }
+    }
+    public function addimport(){
+        $this->resetErrorBag();
+        $this->resetValidation();
+        $this->upload_id++;
+        $this->dispatchBrowserEvent('show-import');
+    }
+    //import user
+    public function import(){
+        $this->upload_id++;
+        $this->validate([
+            'import_file' => 'required|mimes:xls,xlsx|max:10240',
+        ]);
+        $dir='imports/'.Auth::user()->id;
+        $path=$this->import_file->store($dir,'public');
+        Excel::import(new UsersImport,Storage::disk('public')->path($path));
+        $this->deletefile($path);
+        $this->dispatchBrowserEvent('hide-import');
+        $this->dispatchBrowserEvent('alert',[
+            'type'=>'success',
+            'message'=>'Data Import successfully.'
+        ]); 
+    }
 
     //reset search
     public function resetSearch(){

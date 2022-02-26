@@ -40,8 +40,18 @@
     })
 </script>
 <script>
-    window.addEventListener('hide-form-multiedit', event => {
-        $('#form-multiedit').modal('hide');
+    window.addEventListener('hide-form-delsel', event => {
+        $('#form-delsel').modal('hide');
+    })
+</script>
+<script>
+    window.addEventListener('show-import', event => {
+        $('#form-import').modal('show');
+    })
+</script>
+<script>
+    window.addEventListener('hide-import', event => {
+        $('#form-import').modal('hide');
     })
 </script>
 @endpush
@@ -60,6 +70,13 @@
                 <div class="btn-group w-100">
                     <button wire:click.prevent="add" class="btn btn-primary text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
                         <i class="bi bi-plus-square"></i> <span>User</span>
+                    </button>
+                </div>  
+            </div>
+            <div class="mb-2 mb-md-0 me-md-2">
+                <div class="btn-group w-100">
+                    <button wire:click.prevent="addimport" class="btn btn-success text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Import">
+                        <i class="bi bi-arrow-bar-up"></i> <span>Import Users</span>
                     </button>
                 </div>  
             </div>

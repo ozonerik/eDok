@@ -89,3 +89,18 @@
     </div>
   </x-slot>
 </x-ModalForm>
+
+<!-- Import User Modal -->
+<x-ModalForm modalname="form-import" linksubmit="import" btntype="primary" btnlabel="Import">
+  <x-slot:modaltitle>
+    Import User Confirmation
+  </x-slot>
+  <x-slot:modalbody>
+    <div class="form-group mb-3">
+        <label>Upload File</label>
+        <input id="{{ $upload_id }}" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" class="form-control @error('import_file') is-invalid @enderror " wire:model.defer="import_file" >
+        <span class="text-info"><small>Maximum file size: 10Mb</small></span>
+        @error('import_file')<div class="invalid-feedback">{{ $message }}</div>@enderror
+    </div>
+  </x-slot>
+</x-ModalForm>
