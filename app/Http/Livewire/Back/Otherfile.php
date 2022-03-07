@@ -54,6 +54,8 @@ class Otherfile extends Component
             $myfile->orderby('myfiles.updated_at',$this->sortDirection);
         }else if($this->sortBy=='is_public'){
             $myfile->orderby('myfiles.is_public',$this->sortDirection);
+        }else if($this->sortBy=='is_pinned'){
+            $myfile->orderby('myfiles.is_pinned',$this->sortDirection);
         }
         
         return $myfile;

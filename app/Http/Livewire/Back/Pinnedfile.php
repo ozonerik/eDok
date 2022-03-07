@@ -31,15 +31,8 @@ class Pinnedfile extends Component
         $myfile = Myfile::query();
         $myfile->select('myfiles.*','users.name as user_name','filecategories.name as category_name');
         $myfile->join('users','myfiles.user_id','=','users.id');
-        $myfile->join('filecategories','myfiles.filecategory_id','=','filecategories.id');
-        $myfile->where(function($q){            
-            $q->where('myfiles.is_pinned',true);
-        });
-        $myfile->where(function($q){
-            $q->where('myfiles.name','like','%'.$this->inpsearch.'%');
-            $q->orwhere('filecategories.name','like','%'.$this->inpsearch.'%');
-            $q->orwhere('users.name','like','%'.$this->inpsearch.'%');
-        });
+        $myfile->join('filecategories','myfiles.filecategory_id','=','filecategories.id');        
+        $myfile->where('myfiles.is_pinned',true);
 
         if($this->sortBy=="name"){
             $myfile->orderby('myfiles.name',$this->sortDirection);
