@@ -27,7 +27,7 @@
             </x-slot>
             <x-slot:tbody>
                 @foreach($received as $key => $row)
-                <tr>
+                <tr class="@if($row->is_read) table-secondary @endif">
                     <td>{{ $received->firstItem() + $key}}</td>
                     <td>{{ $row->sendkey }}</td>
                     <td>{{ $row->myfile->name}}</td>
