@@ -33,7 +33,12 @@ class Pinnedfile extends Component
         $myfile->join('users','myfiles.user_id','=','users.id');
         $myfile->join('filecategories','myfiles.filecategory_id','=','filecategories.id');        
         $myfile->where('myfiles.is_pinned',true);
-
+        $myfile->where(function($q){
+            $q->where('myfiles.name','like','%'.$this->inpsearch.'%');
+            $q->orwhere('filecategories.name','like','%'.$this->inpsearch.'%');
+            $q->orwhere('users.name','like','%'.$this->inpsearch.'%');
+        });
+        
         if($this->sortBy=="name"){
             $myfile->orderby('myfiles.name',$this->sortDirection);
         }else if($this->sortBy=="user_name"){
