@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Back;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Sendfile;
+use App\Models\Myfile;
 use Illuminate\Support\Facades\Auth;
 
 class Filereceive extends Component
@@ -15,10 +16,12 @@ class Filereceive extends Component
     public $sortDirection = 'desc';
     public $perhal = 2 ;
     public $inpsearch = "";
+    public $fileid = '';
 
     public function reading($id){
         $received = Sendfile::find($id);
         $received->is_read = true;
+        $this->fileid = $received->myfile_id;
         $received->save();
         $this->emitTo('comp.getnotread', 'refreshnotread');
         $this->dispatchBrowserEvent('show-form-receive');
@@ -61,7 +64,7 @@ class Filereceive extends Component
     public function render()
     {
         $data['received']=$this->MyReceived;
-        //$data['notread']=Sendfile::where('receiveuser_id',Auth::user()->id)->where('is_read',false)->count();
+        $data['myfile']=Myfile::where('id',$this->fileid)->get();
         return view('livewire.back.filereceive',$data)->layout('layouts.app');
     }
 }
