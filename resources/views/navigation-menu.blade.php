@@ -61,11 +61,7 @@
                         <x-jet-dropdown-link href="{{ route('receivedfiles') }}">
                             <div class="d-flex">
                                 <div>{{ __('Received Files') }}</div>
-                                <div class="ms-auto">
-                                    @if(!empty(get_notread(Auth::user()->id)))
-                                    <span class="badge bg-danger text-end rounded-pill">{{get_notread(Auth::user()->id)}}</span>
-                                    @endif
-                                </div>
+                                @livewire('comp.getnotread')
                             </div>
                             
                         </x-jet-dropdown-link>

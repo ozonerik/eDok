@@ -18,12 +18,6 @@ function get_categories_size($category_id,$user_id){
     return convert_bytes(Arr::get($myfile, 'category_size'));
 }
 
-function get_notread($user){
-    $notread = Sendfile::where('receiveuser_id',$user)
-    ->where('is_read',false)->count();
-    return $notread;
-}
-
 function getfilescat($category_id){
     $myfile = Myfile::Where('filecategory_id',$category_id)
     ->get()

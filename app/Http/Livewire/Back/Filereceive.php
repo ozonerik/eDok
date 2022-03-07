@@ -20,6 +20,7 @@ class Filereceive extends Component
         $received = Sendfile::find($id);
         $received->is_read = true;
         $received->save();
+        $this->emitTo('comp.getnotread', 'refreshnotread');
     }
     //reset search
     public function resetSearch(){
@@ -59,6 +60,7 @@ class Filereceive extends Component
     public function render()
     {
         $data['received']=$this->MyReceived;
+        //$data['notread']=Sendfile::where('receiveuser_id',Auth::user()->id)->where('is_read',false)->count();
         return view('livewire.back.filereceive',$data)->layout('layouts.app');
     }
 }
