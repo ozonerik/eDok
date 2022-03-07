@@ -58,6 +58,9 @@
                         <x-jet-dropdown-link href="{{ route('myfileman') }}">
                             {{ __('My Files Manager') }}
                         </x-jet-dropdown-link>
+                        <x-jet-dropdown-link href="{{ route('receivedfiles') }}">
+                            {{ __('Received Files') }}
+                        </x-jet-dropdown-link>
                     </x-slot>
                 </x-jet-dropdown>
 

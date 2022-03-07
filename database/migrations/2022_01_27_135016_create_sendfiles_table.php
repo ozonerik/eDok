@@ -17,7 +17,10 @@ class CreateSendfilesTable extends Migration
             $table->id();
             $table->string('sendkey')->unique();
             $table->foreignId('myfile_id')->unsigned()->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('receiveuser_id');
             $table->foreignId('user_id')->unsigned()->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->boolean('is_read')->default(false);
+            $table->foreign('receiveuser_id')->references('id')->on('users')->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
