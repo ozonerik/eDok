@@ -90,9 +90,9 @@
                     <th style="cursor:pointer;" wire:click="sortBy('file_size')"><x-SortState colName="file_size"  :sortBy="$sortBy" :sortDir="$sortDirection">Size</x-SortState></th>
                     <th style="cursor:pointer;" wire:click="sortBy('updated_at')"><x-SortState colName="updated_at"  :sortBy="$sortBy" :sortDir="$sortDirection">Updated At</x-SortState></th>
                     <th style="cursor:pointer;" wire:click="sortBy('is_public')"><x-SortState colName="is_public"  :sortBy="$sortBy" :sortDir="$sortDirection">Is Public</x-SortState></th>
-                    @hasrole('admin')
+                    @hasanyrole('admin|manager')
                     <th style="cursor:pointer;" wire:click="sortBy('is_pinned')"><x-SortState colName="is_pinned"  :sortBy="$sortBy" :sortDir="$sortDirection">Is Pinned</x-SortState></th>
-                    @endhasrole
+                    @endhasanyrole
                     <th>Action</th>
                 </tr>
             </x-slot>
@@ -107,9 +107,9 @@
                     <td>{{ convert_bytes($row->file_size) }}</td>
                     <td>{{ $row->updated_at }}</td>
                     <td>@if($row->is_public) Yes @else No @endif</td>
-                    @hasrole('admin')
+                    @hasanyrole('admin|manager')
                     <td>@if($row->is_pinned) Yes @else No @endif</td>
-                    @endhasrole
+                    @endhasanyrole
                     <td>
                         <button wire:click.prevent="edit({{ $row->id }})" class="btn btn-primary text-light btn-sm me-md-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
                             <i class="bi bi-pencil-square"></i>

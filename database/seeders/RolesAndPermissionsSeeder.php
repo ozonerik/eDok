@@ -32,5 +32,9 @@ class RolesAndPermissionsSeeder extends Seeder
         // this can be done as separate statements
         $role = Role::create(['name' => 'user']);
         $role->givePermissionTo(['read.*']);
+
+        // this can be done as separate statements
+        $role = Role::create(['name' => 'manager']);
+        $role->givePermissionTo(['create.*','read.*','edit.*','delete.*']);
     }
 }
