@@ -21,6 +21,7 @@ class Filereceive extends Component
         $received->is_read = true;
         $received->save();
         $this->emitTo('comp.getnotread', 'refreshnotread');
+        $this->dispatchBrowserEvent('show-form-receive');
     }
     //reset search
     public function resetSearch(){

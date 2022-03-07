@@ -3,8 +3,21 @@
         {{ __('Received Files') }}
     </h2>
 </x-slot>
+@push('scripts')
+<script>
+    window.addEventListener('show-form-receive', event => {
+        $('#form-receive').modal('show');
+    })
+</script>
+<script>
+    window.addEventListener('hide-form-receive', event => {
+        $('#form-receive').modal('hide');
+    })
+</script>
+@endpush
 <div>
     <x-LoadingState />
+    @include('livewire.back.form.formreceived-modal')
     <x-CardLayout>
         <!-- table menu -->
         <x-TableMenu mdperhal="perhal" :table="$received" :checked="[]" mdsearch="inpsearch">
