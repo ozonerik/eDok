@@ -2,6 +2,7 @@
 
 use App\Models\Myfile;
 use App\Models\User;
+use App\Models\Sendfile;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Arr;
@@ -15,6 +16,12 @@ function get_categories_size($category_id,$user_id){
     ->groupBy('user_id')
     ->first();
     return convert_bytes(Arr::get($myfile, 'category_size'));
+}
+
+function get_notread($user){
+    $notread = Sendfile::where('receiveuser_id',$user)
+    ->where('is_read',false)->count();
+    return $notread;
 }
 
 function getfilescat($category_id){

@@ -59,7 +59,15 @@
                             {{ __('My Files Manager') }}
                         </x-jet-dropdown-link>
                         <x-jet-dropdown-link href="{{ route('receivedfiles') }}">
-                            {{ __('Received Files') }}
+                            <div class="d-flex">
+                                <div>{{ __('Received Files') }}</div>
+                                <div class="ms-auto">
+                                    @if(!empty(get_notread(Auth::user()->id)))
+                                    <span class="badge bg-danger text-end rounded-pill">{{get_notread(Auth::user()->id)}}</span>
+                                    @endif
+                                </div>
+                            </div>
+                            
                         </x-jet-dropdown-link>
                         <x-jet-dropdown-link href="{{ route('sendingfiles') }}">
                             {{ __('Sending Files') }}

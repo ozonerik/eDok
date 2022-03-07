@@ -16,6 +16,11 @@ class Filereceive extends Component
     public $perhal = 2 ;
     public $inpsearch = "";
 
+    public function reading($id){
+        $received = Sendfile::find($id);
+        $received->is_read = true;
+        $received->save();
+    }
     //reset search
     public function resetSearch(){
         $this->inpsearch='';

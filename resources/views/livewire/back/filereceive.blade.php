@@ -36,7 +36,7 @@
                     <td>@if($row->is_read) Yes @else No @endif</td>
                     <td>{{ $row->updated_at }}</td>
                     <td>
-                        <button class="btn btn-secondary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Download" disabled><i class="bi bi-cloud-arrow-down-fill"></i></button>
+                        <button wire:click.prevent="reading({{ $row->id }})" class="btn btn-primary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Read">Read</button>
                     </td>
                 </tr>
                 @endforeach
