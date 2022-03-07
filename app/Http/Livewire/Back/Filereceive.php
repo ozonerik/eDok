@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Back;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Sendfile;
+use Illuminate\Support\Facades\Auth;
 
 class Filereceive extends Component
 {
@@ -27,6 +28,7 @@ class Filereceive extends Component
     //lifecylce hook get<namafungsi>Property
     public function getMyReceivedQueryProperty(){
         $received = Sendfile::query();
+        $received->where('receiveuser_id',Auth::user()->id);
         if($this->sortBy=="sendkey"){
             $received->orderby('sendkey',$this->sortDirection);
         }else if($this->sortBy=="myfile_id"){

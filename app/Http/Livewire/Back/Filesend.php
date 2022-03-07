@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Back;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Sendfile;
+use Illuminate\Support\Facades\Auth;
 
 class Filesend extends Component
 {
@@ -27,6 +28,7 @@ class Filesend extends Component
     //lifecylce hook get<namafungsi>Property
     public function getMySendQueryProperty(){
         $sending = Sendfile::query();
+        $sending->where('user_id',Auth::user()->id);
         if($this->sortBy=="sendkey"){
             $sending->orderby('sendkey',$this->sortDirection);
         }else if($this->sortBy=="myfile_id"){
