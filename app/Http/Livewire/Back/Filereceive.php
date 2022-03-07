@@ -5,8 +5,6 @@ namespace App\Http\Livewire\Back;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Sendfile;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Storage;
 
 class Filereceive extends Component
 {

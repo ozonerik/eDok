@@ -61,6 +61,9 @@
                         <x-jet-dropdown-link href="{{ route('receivedfiles') }}">
                             {{ __('Received Files') }}
                         </x-jet-dropdown-link>
+                        <x-jet-dropdown-link href="{{ route('sendingfiles') }}">
+                            {{ __('Sending Files') }}
+                        </x-jet-dropdown-link>
                     </x-slot>
                 </x-jet-dropdown>
 

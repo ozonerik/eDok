@@ -11,6 +11,7 @@ use App\Http\Livewire\Back\Publicfile;
 use App\Http\Livewire\Back\Otherfile;
 use App\Http\Livewire\Back\Pinnedfile;
 use App\Http\Livewire\Back\Filereceive;
+use App\Http\Livewire\Back\Filesend;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,7 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/publicfiles', Publicfile::class)->name('publicfiles');
     Route::get('/pinnedfiles', Pinnedfile::class)->name('pinnedfiles');
     Route::get('/receivedfiles', Filereceive::class)->name('receivedfiles');
+    Route::get('/sendingfiles', Filesend::class)->name('sendingfiles');
     Route::group(['middleware' => ['role:admin']], function () {
         Route::get('/userman', Usermanage::class)->name('userman');
         Route::get('/othercat', Othercat::class)->name('othercat');
