@@ -17,6 +17,9 @@
                 <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')" >
                     {{ __('Dashboard') }}
                 </x-jet-nav-link>
+                <x-jet-nav-link href="{{ route('pinnedfiles') }}" :active="request()->routeIs('pinnedfiles')" >
+                    {{ __('Pinned Files') }}
+                </x-jet-nav-link>
                 <x-jet-nav-link href="{{ route('publicfiles') }}" :active="request()->routeIs('publicfiles')" >
                     {{ __('Public Files') }}
                 </x-jet-nav-link>

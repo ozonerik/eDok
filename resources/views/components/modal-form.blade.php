@@ -15,7 +15,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="me-auto btn btn-secondary btn-sm text-light" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-{{ $btntype }} btn-sm text-light">{{ $btnlabel }}</button>
+        <button type="submit" wire:loading.attr="disabled" wire:loading.class.remove="btn-{{ $btntype }}" wire:loading.class="btn-secondary" class="btn btn-{{ $btntype }} btn-sm text-light">{{ $btnlabel }}</button>
       </div>
       </form>
     </div>

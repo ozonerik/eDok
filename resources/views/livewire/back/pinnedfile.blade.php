@@ -1,6 +1,6 @@
 <x-slot name="header">
     <h2 class="h4 font-weight-bold">
-        {{ __('Public Files') }}
+        {{ __('Pinned Files') }}
     </h2>
 </x-slot>
 <div>
