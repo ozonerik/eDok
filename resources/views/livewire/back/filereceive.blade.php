@@ -28,9 +28,9 @@
                     <i class="bi bi-funnel"></i> <span class="fw-bold">Filter</span>
                     </button>
                     <ul class="dropdown-menu w-100">
-                        <li><button wire:click="is_read('yes')" class="dropdown-item">Show Read</button></li>
+                        <li><button wire:click="is_read('none')" class="dropdown-item">Show All</button></li>    
                         <li><button wire:click="is_read('no')" class="dropdown-item">Show Unread</button></li>
-                        <li><button wire:click="is_read('none')" class="dropdown-item">Show All</button></li>
+                        <li><button wire:click="is_read('yes')" class="dropdown-item">Show Read</button></li>
                     </ul>
                 </div>
             </div>
