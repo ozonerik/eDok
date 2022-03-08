@@ -50,5 +50,41 @@ class MyfileSeeder extends Seeder
             'filecategory_id' => '4',
             'user_id' => '2',
         ]);
+        Myfile::create([
+            'name' => 'File Apa Bae',
+            'is_pinned' => false,
+            'path' => 'samplepdf.pdf',
+            'file_size' => '0',
+            'is_public' => true,
+            'filecategory_id' => '5',
+            'user_id' => '3',
+        ]);
+        Myfile::create([
+            'name' => 'File Pujare',
+            'is_pinned' => false,
+            'path' => 'samplepdf.pdf',
+            'file_size' => '0',
+            'is_public' => false,
+            'filecategory_id' => '6',
+            'user_id' => '3',
+        ]);
+        Myfile::create([
+            'name' => 'File Ya Los',
+            'is_pinned' => false,
+            'path' => 'samplepdf.pdf',
+            'file_size' => '0',
+            'is_public' => false,
+            'filecategory_id' => '7',
+            'user_id' => '4',
+        ]);
+        Myfile::create([
+            'name' => 'File Ora Weruh',
+            'is_pinned' => false,
+            'path' => 'samplepdf.pdf',
+            'file_size' => '0',
+            'is_public' => false,
+            'filecategory_id' => '8',
+            'user_id' => '4',
+        ]);
     }
 }

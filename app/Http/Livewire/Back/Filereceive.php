@@ -38,15 +38,18 @@ class Filereceive extends Component
     //lifecylce hook get<namafungsi>Property
     public function getMyReceivedQueryProperty(){
         $received = Sendfile::query();
+        $received->select('sendfiles.*','myfiles.name as file_name','users.name as from_name');
+        $received->join('users','users.id', '=', 'sendfiles.user_id');
+        $received->join('myfiles','sendfiles.myfile_id','=','myfiles.id');        
         $received->where('receiveuser_id',Auth::user()->id);
-        if($this->sortBy=="sendkey"){
-            $received->orderby('sendkey',$this->sortDirection);
-        }else if($this->sortBy=="myfile_id"){
-            $received->orderby('myfile_id',$this->sortDirection);
-        }else if($this->sortBy=='receiveuser_id'){
-            $received->orderby('receiveuser_id',$this->sortDirection);
-        }else if($this->sortBy=='user_id'){
-            $received->orderby('user_id',$this->sortDirection);
+        $received->where(function($q){
+            $q->where('myfiles.name','like','%'.$this->inpsearch.'%');
+            $q->orwhere('users.name','like','%'.$this->inpsearch.'%');
+        });
+        if($this->sortBy=="file_name"){
+            $received->orderby('myfiles.name',$this->sortDirection);
+        }else if($this->sortBy=='from_name'){
+            $received->orderby('users.name',$this->sortDirection);
         }else if($this->sortBy=='updated_at'){
             $received->orderby('updated_at',$this->sortDirection);
         }

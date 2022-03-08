@@ -38,5 +38,29 @@ class FilecategorySeeder extends Seeder
                 'is_public' => true,
                 'user_id' => '2',
             ]);
+        Filecategory::create(
+            [
+                'name' => 'Apa Bae',
+                'is_public' => true,
+                'user_id' => '3',
+            ]);
+        Filecategory::create(
+            [
+                'name' => 'Pujare',
+                'is_public' => false,
+                'user_id' => '3',
+            ]);
+        Filecategory::create(
+            [
+                'name' => 'Ya Los',
+                'is_public' => true,
+                'user_id' => '4',
+            ]);
+        Filecategory::create(
+            [
+                'name' => 'Ya Ora Weruh',
+                'is_public' => false,
+                'user_id' => '4',
+            ]);
     }
 }

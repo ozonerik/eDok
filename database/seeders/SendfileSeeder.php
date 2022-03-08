@@ -16,31 +16,45 @@ class SendfileSeeder extends Seeder
     public function run()
     {
         Sendfile::create([
-            'sendkey' => Str::random(30),
+            'sendkey' => Str::random(10),
             'myfile_id' => '1',
             'receiveuser_id' => '2',
             'user_id' => '1',
             'is_read' => false,
         ]);
         Sendfile::create([
-            'sendkey' => Str::random(30),
+            'sendkey' => Str::random(10),
             'myfile_id' => '2',
             'receiveuser_id' => '3',
             'user_id' => '1',
             'is_read' => false,
         ]);
         Sendfile::create([
-            'sendkey' => Str::random(30),
+            'sendkey' => Str::random(10),
             'myfile_id' => '3',
             'receiveuser_id' => '1',
             'user_id' => '2',
             'is_read' => false,
         ]);
         Sendfile::create([
-            'sendkey' => Str::random(30),
+            'sendkey' => Str::random(10),
             'myfile_id' => '4',
             'receiveuser_id' => '4',
             'user_id' => '2',
+            'is_read' => false,
+        ]);
+        Sendfile::create([
+            'sendkey' => Str::random(10),
+            'myfile_id' => '5',
+            'receiveuser_id' => '1',
+            'user_id' => '3',
+            'is_read' => false,
+        ]);
+        Sendfile::create([
+            'sendkey' => Str::random(10),
+            'myfile_id' => '7',
+            'receiveuser_id' => '1',
+            'user_id' => '4',
             'is_read' => false,
         ]);
     }
