@@ -7,17 +7,20 @@ use Livewire\WithPagination;
 use App\Models\Sendfile;
 use App\Models\Myfile;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class Filereceive extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $sortBy = 'updated_at';
+    public $sortBy = 'created_at';
     public $sortDirection = 'desc';
     public $perhal = 2 ;
     public $inpsearch = "";
     public $fileid = '';
     public $isread = '';
+    public $qrcode = 'null';
 
     public function is_read($val){
         $this->isread=$val;
@@ -26,9 +29,20 @@ class Filereceive extends Component
         $received = Sendfile::find($id);
         $received->is_read = true;
         $this->fileid = $received->myfile_id;
+        $this->qrcode = $received->sendkey;
         $received->save();
         $this->emitTo('comp.getnotread', 'refreshnotread');
         $this->dispatchBrowserEvent('show-form-receive');
+    }
+    //download file
+    public function export($id){
+        $date=Carbon::now()->format('Y-m-d');
+        $myfile = Myfile::with(['user','filecategory'])->findOrFail($id);
+        $url=$myfile->path;
+        $file=pathinfo($myfile->path);
+        $rename=$myfile->name." (".$myfile->user->name.") (".$date.")".".".$file['extension'];
+        $headers = ['Content-Type: application/pdf'];
+        return Storage::disk('public')->download($url, $rename, $headers);
     }
     //reset search
     public function resetSearch(){
@@ -59,8 +73,8 @@ class Filereceive extends Component
             $received->orderby('myfiles.name',$this->sortDirection);
         }else if($this->sortBy=='from_name'){
             $received->orderby('users.name',$this->sortDirection);
-        }else if($this->sortBy=='updated_at'){
-            $received->orderby('sendfiles.updated_at',$this->sortDirection);
+        }else if($this->sortBy=='created_at'){
+            $received->orderby('sendfiles.created_at',$this->sortDirection);
         }
         return $received;
     }
