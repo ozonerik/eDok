@@ -37,7 +37,7 @@
         </x-TableMenu>
         <!-- .table menu -->
         <!-- table -->
-        <x-TableSlot :table="$received" ncol="6" ncolAdmin="6">
+        <x-TableSlot :table="$received" ncol="5" ncolAdmin="5">
             <x-slot:thead>
                 <tr>
                     <th>No</th>
