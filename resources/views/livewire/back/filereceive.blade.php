@@ -41,9 +41,8 @@
             <x-slot:thead>
                 <tr>
                     <th>No</th>
-                    <th >Code</th>
-                    <th style="cursor:pointer;" wire:click="sortBy('file_name')"><x-SortState colName="file_name"  :sortBy="$sortBy" :sortDir="$sortDirection">File Name</x-SortState></th>
                     <th style="cursor:pointer;" wire:click="sortBy('from_name')"><x-SortState colName="from_name"  :sortBy="$sortBy" :sortDir="$sortDirection">From</x-SortState></th>
+                    <th style="cursor:pointer;" wire:click="sortBy('file_name')"><x-SortState colName="file_name"  :sortBy="$sortBy" :sortDir="$sortDirection">File Name</x-SortState></th>
                     <th style="cursor:pointer;" wire:click="sortBy('created_at')"><x-SortState colName="created_at"  :sortBy="$sortBy" :sortDir="$sortDirection">Received On</x-SortState></th>
                     <th>Action</th>
                 </tr>
@@ -52,9 +51,8 @@
                 @foreach($received as $key => $row)
                 <tr class="@if($row->is_read) table-secondary @endif">
                     <td>{{ $received->firstItem() + $key}}</td>
-                    <td> {!! QrCode::size(60)->generate($row->sendkey); !!}</td>
-                    <td>{{ $row->file_name}}</td>
                     <td>{{ $row->from_name }}</td>
+                    <td>{{ $row->file_name}}</td>
                     <td>{{ $row->created_at }}</td>
                     <td>
                         <button wire:click.prevent="reading({{ $row->id }})" class="btn btn-primary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Read"><i class="bi bi-search"></i></button>
