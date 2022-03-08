@@ -57,7 +57,7 @@
                     <td>{{ $row->from_name }}</td>
                     <td>{{ $row->created_at }}</td>
                     <td>
-                        <button wire:click.prevent="reading({{ $row->id }})" class="btn btn-primary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Read">Read</button>
+                        <button wire:click.prevent="reading({{ $row->id }})" class="btn btn-primary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Read"><i class="bi bi-search"></i></button>
                     </td>
                 </tr>
                 @endforeach
