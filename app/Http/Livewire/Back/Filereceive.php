@@ -17,7 +17,11 @@ class Filereceive extends Component
     public $perhal = 2 ;
     public $inpsearch = "";
     public $fileid = '';
+    public $isread = '';
 
+    public function is_read($val){
+        $this->isread=$val;
+    }
     public function reading($id){
         $received = Sendfile::find($id);
         $received->is_read = true;
@@ -42,6 +46,11 @@ class Filereceive extends Component
         $received->join('users','users.id', '=', 'sendfiles.user_id');
         $received->join('myfiles','sendfiles.myfile_id','=','myfiles.id');        
         $received->where('receiveuser_id',Auth::user()->id);
+        if($this->isread==='yes'){
+            $received->where('is_read',true);
+        }else if ($this->isread==='no'){
+            $received->where('is_read',false);
+        }
         $received->where(function($q){
             $q->where('myfiles.name','like','%'.$this->inpsearch.'%');
             $q->orwhere('users.name','like','%'.$this->inpsearch.'%');
@@ -51,7 +60,7 @@ class Filereceive extends Component
         }else if($this->sortBy=='from_name'){
             $received->orderby('users.name',$this->sortDirection);
         }else if($this->sortBy=='updated_at'){
-            $received->orderby('updated_at',$this->sortDirection);
+            $received->orderby('sendfiles.updated_at',$this->sortDirection);
         }
         return $received;
     }

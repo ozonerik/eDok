@@ -22,6 +22,18 @@
         <!-- table menu -->
         <x-TableMenu mdperhal="perhal" :table="$received" :checked="[]" mdsearch="inpsearch">
             <x-slot:dropdownmenu></x-slot>
+            <div class="mb-2 mb-md-0 me-md-2">
+                <div class="btn-group w-100">
+                    <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-funnel"></i> <span class="fw-bold">Filter</span>
+                    </button>
+                    <ul class="dropdown-menu w-100">
+                        <li><button wire:click="is_read('yes')" class="dropdown-item">Show Read</button></li>
+                        <li><button wire:click="is_read('no')" class="dropdown-item">Show Unread</button></li>
+                        <li><button wire:click="is_read('none')" class="dropdown-item">Show All</button></li>
+                    </ul>
+                </div>
+            </div>
         </x-TableMenu>
         <!-- .table menu -->
         <!-- table -->
