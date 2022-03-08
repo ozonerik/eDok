@@ -29,7 +29,7 @@
             <x-slot:thead>
                 <tr>
                     <th>No</th>
-                    <th style="cursor:pointer;" wire:click="sortBy('sendkey')"><x-SortState colName="sendkey"  :sortBy="$sortBy" :sortDir="$sortDirection">SendKey</x-SortState></th>
+                    <th style="cursor:pointer;" wire:click="sortBy('sendkey')"><x-SortState colName="sendkey"  :sortBy="$sortBy" :sortDir="$sortDirection">Code</x-SortState></th>
                     <th style="cursor:pointer;" wire:click="sortBy('myfile_id')"><x-SortState colName="myfile_id"  :sortBy="$sortBy" :sortDir="$sortDirection">File ID</x-SortState></th>
                     <th style="cursor:pointer;" wire:click="sortBy('receiveuser_id')"><x-SortState colName="receiveuser_id"  :sortBy="$sortBy" :sortDir="$sortDirection">Receive User ID</x-SortState></th>
                     <th style="cursor:pointer;" wire:click="sortBy('user_id')"><x-SortState colName="user_id"  :sortBy="$sortBy" :sortDir="$sortDirection">From ID</x-SortState></th>
@@ -42,7 +42,7 @@
                 @foreach($received as $key => $row)
                 <tr class="@if($row->is_read) table-secondary @endif">
                     <td>{{ $received->firstItem() + $key}}</td>
-                    <td>{{ $row->sendkey }}</td>
+                    <td> {!! QrCode::size(60)->generate($row->sendkey); !!}</td>
                     <td>{{ $row->myfile->name}}</td>
                     <td>{{ $row->receiveuser->name }}</td>
                     <td>{{ $row->user->name}}</td>

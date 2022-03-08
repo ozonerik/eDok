@@ -33,6 +33,10 @@ eDokumen dibuat dengan menggunakan PHP Fremework Laravel 9 dengan requires a min
 <li>
     <a href="https://github.com/barryvdh/laravel-debugbar">barryvdh/laravel-debugbar</a>
 </li>
+<li>
+    <a href="https://github.com/SimpleSoftwareIO/simple-qrcode">simplesoftwareio/simple-qrcode</a>
+</li>
+
 </ul>
 
 ## How Install
