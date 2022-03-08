@@ -12,6 +12,7 @@ use App\Http\Livewire\Back\Otherfile;
 use App\Http\Livewire\Back\Pinnedfile;
 use App\Http\Livewire\Back\Filereceive;
 use App\Http\Livewire\Back\Filesend;
+use App\Http\Livewire\Front\Download;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,7 @@ use App\Http\Livewire\Back\Filesend;
 */
 
 Route::get('/', Home::class)->name('home');
+Route::get('/download', Download::class)->name('download');
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/dashboard',Dashboard::class)->name('dashboard');
