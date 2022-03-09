@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="{{asset('home/css/bootstrap.min.css')}}">
         <link rel="stylesheet" href="{{asset('home/css/baguetteBox.min.css')}}">
         <link rel="stylesheet" href="{{asset('home/css/vanilla-zoom.min.css')}}">
+        @livewireStyles
         @stack('css')
         <x-favicon/>
     </head>
@@ -84,6 +85,31 @@
         <script src="{{ asset('home/js/vanilla-zoom.js') }}"></script>
         <script src="{{ asset('home/js/theme.js')}}"></script>
         <script src="{{ asset('home/js/fontawesome6.js')}}"></script>
+        @livewireScripts
+        <script src="{{ asset('js/jquery-3.5.1.js') }}"></script>
+        <!-- sweetalert2 -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                showCloseButton: true,
+                timer: 2000,
+                timerProgressBar:true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+
+            window.addEventListener('alert',({detail:{type,message}})=>{
+                Toast.fire({
+                    icon:type,
+                    title:message
+                })
+            })
+        </script>
         @stack('scripts')
     </body>
 </html>

@@ -41,7 +41,7 @@
             <x-slot:thead>
                 <tr>
                     <th>No</th>
-                    <th style="cursor:pointer;" wire:click="sortBy('from_name')"><x-SortState colName="from_name"  :sortBy="$sortBy" :sortDir="$sortDirection">From</x-SortState></th>
+                    <th style="cursor:pointer;" wire:click="sortBy('from_name')"><x-SortState colName="from_name"  :sortBy="$sortBy" :sortDir="$sortDirection">Sender</x-SortState></th>
                     <th style="cursor:pointer;" wire:click="sortBy('file_name')"><x-SortState colName="file_name"  :sortBy="$sortBy" :sortDir="$sortDirection">File Name</x-SortState></th>
                     <th style="cursor:pointer;" wire:click="sortBy('created_at')"><x-SortState colName="created_at"  :sortBy="$sortBy" :sortDir="$sortDirection">Received On</x-SortState></th>
                     <th>Action</th>
