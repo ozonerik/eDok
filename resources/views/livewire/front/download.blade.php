@@ -42,10 +42,12 @@
                                 </table>
                             </div>
                             <form method="post" enctype="multipart/form-data" autocomplete="off" wire:submit.prevent="cobadownload">
-                                <div class="form-group d-flex justify-content-center">
-                                    <div class="input-group">
-                                        <input type="password" class="form-control" wire:model.defer="recipientpass" placeholder="Please enter recipient password" aria-label="Recipient's username">
-                                        <button class="btn btn-success" type="submit">Download</button>
+                                <div class="bg-secondary rounded">
+                                    <div class="form-group d-flex justify-content-center p-2">
+                                        <div class="input-group">
+                                            <input type="password" class="form-control" wire:model.defer="recipientpass" placeholder="Please enter recipient password" aria-label="Recipient's username">
+                                            <button class="btn btn-dark" type="submit">Download</button>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
