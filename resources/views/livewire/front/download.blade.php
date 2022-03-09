@@ -8,7 +8,7 @@
                 <div class="col-12">
                     <div class="card text-center">
                         <div class="card-body">
-                            @if(!empty($sendfile))
+                            @if(!empty($myfile->count()))
                             <h4 class="card-title">{{ $c }}</h4>
                             <div class="table-responsive">
                                 <table class="table table-borderless table-light">
