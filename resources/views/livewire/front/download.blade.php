@@ -8,7 +8,7 @@
                 <div class="col-12">
                     <div class="card text-center">
                         <div class="card-body">
-                            @if(!empty($c))
+                            @if(!empty($sendfile))
                             <h4 class="card-title">{{ $c }}</h4>
                             <div class="table-responsive">
                                 <table class="table table-borderless table-light">
@@ -50,7 +50,7 @@
                                 </div>
                             </form>
                             @else
-                            <h4 class="card-title text-danger">Error!!</h4>
+                            <h4 class="card-title text-danger">File Not Found. </h4>
                             @endif
                         </div>
                     </div>

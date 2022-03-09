@@ -15,7 +15,7 @@ class Download extends Component
     public $recipientpass;
     public $userpass;
  
-    protected $queryString = ['c'];
+    protected $queryString = [ 'c'=> ['except' => ''] ];
 
     public function getDownQueryProperty(){
         $sendfile=Sendfile::query();
