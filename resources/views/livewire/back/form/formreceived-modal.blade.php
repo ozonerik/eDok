@@ -45,7 +45,6 @@
           <button type="submit" class="btn btn-secondary btn-sm text-light" disabled>Download</button>
           @endif
         @endforeach
-        
       </div>
       </form>
     </div>
