@@ -22,10 +22,10 @@ eDokumen dibuat dengan menggunakan PHP Fremework Laravel 9 dengan requires a min
     <a href="https://sweetalert2.github.io/">sweetalert2</a>
 </li>
 <li>
-    <a href="https://icons.getbootstrap.com/">Icons Bootstrap 5</a>
+    <a href="https://icons.getbootstrap.com/">Icons Bootstrap v5</a>
 </li>
 <li>
-    <a href="https://fontawesome.com/icons">Font Awesome</a>
+    <a href="https://fontawesome.com/icons">Font Awesome v6</a>
 </li>
 <li>
     <a href="https://github.com/stechstudio/laravel-zipstream">stechstudio/laravel-zipstream</a>
