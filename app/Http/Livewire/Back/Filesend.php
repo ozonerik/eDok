@@ -14,7 +14,7 @@ class Filesend extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $sortBy = 'updated_at';
+    public $sortBy = 'created_at';
     public $sortDirection = 'desc';
     public $perhal = 2 ;
     public $inpsearch = "";
@@ -59,11 +59,11 @@ class Filesend extends Component
             $q->orwhere('users.name','like','%'.$this->inpsearch.'%');
         });
         if($this->sortBy=="file_name"){
-            $received->orderby('myfiles.name',$this->sortDirection);
+            $sending->orderby('myfiles.name',$this->sortDirection);
         }else if($this->sortBy=='recipient_name'){
-            $received->orderby('users.name',$this->sortDirection);
+            $sending->orderby('users.name',$this->sortDirection);
         }else if($this->sortBy=='created_at'){
-            $received->orderby('sendfiles.created_at',$this->sortDirection);
+            $sending->orderby('sendfiles.created_at',$this->sortDirection);
         }
         return $sending;
     }

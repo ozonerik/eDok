@@ -10,13 +10,10 @@
         <table class="table table-borderless table-rounded">
           <thead class="table-light">
             <tr>
-              <th colspan="2" class="text-center">Code</th>
+              <th colspan="2" class="text-center">File Info</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td colspan="2" class="text-center">{!! QrCode::size(120)->generate(url('download?c='.$qrcode)); !!}</td>
-            </tr>
             <tr>
               <td class="fw-bold">File Name</td>
               <td>@foreach($myfile as $row) {{$row->name}} @endforeach</td>
