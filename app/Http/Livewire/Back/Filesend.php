@@ -29,6 +29,20 @@ class Filesend extends Component
     public function resetSearch(){
         $this->inpsearch='';
     }
+
+    //reset form
+    private function resetCreateForm(){
+        $this->mysend_id = [];
+        $this->resetErrorBag();
+        $this->resetValidation();
+    }
+
+    //add single
+    public function add()
+    {
+        $this->dispatchBrowserEvent('show-form');
+        $this->resetCreateForm();
+    }
     
     //remove
     public function removeselection()

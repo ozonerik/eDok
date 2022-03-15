@@ -24,6 +24,16 @@
         $('#form-del').modal('hide');
     })
 </script>
+<script>
+    window.addEventListener('show-form', event => {
+        $('#form').modal('show');
+    })
+</script>
+<script>
+    window.addEventListener('hide-form', event => {
+        $('#form').modal('hide');
+    })
+</script>
 @endpush
 <div>
     <x-LoadingState />
@@ -34,6 +44,13 @@
             <x-slot:dropdownmenu>
                 <li><button wire:click="removeselection" class="dropdown-item">Delete</button></li>
             </x-slot>
+            <div class="mb-2 mb-md-0 me-md-2">
+                <div class="btn-group w-100">
+                    <button wire:click.prevent="add" class="btn btn-primary text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Add">
+                        <i class="bi bi-plus-square"></i> <span>Send File</span>
+                    </button>
+                </div>  
+            </div>
         </x-TableMenu>
         <!-- .table menu -->
         <!-- selection messages -->
@@ -60,7 +77,7 @@
                     <td>{{ $row->myfile->name}}</td>
                     <td>{{ $row->updated_at }}</td>
                     <td>
-                    <button wire:click.prevent="reading({{ $row->id }})" class="btn btn-primary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Read"><i class="bi bi-search"></i></button>
+                    <button wire:click.prevent="reading({{ $row->id }})" class="btn btn-primary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Info"><i class="bi bi-search"></i></button>
                     <button wire:click.prevent="removesingle({{$row->id}})" class="btn btn-danger btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="bi bi-trash-fill"></i></button>
                     <a href="https://wa.me/?text={{url('download?c='.$row->sendkey)}}" target="_blank" class="btn btn-success btn-sm text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Share" ><i class="fa-brands fa-whatsapp"></i></a>
                     </td>

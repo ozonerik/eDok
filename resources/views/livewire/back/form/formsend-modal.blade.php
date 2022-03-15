@@ -65,3 +65,13 @@
     </ol>
   </x-slot>
 </x-ModalForm>
+
+<!-- Sending File -->
+<x-ModalForm modalname="form" linksubmit="store" btntype="success" btnlabel="Save">
+  <x-slot:modaltitle>
+    Send File
+  </x-slot>
+  <x-slot:modalbody>
+    
+  </x-slot>
+</x-ModalForm>
