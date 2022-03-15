@@ -27,18 +27,35 @@ class Filesend extends Component
     public $selectAll = false;
     public $checked = [];
     public $mysend_id = [];
-    public $receiveuser,$filesend;
+    public $receiveuser=[];
+    public $filesend=[];
+    public $searchrecipient='';
 
     //reset search
     public function resetSearch(){
         $this->inpsearch='';
     }
 
+    public function is_recipient($id){
+        array_push($this->receiveuser,$id);
+        $this->searchrecipient='';
+    }
+
+    public function del_recipient($id){
+        $this->receiveuser=array_diff($this->receiveuser,array($id));
+    }
+
+    public function getRecipientlistProperty(){
+        $user=User::query();
+        $user->where('id','!=',Auth::user()->id);
+        $user->where('name','like','%'.$this->searchrecipient.'%');
+
+        return $user;
+    }
+
     //reset form
     private function resetCreateForm(){
         $this->mysend_id = [];
-        $this->receiveuser='';
-        $this->filesend='';
         $this->resetErrorBag();
         $this->resetValidation();
     }
@@ -195,7 +212,8 @@ class Filesend extends Component
         $data['sending']=$this->MySend;
         $data['delsel']=Sendfile::find($this->mysend_id);
         $data['myfile']=Myfile::where('id',$this->fileid)->get();
-        $data['userlist']=User::where('id','!=',Auth::user()->id)->get();
+        $data['userlist']=$this->Recipientlist->take(1)->get();
+        $data['userselect']=User::whereIn('id',$this->receiveuser)->get();
         $data['filelist']=Myfile::where('user_id',Auth::user()->id)->get();
         return view('livewire.back.filesend',$data)->layout('layouts.app');
     }

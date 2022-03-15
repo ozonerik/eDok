@@ -74,13 +74,28 @@
   <x-slot:modalbody>
     <div class="form-group mb-3">
         <label>Select Recipient </label>
-        <select multiple class="form-select @error('receiveuser') is-invalid @enderror" wire:model.defer="receiveuser">
-            <option Selected class="text-muted">Please Select</option>    
-            @foreach($userlist as $row)
-            <option value="{{$row->id}}">{{$row->name}}</option>
-            @endforeach
-        </select>
-        @error('receiveuser')<div class="invalid-feedback">{{ $message }}</div>@enderror
+        <input type="text" class="form-control mb-1 @error('searchrecipient') is-invalid @enderror " wire:model="searchrecipient" placeholder="Search Recipient" >
+        
+        @if(!empty($searchrecipient))
+        Result:
+        <ol class="list-group mb-3">
+          @foreach($userlist as $row)
+          <btn wire:click="is_recipient({{$row->id}})" class="btn btn-outline-secondary mb-1" >
+            {{ $row->name }}
+          </btn>
+          @endforeach
+        </ol>
+        @endif
+
+        @if(!empty($userselect->count()))
+        Recipient List:
+        <ol class="list-group mb-3">
+          @foreach($userselect as $row)
+          <a href="#" wire:click="del_recipient({{$row->id}})" class="list-group-item list-group-item-action">{{$row->name}}</a>
+          @endforeach
+        </ol>
+        @endif
+        
     </div>
     <div class="form-group mb-3">
         <label>Select File</label>
