@@ -14,20 +14,36 @@
         $('#form-sending').modal('hide');
     })
 </script>
+<script>
+    window.addEventListener('show-form-del', event => {
+        $('#form-del').modal('show');
+    })
+</script>
+<script>
+    window.addEventListener('hide-form-del', event => {
+        $('#form-del').modal('hide');
+    })
+</script>
 @endpush
 <div>
     <x-LoadingState />
     @include('livewire.back.form.formsend-modal')
     <x-CardLayout>
         <!-- table menu -->
-        <x-TableMenu mdperhal="perhal" :table="$sending" :checked="[]" mdsearch="inpsearch">
-            <x-slot:dropdownmenu></x-slot>
+        <x-TableMenu mdperhal="perhal" :table="$sending" :checked="$checked" mdsearch="inpsearch">
+            <x-slot:dropdownmenu>
+                <li><button wire:click="removeselection" class="dropdown-item">Delete</button></li>
+            </x-slot>
         </x-TableMenu>
         <!-- .table menu -->
+        <!-- selection messages -->
+        <x-SelMsg :table="$sending" :selectPage="$selectPage" :selectAll="$selectAll" :checked="$checked" linkDeselect="deselectAll" linkSelect="selectAll"/>
+        <!-- .selection messages -->
         <!-- table -->
         <x-TableSlot :table="$sending" ncol="5" ncolAdmin="5">
             <x-slot:thead>
                 <tr>
+                    <th class="text-center"><input type="checkbox" wire:model="selectPage"></th>    
                     <th>No</th>
                     <th style="cursor:pointer;" wire:click="sortBy('recipient_name')"><x-SortState colName="recipient_name"  :sortBy="$sortBy" :sortDir="$sortDirection">Recipient</x-SortState></th>
                     <th style="cursor:pointer;" wire:click="sortBy('file_name')"><x-SortState colName="file_name"  :sortBy="$sortBy" :sortDir="$sortDirection">File Name</x-SortState></th>
@@ -37,13 +53,15 @@
             </x-slot>
             <x-slot:tbody>
                 @foreach($sending as $key => $row)
-                <tr>
+                <tr class="@if($this->is_checked($row->id)) table-primary @endif">
+                    <td class="text-center"><input type="checkbox" value="{{ $row->id }}" wire:model="checked"></td>    
                     <td>{{ $sending->firstItem() + $key}}</td>
                     <td>{{ $row->receiveuser->name }}</td>
                     <td>{{ $row->myfile->name}}</td>
                     <td>{{ $row->updated_at }}</td>
                     <td>
                     <button wire:click.prevent="reading({{ $row->id }})" class="btn btn-primary btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Read"><i class="bi bi-search"></i></button>
+                    <button wire:click.prevent="removesingle({{$row->id}})" class="btn btn-danger btn-sm text-light me-1 mb-2 mb-md-0" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="bi bi-trash-fill"></i></button>
                     <a href="https://wa.me/?text={{url('download?c='.$row->sendkey)}}" target="_blank" class="btn btn-success btn-sm text-light" data-bs-toggle="tooltip" data-bs-placement="top" title="Share" ><i class="fa-brands fa-whatsapp"></i></a>
                     </td>
                 </tr>

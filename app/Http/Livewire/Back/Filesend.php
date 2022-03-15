@@ -20,11 +20,75 @@ class Filesend extends Component
     public $inpsearch = "";
     public $fileid = '';
     public $qrcode = 'null';
+    public $selectPage = false;
+    public $selectAll = false;
+    public $checked = [];
+    public $mysend_id = [];
 
     //reset search
     public function resetSearch(){
         $this->inpsearch='';
     }
+    
+    //remove
+    public function removeselection()
+    {     
+        $this->mysend_id = $this->checked;
+        $this->dispatchBrowserEvent('show-form-del');
+    }
+
+    public function removesingle($id){
+        $this->mysend_id = [$id];
+        $this->dispatchBrowserEvent('show-form-del');
+    }
+
+    public function delete()
+    {
+        $myfiles = Sendfile::whereIn('id',$this->mysend_id);
+        $myfiles->delete();
+        $this->selectPage=false;
+        $this->checked = array_diff($this->checked,$this->myfile_id );
+        $this->dispatchBrowserEvent('hide-form-del');
+        $this->dispatchBrowserEvent('alert',[
+            'type'=>'success',
+            'message'=>'Deleted items successfully.'
+        ]);
+    }
+
+    //lifecylce hook updated<namavariable>
+    public function updatedSelectPage($value){
+        if($value){
+            $this->checked = $this->MySend->pluck('id')->map(fn($item) => (string) $item)->toArray();
+        }else{
+            $this->checked = [];
+            $this->selectAll=false;
+        }
+    }
+    //lifecylce hook updated<namavariable>
+    public function updatedChecked($value){
+        $this->selectPage=false;
+        $this->selectAll=false;
+    }
+    //end lifecycle
+
+    //selection
+    public function selectAll(){
+        $this->selectAll=true;
+        if($this->selectAll){
+            $this->checked = $this->MySendQuery->pluck('id')->map(fn($item) => (string) $item)->toArray();
+        }else{
+            $this->checked = [];
+        }
+    }
+    public function deselectAll(){
+        $this->selectAll=false;
+        $this->selectPage=false;
+        $this->checked = [];
+    }
+    public function is_checked($sendid){
+        return in_array($sendid,$this->checked);
+    }
+    //end selection
 
     public function reading($id){
         $received = Sendfile::find($id);
@@ -79,6 +143,7 @@ class Filesend extends Component
     public function render()
     {
         $data['sending']=$this->MySend;
+        $data['delsel']=Sendfile::find($this->mysend_id);
         $data['myfile']=Myfile::where('id',$this->fileid)->get();
         return view('livewire.back.filesend',$data)->layout('layouts.app');
     }
