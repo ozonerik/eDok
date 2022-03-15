@@ -37,6 +37,8 @@ class Filesend extends Component
     //reset form
     private function resetCreateForm(){
         $this->mysend_id = [];
+        $this->receiveuser='';
+        $this->filesend='';
         $this->resetErrorBag();
         $this->resetValidation();
     }
