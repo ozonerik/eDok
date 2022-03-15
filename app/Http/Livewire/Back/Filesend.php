@@ -6,9 +6,12 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Sendfile;
 use App\Models\Myfile;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
 
 class Filesend extends Component
 {
@@ -24,6 +27,7 @@ class Filesend extends Component
     public $selectAll = false;
     public $checked = [];
     public $mysend_id = [];
+    public $receiveuser,$filesend;
 
     //reset search
     public function resetSearch(){
@@ -43,6 +47,36 @@ class Filesend extends Component
         $this->dispatchBrowserEvent('show-form');
         $this->resetCreateForm();
     }
+
+    public function store(){
+        $this->validate([
+                'receiveuser' => 'required',
+                'filesend' => 'required'],
+                [],
+                [
+                    'receiveuser' => 'Users Recipient',
+                    'filesend' => 'Files'
+                ]
+        );
+
+        foreach($this->receiveuser as $user){
+            foreach($this->filesend as $filesid){
+                Sendfile::create([
+                    'sendkey' => Str::random(10),
+                    'myfile_id' => $filesid,
+                    'receiveuser_id' => $user,
+                    'user_id' => Auth::user()->id,
+                    'is_read' => false,
+                ]);
+            }
+        }
+        $this->dispatchBrowserEvent('hide-form');
+        $this->dispatchBrowserEvent('alert',[
+            'type'=>'success',
+            'message'=>'Data added successfully.'
+        ]);
+        $this->resetCreateForm();
+    }
     
     //remove
     public function removeselection()
@@ -58,10 +92,10 @@ class Filesend extends Component
 
     public function delete()
     {
-        $myfiles = Sendfile::whereIn('id',$this->mysend_id);
-        $myfiles->delete();
+        $sendfile = Sendfile::whereIn('id',$this->mysend_id);
+        $sendfile->delete();
         $this->selectPage=false;
-        $this->checked = array_diff($this->checked,$this->myfile_id );
+        $this->checked = array_diff($this->checked,$this->mysend_id );
         $this->dispatchBrowserEvent('hide-form-del');
         $this->dispatchBrowserEvent('alert',[
             'type'=>'success',
@@ -159,6 +193,8 @@ class Filesend extends Component
         $data['sending']=$this->MySend;
         $data['delsel']=Sendfile::find($this->mysend_id);
         $data['myfile']=Myfile::where('id',$this->fileid)->get();
+        $data['userlist']=User::where('id','!=',Auth::user()->id)->get();
+        $data['filelist']=Myfile::where('user_id',Auth::user()->id)->get();
         return view('livewire.back.filesend',$data)->layout('layouts.app');
     }
 }

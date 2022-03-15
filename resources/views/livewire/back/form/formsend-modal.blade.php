@@ -72,6 +72,25 @@
     Send File
   </x-slot>
   <x-slot:modalbody>
-    
+    <div class="form-group mb-3">
+        <label>Select Recipient </label>
+        <select multiple class="form-select @error('receiveuser') is-invalid @enderror" wire:model.defer="receiveuser">
+            <option Selected class="text-muted">Please Select</option>    
+            @foreach($userlist as $row)
+            <option value="{{$row->id}}">{{$row->name}}</option>
+            @endforeach
+        </select>
+        @error('receiveuser')<div class="invalid-feedback">{{ $message }}</div>@enderror
+    </div>
+    <div class="form-group mb-3">
+        <label>Select File</label>
+        <select multiple class="form-select @error('filesend') is-invalid @enderror" wire:model.defer="filesend">
+            <option Selected class="text-muted">Please Select</option>    
+            @foreach($filelist as $row)
+            <option value="{{$row->id}}">{{$row->name}}</option>
+            @endforeach
+        </select>
+        @error('filesend')<div class="invalid-feedback">{{ $message }}</div>@enderror
+    </div>
   </x-slot>
 </x-ModalForm>
