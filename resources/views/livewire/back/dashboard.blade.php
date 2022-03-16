@@ -4,8 +4,6 @@
     </h2>
 </x-slot>
 @push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <x-grafik namechart="test" target="myChart" type="bar" :labelchart="$labeluser" :datachart="$datauser" :chartcolor="['DarkBlue', 'DarkGreen', 'DarkOrange', 'DarkRed', 'Indigo']"/>
 @endpush
 <div class="row justify-content-center my-5">

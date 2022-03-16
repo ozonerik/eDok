@@ -1,3 +1,5 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <script>
     const {{$namechart}} = new Chart(document.getElementById( "{{ $target }}" ).getContext('2d'), {
     type: "{{ $type }}",
