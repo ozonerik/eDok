@@ -60,7 +60,7 @@
     <div class="text-center mb-1">Do you want delete this @if($mysend_id) {{ count($mysend_id) }} @endif items ?</div>
     <ol class="list-group list-group-numbered">
     @foreach($delsel as $row)
-      <li class="list-group-item list-group-item-action">{{$row->myfile->name}} ( Recipient: {{$row->receiveuser->name}} )</li>
+      <li class="list-group-item list-group-item-action">{{$row->myfile->name}} ( Recipient: {{$row->receiveuser->name}} ) ( Sent On: {{$row->created_at}} )</li>
     @endforeach
     </ol>
   </x-slot>
