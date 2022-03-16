@@ -23,7 +23,7 @@
                     display:false
                 },
                 datalabels: {
-                    color: 'White'
+                    color: "{{ $labelcolor }}"
                 }
             },
             scales: {

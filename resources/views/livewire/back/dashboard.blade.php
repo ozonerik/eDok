@@ -4,7 +4,7 @@
     </h2>
 </x-slot>
 @push('scripts')
-<x-grafik namechart="test" target="myChart" type="bar" :labelchart="$labeluser" :datachart="$datauser" :chartcolor="['DarkBlue', 'DarkGreen', 'DarkOrange', 'DarkRed', 'Indigo']"/>
+<x-grafik namechart="test" target="myChart" type="bar" labelcolor="white" :labelchart="$labeluser" :datachart="$datauser" :chartcolor="['DarkBlue', 'DarkGreen', 'DarkOrange', 'DarkRed', 'Indigo']"/>
 @endpush
 <div class="row justify-content-center my-5">
 <x-LoadingState />
