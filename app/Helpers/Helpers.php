@@ -57,7 +57,7 @@ function get_bulan($q){
         $blnmcount[(int)$value->bulan] = $value->jumfile;
     }
 
-    $month = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nop', 'Des'];
+    $month = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
     for ($i = 1; $i <= 12; $i++) {
         if (!empty($blnmcount[$i])) {
