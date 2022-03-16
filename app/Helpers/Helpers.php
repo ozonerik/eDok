@@ -48,6 +48,28 @@ function compareArray($array1,$array2){
     }
 }
 
+function get_bulan($q){
+
+    $blnmcount = [];
+    $blnArr = [];
+
+    foreach ($q as $key => $value) {
+        $blnmcount[(int)$value->bulan] = $value->jumfile;
+    }
+
+    $month = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nop', 'Des'];
+
+    for ($i = 1; $i <= 12; $i++) {
+        if (!empty($blnmcount[$i])) {
+            $blnArr[$i]['jumfile'] = $blnmcount[$i];
+        } else {
+            $blnArr[$i]['jumfile'] = 0;
+        }
+        $blnArr[$i]['bulan'] = $month[$i - 1];
+    }
+    return $blnArr;
+}
+
 function convert_bytes($set_bytes){
     $set_kb = 1024;
     $set_mb = $set_kb * 1024;

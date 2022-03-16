@@ -6,7 +6,8 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-<x-grafik namechart="test" target="myChart" type="bar" labelcolor="white" :labelchart="$labeluser" :datachart="$datauser" :chartcolor="['DarkBlue', 'DarkGreen', 'DarkOrange', 'DarkRed', 'Indigo']"/>
+<x-grafik namechart="top5user" target="top5user" type="bar" labelcolor="white" :labelchart="$labeluser" :datachart="$datauser" :chartcolor="['DarkBlue', 'DarkGreen', 'DarkOrange', 'DarkRed', 'Indigo']"/>
+<x-grafik namechart="blngraph" target="blngraph" type="bar" labelcolor="white" :labelchart="$labelbln" :datachart="$databln" :chartcolor="['DarkBlue']"/>
 @endpush
 <div class="row justify-content-center my-5">
 <x-LoadingState />
@@ -30,8 +31,16 @@
                     <h3 class="h4">
                         Top 5 User Uploader
                     </h3>
-                    <div class="text-muted">
-                        <canvas id="myChart"></canvas>
+                    <div>
+                        <canvas id="top5user"></canvas>
+                    </div>
+                </div>
+                <div class="mx-3 my-3">
+                    <h3 class="h4">
+                    Sum of uploading file in {{ \Carbon\Carbon::now()->format('Y') }}
+                    </h3>
+                    <div>
+                        <canvas id="blngraph"></canvas>
                     </div>
                 </div>
             </div>
