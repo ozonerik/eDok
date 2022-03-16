@@ -6,46 +6,7 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-<script>
-document.addEventListener('livewire:load', function () {
-    var ctx = document.getElementById('myChart').getContext('2d')
-    const myChart = new Chart(ctx, {
-    type: 'bar',
-    data: 
-        {
-            labels: @js($labeluser),
-            datasets: [
-            {
-                data: @js($datauser),
-                backgroundColor : ['DarkBlue', 'DarkGreen', 'DarkOrange', 'DarkRed', 'Indigo'],
-            }
-            ]
-        },
-    plugins: [ChartDataLabels],
-    options: 
-        {
-            maintainAspectRatio : false,
-            responsive : true,
-            plugins:{
-                legend:{
-                    display:false
-                },
-                datalabels: {
-                    color: 'White'
-                }
-            },
-            scales: {
-                y:{
-                    beginAtZero: true,
-                    ticks: {
-                        precision:0
-                    }
-                }
-            }
-        }
-    })
-});
-</script>
+<x-grafik namechart="test" target="myChart" type="bar" :labelchart="$labeluser" :datachart="$datauser" :chartcolor="['DarkBlue', 'DarkGreen', 'DarkOrange', 'DarkRed', 'Indigo']"/>
 @endpush
 <div class="row justify-content-center my-5">
 <x-LoadingState />
