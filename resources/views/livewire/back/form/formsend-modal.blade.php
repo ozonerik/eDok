@@ -67,17 +67,25 @@
 </x-ModalForm>
 
 <!-- Sending File -->
-<x-ModalForm modalname="form" linksubmit="store" btntype="success" btnlabel="Save">
+<x-ModalForm modalname="form" linksubmit="store" btntype="success" btnlabel="Send">
   <x-slot:modaltitle>
     Send File
   </x-slot>
   <x-slot:modalbody>
     <div class="form-group mb-3">
         <label>Select Recipient </label>
-        <input type="text" class="form-control mb-1 @error('searchrecipient') is-invalid @enderror " wire:model="searchrecipient" placeholder="Search Recipient" >
+        <input type="text" class="form-control mb-1" wire:model="searchrecipient" placeholder="Search Recipient" >
+        @if(!empty($userselect->count()))
+        Recipient Selected:
+        <ol class="list-group mb-3">
+          @foreach($userselect as $row)
+          <a href="#" wire:click="del_recipient({{$row->id}})" class="list-group-item list-group-item-action active border border-light">{{$row->name}}</a>
+          @endforeach
+        </ol>
+        @endif
         
         @if(!empty($searchrecipient))
-        Result:
+        <span class="text-success">Search Result:</span>
         <ol class="list-group mb-3">
           @foreach($userlist as $row)
           <btn wire:click="is_recipient({{$row->id}})" class="btn btn-outline-secondary mb-1" >
@@ -87,25 +95,32 @@
         </ol>
         @endif
 
-        @if(!empty($userselect->count()))
-        Recipient List:
-        <ol class="list-group mb-3">
-          @foreach($userselect as $row)
-          <a href="#" wire:click="del_recipient({{$row->id}})" class="list-group-item list-group-item-action">{{$row->name}}</a>
-          @endforeach
-        </ol>
-        @endif
+        
         
     </div>
     <div class="form-group mb-3">
-        <label>Select File</label>
-        <select multiple class="form-select @error('filesend') is-invalid @enderror" wire:model.defer="filesend">
-            <option Selected class="text-muted">Please Select</option>    
-            @foreach($filelist as $row)
-            <option value="{{$row->id}}">{{$row->name}}</option>
-            @endforeach
-        </select>
-        @error('filesend')<div class="invalid-feedback">{{ $message }}</div>@enderror
+        <label>Select Files</label>
+        <input type="text" class="form-control mb-1 " wire:model="searchrfiles" placeholder="Search Files" >
+        @if(!empty($fileselect->count()))
+        Files Selected:
+        <ol class="list-group mb-3">
+          @foreach($fileselect as $row)
+          <a href="#" wire:click="del_files({{$row->id}})" class="list-group-item list-group-item-action active border border-light">{{ $row->filecategory->name }} / {{ $row->name }} ({{convert_bytes($row->file_size)}})</a>
+          @endforeach
+        </ol>
+        @endif
+        @if(empty($searchrfiles)) 
+        <span class="text-primary">Myfiles List:</span>
+        @else
+        <span class="text-success">Search Result:</span>
+        @endif
+        <ol class="list-group mb-3">
+          @foreach($filelist as $row)
+          <btn wire:click="is_files({{$row->id}})" class="btn btn-outline-secondary mb-1" >
+          {{ $row->filecategory->name }} / {{ $row->name }} ({{convert_bytes($row->file_size)}})
+          </btn>
+          @endforeach
+        </ol>
     </div>
   </x-slot>
 </x-ModalForm>

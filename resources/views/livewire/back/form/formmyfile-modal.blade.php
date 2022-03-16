@@ -127,9 +127,11 @@
       </div>
       <div class="modal-body">
         <input class="form-control mb-2" type="text" wire:model="category" placeholder="Search Category...">
-       @foreach($resultcat as $row)
-        <button wire:click.prevent="selectcat({{$row->id}})" class="btn w-100 mb-1 btn-outline-secondary btn-sm text-start">{{$row->name}}</button>
-       @endforeach
+        <ol class="list-group mb-3">
+        @foreach($resultcat as $row)
+        <button wire:click.prevent="selectcat({{$row->id}})" class="btn mb-1 btn-outline-secondary">{{$row->name}}</button>
+        @endforeach
+       </ol>
       </div>
     </div>
   </div>

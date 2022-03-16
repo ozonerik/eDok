@@ -30,6 +30,7 @@ class Filesend extends Component
     public $receiveuser=[];
     public $filesend=[];
     public $searchrecipient='';
+    public $searchrfiles='';
 
     //reset search
     public function resetSearch(){
@@ -40,22 +41,38 @@ class Filesend extends Component
         array_push($this->receiveuser,$id);
         $this->searchrecipient='';
     }
+    public function is_files($id){
+        array_push($this->filesend,$id);
+        $this->searchrfiles='';
+    }
 
     public function del_recipient($id){
         $this->receiveuser=array_diff($this->receiveuser,array($id));
+    }
+    public function del_files($id){
+        $this->filesend=array_diff($this->filesend,array($id));
     }
 
     public function getRecipientlistProperty(){
         $user=User::query();
         $user->where('id','!=',Auth::user()->id);
+        $user->whereNotIn('id',$this->receiveuser);
         $user->where('name','like','%'.$this->searchrecipient.'%');
-
         return $user;
+    }
+    public function getFileslistProperty(){
+        $myfile=Myfile::query();
+        $myfile->where('user_id','=',Auth::user()->id);
+        $myfile->whereNotIn('id',$this->filesend);
+        $myfile->where('name','like','%'.$this->searchrfiles.'%');
+        return $myfile;
     }
 
     //reset form
     private function resetCreateForm(){
         $this->mysend_id = [];
+        $this->searchrecipient='';
+        $this->searchrfiles='';
         $this->resetErrorBag();
         $this->resetValidation();
     }
@@ -68,33 +85,33 @@ class Filesend extends Component
     }
 
     public function store(){
-        $this->validate([
-                'receiveuser' => 'required',
-                'filesend' => 'required'],
-                [],
-                [
-                    'receiveuser' => 'Users Recipient',
-                    'filesend' => 'Files'
-                ]
-        );
-
-        foreach($this->receiveuser as $user){
-            foreach($this->filesend as $filesid){
-                Sendfile::create([
-                    'sendkey' => Str::random(10),
-                    'myfile_id' => $filesid,
-                    'receiveuser_id' => $user,
-                    'user_id' => Auth::user()->id,
-                    'is_read' => false,
-                ]);
+        if(!empty($this->receiveuser) && !empty($this->filesend) ){
+            foreach($this->receiveuser as $user){
+                foreach($this->filesend as $filesid){
+                    Sendfile::create([
+                        'sendkey' => Str::random(10),
+                        'myfile_id' => $filesid,
+                        'receiveuser_id' => $user,
+                        'user_id' => Auth::user()->id,
+                        'is_read' => false,
+                    ]);
+                }
             }
+            $this->dispatchBrowserEvent('hide-form');
+            $this->dispatchBrowserEvent('alert',[
+                'type'=>'success',
+                'message'=>'Sending successfully.'
+            ]);
+            $this->resetCreateForm();
+        }else{
+            $this->dispatchBrowserEvent('alert',[
+                'type'=>'error',
+                'message'=>'Sending failed.'
+            ]);
+            $this->resetCreateForm();
         }
-        $this->dispatchBrowserEvent('hide-form');
-        $this->dispatchBrowserEvent('alert',[
-            'type'=>'success',
-            'message'=>'Data added successfully.'
-        ]);
-        $this->resetCreateForm();
+
+        
     }
     
     //remove
@@ -212,9 +229,10 @@ class Filesend extends Component
         $data['sending']=$this->MySend;
         $data['delsel']=Sendfile::find($this->mysend_id);
         $data['myfile']=Myfile::where('id',$this->fileid)->get();
-        $data['userlist']=$this->Recipientlist->take(1)->get();
+        $data['userlist']=$this->Recipientlist->take(3)->get();
         $data['userselect']=User::whereIn('id',$this->receiveuser)->get();
-        $data['filelist']=Myfile::where('user_id',Auth::user()->id)->get();
+        $data['filelist']=$this->Fileslist->get();
+        $data['fileselect']=Myfile::whereIn('id',$this->filesend)->get();
         return view('livewire.back.filesend',$data)->layout('layouts.app');
     }
 }
