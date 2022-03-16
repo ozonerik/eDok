@@ -3,6 +3,50 @@
         {{ __('Dashboard') }}
     </h2>
 </x-slot>
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+<script>
+document.addEventListener('livewire:load', function () {
+    var ctx = document.getElementById('myChart').getContext('2d')
+    const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: 
+        {
+            labels: @js($labeluser),
+            datasets: [
+            {
+                data: @js($datauser),
+                backgroundColor : ['DarkBlue', 'DarkGreen', 'DarkOrange', 'DarkRed', 'Indigo'],
+            }
+            ]
+        },
+    plugins: [ChartDataLabels],
+    options: 
+        {
+            maintainAspectRatio : false,
+            responsive : true,
+            plugins:{
+                legend:{
+                    display:false
+                },
+                datalabels: {
+                    color: 'White'
+                }
+            },
+            scales: {
+                y:{
+                    beginAtZero: true,
+                    ticks: {
+                        precision:0
+                    }
+                }
+            }
+        }
+    })
+});
+</script>
+@endpush
 <div class="row justify-content-center my-5">
 <x-LoadingState />
     <div class="col-md-12">
@@ -17,6 +61,16 @@
                     </h3>
                     <div class="text-muted">
                         eDokumen adalah suatu web app yang dibangun oleh Tim ICT SMKN 1 Krangkeng untuk kebutuhan penyimpanan dan sharing file digital dari para stakeholder yang ada di SMKN 1 Krangkeng
+                    </div>
+                </div>
+            </div>
+            <div class="card-body bg-white px-5 py-3 border-bottom rounded-top">
+                <div class="mx-3 my-3">
+                    <h3 class="h4">
+                        Top 5 User Uploader
+                    </h3>
+                    <div class="text-muted">
+                        <canvas id="myChart"></canvas>
                     </div>
                 </div>
             </div>
