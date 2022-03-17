@@ -7,7 +7,7 @@
             datasets: [
             {
                 data: @js($datachart),
-                backgroundColor : @js($isColor($chartcolor)),
+                backgroundColor : @js($isColor($chartcolor))
             }
             ]
         },
@@ -28,7 +28,13 @@
                 y:{
                     beginAtZero: true,
                     ticks: {
-                        precision:0
+                        precision:0,
+                        color:@js($fontcolor)
+                    }
+                },
+                x:{
+                    ticks: {
+                        color:@js($fontcolor)
                     }
                 }
             }

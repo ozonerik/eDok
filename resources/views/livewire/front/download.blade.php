@@ -1,4 +1,5 @@
 <div>
+    <x-LoadingState />
     <section class="clean-block about-us">
         <div class="container">
             <div class="block-heading">

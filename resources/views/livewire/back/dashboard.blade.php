@@ -6,8 +6,8 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-<x-grafik namechart="top5user" target="top5user" type="bar" labelcolor="white" :labelchart="$labeluser" :datachart="$datauser" :chartcolor="['DarkBlue', 'DarkGreen', 'DarkOrange', 'DarkRed', 'Indigo']"/>
-<x-grafik namechart="blngraph" target="blngraph" type="bar" labelcolor="white" :labelchart="$labelbln" :datachart="$databln" :chartcolor="['DarkBlue']"/>
+<x-grafik namechart="top5user" target="top5user" type="bar" labelcolor="white" :labelchart="$labeluser" :datachart="$datauser" :fontcolor="['#666']" :chartcolor="['DarkBlue', 'DarkGreen', 'DarkOrange', 'DarkRed', 'Indigo']"/>
+<x-grafik namechart="blngraph" target="blngraph" type="bar" labelcolor="white" :labelchart="$labelbln" :datachart="$databln" :fontcolor="['#666']" :chartcolor="['DarkBlue']"/>
 <script>
 window.addEventListener('update-tahun', event => {
     blngraph.data.datasets[0].data=@this.databln;

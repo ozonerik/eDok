@@ -17,6 +17,20 @@
         @livewireStyles
         @stack('css')
         <x-favicon/>
+        <style>
+            .overlay {
+            position: fixed; /* Sit on top of the page content */
+            width: 100%; /* Full width (cover the whole page) */
+            height: 100%; /* Full height (cover the whole page) */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+            z-index: 5000; /* Specify a stack order in case you're using a different order for other elements */
+            cursor: pointer; /* Add a pointer on hover */
+            }
+        </style>
     </head>
     <body class="font-sans antialiased">
         <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-white clean-navbar">
@@ -85,8 +99,8 @@
         <script src="{{ asset('home/js/vanilla-zoom.js') }}"></script>
         <script src="{{ asset('home/js/theme.js')}}"></script>
         <script src="{{ asset('home/js/fontawesome6.js')}}"></script>
-        @livewireScripts
         <script src="{{ asset('js/jquery-3.5.1.js') }}"></script>
+        @livewireScripts
         <!-- sweetalert2 -->
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>

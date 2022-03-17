@@ -12,9 +12,9 @@ class Grafik extends Component
      * @return void
      */
     
-     public $namechart,$type,$target,$labelchart,$datachart,$chartcolor,$labelcolor;
+     public $namechart,$type,$target,$labelchart,$datachart,$chartcolor,$labelcolor,$fontcolor;
 
-    public function __construct($namechart,$type,$target,$labelchart,$datachart,$chartcolor,$labelcolor)
+    public function __construct($namechart,$type,$target,$labelchart,$datachart,$chartcolor,$labelcolor,$fontcolor)
     {
         $this->namechart = $namechart;
         $this->type = $type;
@@ -23,6 +23,7 @@ class Grafik extends Component
         $this->datachart = $datachart;
         $this->chartcolor = $chartcolor;
         $this->labelcolor = $labelcolor;
+        $this->fontcolor = $fontcolor;
     }
 
     /**
