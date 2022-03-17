@@ -9,6 +9,19 @@ use Illuminate\Support\Facades\DB;
 
 class Dashboard extends Component
 {
+    public $pilihtahun,$labelbln,$databln;
+
+    public function mount(){
+        $this->pilihtahun = Carbon::now()->format('Y');
+        $this->labelbln=array_column(get_bulan($this->JumFileBln->get()->where('tahun', $this->pilihtahun ) ),"bulan");
+        $this->databln=array_column(get_bulan($this->JumFileBln->get()->where('tahun', $this->pilihtahun ) ),"jumfile");
+    }
+
+    public function changetahun(){
+        $this->labelbln=array_column(get_bulan($this->JumFileBln->get()->where('tahun', $this->pilihtahun ) ),"bulan");
+        $this->databln=array_column(get_bulan($this->JumFileBln->get()->where('tahun', $this->pilihtahun ) ),"jumfile");
+        $this->dispatchBrowserEvent('update-tahun');
+    }
     public function getJumFileUserProperty(){
         $myfile = Myfile::query();
         $myfile->join('users','myfiles.user_id','=','users.id');
@@ -33,8 +46,7 @@ class Dashboard extends Component
         $data['labeluser']=$this->JumFileUser->take(5)->get()->pluck('username')->toArray();
         $data['datauser']=$this->JumFileUser->take(5)->get()->pluck('jumfile')->toArray();
         //$data['chartbln']=Carbon::now()->format('Y');
-        $data['labelbln']=array_column(get_bulan($this->JumFileBln->get()->where('tahun', Carbon::now()->format('Y') ) ),"bulan");
-        $data['databln']=array_column(get_bulan($this->JumFileBln->get()->where('tahun', Carbon::now()->format('Y') ) ),"jumfile");
+        
         return view('livewire.back.dashboard',$data)->layout('layouts.app');
     }
 }

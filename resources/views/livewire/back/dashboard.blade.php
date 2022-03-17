@@ -8,6 +8,13 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 <x-grafik namechart="top5user" target="top5user" type="bar" labelcolor="white" :labelchart="$labeluser" :datachart="$datauser" :chartcolor="['DarkBlue', 'DarkGreen', 'DarkOrange', 'DarkRed', 'Indigo']"/>
 <x-grafik namechart="blngraph" target="blngraph" type="bar" labelcolor="white" :labelchart="$labelbln" :datachart="$databln" :chartcolor="['DarkBlue']"/>
+<script>
+window.addEventListener('update-tahun', event => {
+    blngraph.data.datasets[0].data=@this.databln;
+    blngraph.data.labels=@this.labelbln;
+    blngraph.update();
+})
+</script>
 @endpush
 <div class="row justify-content-center my-5">
 <x-LoadingState />
@@ -27,19 +34,36 @@
                 </div>
             </div>
             <div class="card-body bg-white px-5 py-3 border-bottom rounded-top">
-                <div class="mx-3 my-3">
-                    <h3 class="h4">
+                <div class="mx-3 my-3 row">
+                    <div class="col-12 h4 text-center text-md-start">
                         Top 5 User Uploader
-                    </h3>
-                    <div>
+                    </div>
+                    <div class="col-12" wire:ignore>
                         <canvas id="top5user"></canvas>
                     </div>
                 </div>
                 <div class="mx-3 my-3">
-                    <h3 class="h4">
-                    Sum of uploading file in {{ \Carbon\Carbon::now()->format('Y') }}
-                    </h3>
-                    <div>
+                    <div class="row">
+                        <div class="h4 col-12 col-md-8 text-center text-md-start">
+                            Sum of uploading file in {{ $pilihtahun }}
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="row">
+                                <div class="col-md-8 col-4 text-md-end">
+                                    <label class="col-form-label">Change Year</label>
+                                </div>
+                                <div class="col-md-4 col-8">
+                                    <select class="form-select" wire:model="pilihtahun" wire:change="changetahun">
+                                        @for ($i = (int)\Carbon\Carbon::now()->format('Y'); $i >= (int)\Carbon\Carbon::now()->format('Y')-5; $i--)
+                                        <option value='{{$i}}'>{{$i}}</option>
+                                        @endfor
+                                    </select>
+                                </div>
+                            </div>          
+                                
+                        </div>
+                    </div>
+                    <div wire:ignore>
                         <canvas id="blngraph"></canvas>
                     </div>
                 </div>
