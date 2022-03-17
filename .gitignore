@@ -8,7 +8,7 @@
 /resources/views/Livewire/**/*.old
 /resources/views/Livewire/**/**/*.old
 /vendor
-/database/edok.sql
+/database/sql
 .env
 upload.zip
 .env.backup
