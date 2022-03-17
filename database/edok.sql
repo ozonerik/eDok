@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 17, 2022 at 05:50 AM
+-- Generation Time: Mar 17, 2022 at 06:07 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -109,10 +109,7 @@ CREATE TABLE `model_has_roles` (
 --
 
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
-(1, 'App\\Models\\User', 1),
-(1, 'App\\Models\\User', 4),
-(2, 'App\\Models\\User', 2),
-(3, 'App\\Models\\User', 3);
+(1, 'App\\Models\\User', 1);
 
 -- --------------------------------------------------------
 
@@ -164,10 +161,10 @@ CREATE TABLE `permissions` (
 --
 
 INSERT INTO `permissions` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'create.*', 'web', '2022-03-17 04:50:30', '2022-03-17 04:50:30'),
-(2, 'edit.*', 'web', '2022-03-17 04:50:30', '2022-03-17 04:50:30'),
-(3, 'delete.*', 'web', '2022-03-17 04:50:30', '2022-03-17 04:50:30'),
-(4, 'read.*', 'web', '2022-03-17 04:50:30', '2022-03-17 04:50:30');
+(1, 'create.*', 'web', '2022-03-17 05:06:57', '2022-03-17 05:06:57'),
+(2, 'edit.*', 'web', '2022-03-17 05:06:57', '2022-03-17 05:06:57'),
+(3, 'delete.*', 'web', '2022-03-17 05:06:57', '2022-03-17 05:06:57'),
+(4, 'read.*', 'web', '2022-03-17 05:06:57', '2022-03-17 05:06:57');
 
 -- --------------------------------------------------------
 
@@ -206,9 +203,9 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `guard_name`, `created_at`, `updated_at`) VALUES
-(1, 'admin', 'web', '2022-03-17 04:50:30', '2022-03-17 04:50:30'),
-(2, 'user', 'web', '2022-03-17 04:50:30', '2022-03-17 04:50:30'),
-(3, 'manager', 'web', '2022-03-17 04:50:30', '2022-03-17 04:50:30');
+(1, 'admin', 'web', '2022-03-17 05:06:57', '2022-03-17 05:06:57'),
+(2, 'user', 'web', '2022-03-17 05:06:57', '2022-03-17 05:06:57'),
+(3, 'manager', 'web', '2022-03-17 05:06:57', '2022-03-17 05:06:57');
 
 -- --------------------------------------------------------
 
@@ -273,7 +270,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('M6AcNZ6rl7zw4D3HDByUTCE3LfZTVrzn1HxRfchK', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiWFhnVEFFS1NUOG54SEJtVWtFQVlhZ2REbTBqQUd5VEJNTnNoU0tSRSI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czoyOToiaHR0cDovL2xvY2FsaG9zdDo4MDAwL3VzZXJtYW4iO31zOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czoyNzoiaHR0cDovL2xvY2FsaG9zdDo4MDAwL2xvZ2luIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319fQ==', 1647492639);
+('LLqYN6iRntmVvb9CfeMKQ9d4ECdghDTv6JrrtrRd', NULL, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36', 'YTozOntzOjY6Il90b2tlbiI7czo0MDoicWlaaGk3dFlncFl2TVhTNEYwT3FtekxURE5yamM3RDBRTDVkaUdEeCI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MjE6Imh0dHA6Ly9sb2NhbGhvc3Q6ODAwMCI7fX0=', 1647493637);
 
 -- --------------------------------------------------------
 
@@ -301,10 +298,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `remember_token`, `current_team_id`, `profile_photo_path`, `created_at`, `updated_at`) VALUES
-(1, 'Admin', 'admin@test.id', NULL, '$2y$10$uZe9dk6cm6rkJKmmz8v3KezYqE0ux6x36JISlPdQ.Sxk7HhvnlYqy', NULL, NULL, NULL, NULL, NULL, '2022-03-17 04:50:30', '2022-03-17 04:50:30'),
-(2, 'User', 'user@test.id', NULL, '$2y$10$RMJpYsD51/mQYU/jJEMJeefEwhrFqTdiOi7096tyrn3o1ckma/yNS', NULL, NULL, NULL, NULL, NULL, '2022-03-17 04:50:31', '2022-03-17 04:50:31'),
-(3, 'Manager', 'manager@test.id', NULL, '$2y$10$Pz2UkAYpx6w4w/2uiQsRvOOiaEldzcOQMh6tZUP6SHE4.KtlUbb3u', NULL, NULL, NULL, NULL, NULL, '2022-03-17 04:50:31', '2022-03-17 04:50:31'),
-(4, 'Admin 2', 'admin2@test.id', NULL, '$2y$10$lMxrDTLiwo9tClDsP6c8W.COQ59tEA5QBMyPhdm3yN2xbN1oLVev2', NULL, NULL, NULL, NULL, NULL, '2022-03-17 04:50:31', '2022-03-17 04:50:31');
+(1, 'M. Ade Erik', 'ozonerik@gmail.com', NULL, '$2y$10$OrpHAJM7tTbHlKPRXfTQYuOqwvO0wm5iMpSq6i3o0RK9ZFkeEMoEa', NULL, NULL, NULL, NULL, NULL, '2022-03-17 05:06:57', '2022-03-17 05:06:57');
 
 --
 -- Indexes for dumped tables
@@ -468,7 +462,7 @@ ALTER TABLE `sendfiles`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
