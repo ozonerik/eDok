@@ -14,7 +14,7 @@ class Pinnedfile extends Component
     protected $paginationTheme = 'bootstrap';
     public $sortBy = 'updated_at';
     public $sortDirection = 'desc';
-    public $perhal = 2 ;
+    public $perhal = 25 ;
     public $inpsearch = "";
 
     //reset search

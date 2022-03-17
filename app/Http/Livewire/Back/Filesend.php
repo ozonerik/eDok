@@ -19,7 +19,7 @@ class Filesend extends Component
     protected $paginationTheme = 'bootstrap';
     public $sortBy = 'created_at';
     public $sortDirection = 'desc';
-    public $perhal = 2 ;
+    public $perhal = 25 ;
     public $inpsearch = "";
     public $fileid = '';
     public $qrcode = 'null';

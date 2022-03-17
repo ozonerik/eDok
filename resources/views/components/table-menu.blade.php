@@ -8,9 +8,9 @@
         <div class="input-group">
             <span class="input-group-text">Per Page :</span>
             <select wire:model="{{ $mdperhal }}" class="form-select">
-            <option value="2" selected>2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
+            <option value="25" selected>25</option>
+            <option value="50">50</option>
+            <option value="100">100</option>
             <option value="{{$table->total()}}">All</option>
             </select>
         </div>
