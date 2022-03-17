@@ -45,7 +45,7 @@ window.addEventListener('update-tahun', event => {
                 <div class="mx-3 my-3">
                     <div class="row">
                         <div class="h4 col-12 col-md-8 text-center text-md-start">
-                            Sum of uploading file in {{ $pilihtahun }}
+                            Sum of uploading files on {{ $pilihtahun }}
                         </div>
                         <div class="col-12 col-md-4">
                             <div class="row">
