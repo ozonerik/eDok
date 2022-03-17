@@ -9,6 +9,7 @@
 /resources/views/Livewire/**/**/*.old
 /vendor
 .env
+upload.zip
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
