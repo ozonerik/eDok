@@ -83,10 +83,15 @@ window.addEventListener('update-tahun', event => {
                                     eDokumen (eDok)
                                 </div>
                                 <div class="text-decoration-none text-muted">
-                                    v.2.0 (16-02-2022)
+                                    v.2.1 (21-03-2022)
                                 </div>
                                 <ul class="text-muted">
-                                    <li>Framework: Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})</li>
+                                    <li>Build Using: Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})</li>
+                                    <li class="fw-bold">Features:</li>
+                                    <li>Pinned Files</li>
+                                    <li>Public Files</li>
+                                    <li>Sending Files</li>
+                                    <li>Chart</li>
                                 </ul>
                                 <a href="https://github.com/ozonerik/eDok" class="text-decoration-none">
                                     <div class="mt-3 d-flex align-content-center font-weight-bold text-primary">

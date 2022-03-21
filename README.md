@@ -39,7 +39,12 @@ eDokumen dibuat dengan menggunakan PHP Fremework Laravel 9 dengan requires a min
 <li>
     <a href="https://github.com/SimpleSoftwareIO/simple-qrcode">simplesoftwareio/simple-qrcode</a>
 </li>
-
+<li>
+    <a href="https://www.chartjs.org/docs/latest/">Chartjs</a>
+</li>
+<li>
+    <a href="https://github.com/chartjs/chartjs-plugin-datalabels/releases/tag/v2.0.0">chartjs/chartjs-plugin-datalabels</a>
+</li>
 </ul>
 
 ## How Install
