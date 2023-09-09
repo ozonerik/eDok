@@ -182,8 +182,9 @@ class Otherfile extends Component
         $url=$myfile->path;
         $file=pathinfo($myfile->path);
         $rename=$myfile->name." (".$myfile->user->name.") (".$date.")".".".$file['extension'];
+        $document_name= str_replace(array("/", "\\", ":", "*", "?", "«", "<", ">", "|"), "-", $rename);
         $headers = ['Content-Type: application/pdf'];
-        return Storage::disk('public')->download($url, $rename, $headers);
+        return Storage::disk('public')->download($url, $document_name, $headers);
     }
 
     public function render()

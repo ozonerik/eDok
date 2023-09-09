@@ -189,9 +189,10 @@ class Othercat extends Component
             $cat_name=$row->filecategory->name;
             $date=Carbon::now()->format('Y-m-d');
             $rename=$row->name." (".$row->user->name.") (".$date.")".".".$file['extension'];
+            $document_name= str_replace(array("/", "\\", ":", "*", "?", "«", "<", ">", "|"), "-", $rename);
 
             if(Storage::disk('public')->exists($row->path)){
-                $zip->add(Storage::disk('public')->path($row->path),$user_name.'/'.$cat_name.'/'.$rename);
+                $zip->add(Storage::disk('public')->path($row->path),$user_name.'/'.$cat_name.'/'.$document_name);
             }
         }
         $zip->saveTo(Storage::disk('public')->path($pathzip));
